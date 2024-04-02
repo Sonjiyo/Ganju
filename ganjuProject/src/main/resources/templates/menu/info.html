@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" xmlns="http://www.w3.org/1999/html"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/user/main.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="innerBox">
+    <header></header>
+    <div class="container">
+        <form action="/menu/info" method="post" class="info-form">
+            <img src="/images/sample.png" alt="음식 이미지" class="menu-image">
+            <div class="info">
+                <div class="title">짜파게티</div>
+                <div class="info">맛있는 짜파게티 김치 미포함</div>
+                <div class="info">300원</div>
+            </div>
+            <div class="option">
+                <div class="title">
+                    <div class="title-text">매운맛</div>
+                    <div class="title-option">필수</div>
+                </div>
+                <div class="contents">
+                    <div class="option">
+                        <input type="radio" class="d">
+                        <p>맵게 해주세요</p>
+                        <p>3000원</p>
+                    </div>
+                    <div class="option">
+                        <input type="radio" class="d">
+                        <p>맵게 해주세요</p>
+                        <p>3000원</p>
+                    </div>
+                </div>
+            </div>
+            <div class="option">
+                <div class="title">
+                    <div class="title-text">토핑</div>
+                    <div class="title-option">선택</div>
+                </div>
+                <div class="contents">
+                    <div class="option">
+                        <input type="radio" class="d">
+                        <p>계란</p>
+                        <p>1000원</p>
+                    </div>
+                    <div class="option">
+                        <input type="radio" class="d">
+                        <p>치즈</p>
+                        <p>500원</p>
+                    </div>
+                </div>
+            </div>
+            <div class="count">
+                <div class="count-text">수량</div>
+                <div class="count-button">
+                    <input type="button" class="minus">-</input>
+                    <div class="text">1</div>개
+                    <input type="button"  class="plus">+</input>
+                </div>
+            </div>
+            <input type="button" class="submit">300원 담기</input>
+        </form>
+    </div>
+    <footer></footer>
+</div>
+</body>
+</html>

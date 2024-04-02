@@ -7,7 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class GanjuProjectApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(GanjuProjectApplication.class, args);
+
+
 	}
 
 }
