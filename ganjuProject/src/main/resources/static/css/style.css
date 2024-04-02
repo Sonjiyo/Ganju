@@ -26,7 +26,7 @@
 }
 
 *{margin:0;padding:0;box-sizing: border-box;}
-*:focus {outline-color:var(--green);}
+*:focus {outline-color:var(--orange);}
 html, body{width: 100%;height: 100%;}
 li{list-style: none;}
 a{text-decoration: none; color:var(--black);cursor: pointer;font-size: var(--font-content);}
@@ -79,7 +79,6 @@ input{
     border:1px solid var(--light-gray);
     border-radius: var(--radius);
 }
-input:focus{outline-color: var(--orange);}
 
 /* text area */
 textarea{
