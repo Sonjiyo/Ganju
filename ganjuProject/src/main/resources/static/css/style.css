@@ -26,7 +26,7 @@
 }
 
 *{margin:0;padding:0;box-sizing: border-box;}
-*:focus {outline-color:var(--orange);}
+*:focus {outline-color:var(--green);}
 html, body{width: 100%;height: 100%;}
 li{list-style: none;}
 a{text-decoration: none; color:var(--black);cursor: pointer;font-size: var(--font-content);}
@@ -44,18 +44,25 @@ body{
     background-color: var(--white);
     margin:0 auto;
     box-shadow: 0 0 20px #0000000d;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    overflow: hidden;
 }
 .container{
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     width: 100%;
     margin:0 auto;
+    height: 100%;
 }
 
 /* 버튼 */
 .button{
+    border: none;
     text-align: center;
     padding:10px var(--padding);
     background: var(--orange);
@@ -74,10 +81,27 @@ form{
     flex-direction: column;
     width: 95%;
 }
+form>div{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    margin-top:20px;
+}
 input{
     padding:10px;
     border:1px solid var(--light-gray);
     border-radius: var(--radius);
+    font-size: var(--font-small);
+}
+input:focus{outline-color: var(--orange);}
+
+/* 오류 메세지 */
+.msg{
+    position: absolute;
+    bottom:-25px;
+    font-size: var(--font-small);
+    color:var(--red);
 }
 
 /* text area */
@@ -90,4 +114,28 @@ textarea{
     border: 1px solid var(--gray);
     border-radius: 5px;
     resize: none;
+}
+
+/* header */
+header{
+    height: 100px;
+    width: 100%;
+    box-shadow: 0px 1px 6px 0px #dddddd;
+    display: flex;
+    padding:var(--padding);
+    align-items: end;
+    justify-content: space-between;
+    font-size:22px;
+}
+header a{
+    display: inline-block;
+    width: 25px;height: 25px;
+    font-size: var(--font-middle);
+    cursor: default;
+    -webkit-user-drag: none;
+}
+header a:hover{color: var(--gray);}
+header a:has(i){
+    cursor: pointer;
+
 }
