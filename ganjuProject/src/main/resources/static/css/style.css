@@ -39,7 +39,7 @@ body{
     border: 1px solid red;
     max-width: 480px;
     width: auto;
-    min-height: 100%; 
+    min-height: 100%;
     position: relative;
     background-color: var(--white);
     margin:0 auto;
