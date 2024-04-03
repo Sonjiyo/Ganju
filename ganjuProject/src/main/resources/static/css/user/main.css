@@ -4,46 +4,102 @@
 .container .restaurant-image{
     width: 100%;
     height: 200px;
+    overflow: hidden;
+}
+
+.container .restaurant-image img{
+    width: 100%;
+    height: auto;
     object-fit: cover;
     object-position: center top;
 }
+
 /* 타이틀과 신고버튼 */
 .container .title{
     width: 100%;
-    padding: 0 10px;
+    padding: var(--padding);
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
+
+/* 타이틀 */
 .container .title .restaurant-name{
+    font-size: var(--font-big);
     font-weight: bold;
 }
+
+/* 신고 */
 .container .title .report-button{
+    padding: 0;
     background-color: transparent;
     color: red;
     border: none;
-    font-size: 16px;
+    font-size: var(--font-small);
 }
+
+.container .title .report-button .fa-exclamation-triangle{
+    margin-right: 5px;
+}
+
 /* 별표와 리뷰 버튼*/
 .container .ratings-reviews{
-    padding: 0 10px;
+    margin-bottom: 10px;
+    padding: var(--padding);
+    padding-top: 0;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.container .ratings-reviews .ratings{
-    display: flex;
-}
-.container .ratings-reviews .review-button{}
 
-/* 호출 버튼 */
-.container .call{
-    padding: 0 10px;
-    width: 100%;
+/* 별표 부분*/
+.container .ratings-reviews .ratings {
+    display: flex;
+    align-items: center;
 }
-.container .call .call-button {
+
+/* 별표의 별 부분 */
+.container .ratings-reviews .ratings .stars{
+    position: relative;
+    display: inline-block;
+    font-size: 20px; /* 별 크기 조정 */
+    direction: rtl; /* 별을 오른쪽에서 왼쪽으로 채워나가기 위해 */
 }
+
+.container .ratings-reviews .ratings .stars::after{
+    content: "★★★★★";
+    color: lightgray; /* 기본 별 색상 설정 */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 0;
+ }
+
+.star-fill {
+    display: block;
+    color: gold; /* 금색 별 색상 설정 */
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: 1;
+    direction: ltr; /* 금색 별이 왼쪽에서 시작하도록 설정 */
+}
+
+/* 별표의 숫자 부분 */
+.container .ratings-reviews .ratings label{
+    margin-left: 10px;
+}
+
+/* 호출 버튼 부분*/
+.container .ratings-reviews .call-button{
+    border: 0;
+    border-radius: 0;
+    padding: 10px 30px;
+}
+
 
 /* 메뉴 공지사항 리뷰 */
 .container .buttons{
@@ -57,6 +113,8 @@
     border: 0;
     border-radius: 0;
     flex: 1;
+    font-size: var(--font-content);
+    padding: var(--padding);
 }
 
 /* 공지사항 */
@@ -66,6 +124,8 @@
     border: 0;
     border-radius: 0;
     flex: 1;
+    font-size: var(--font-content);
+    padding: var(--padding);
 }
 
 /* 리뷰 */
@@ -75,6 +135,8 @@
     border: 0;
     border-radius: 0;
     flex: 1;
+    font-size: var(--font-content);
+    padding: var(--padding);
 }
 
 /* 버튼을 눌렀을때 보여주는 콘텐츠 영역 */
@@ -89,46 +151,87 @@
 
 /* 카테고리 슬라이더 부분 */
 .container .content .menu-content .category-content{
-    margin: auto;
-    width: 90%;
+    width: 100%;
+    display: flex; /* 이 부분을 추가합니다 */
+    overflow-x: auto; /* 수평 스크롤을 위해 추가합니다 */
+    background-color: var(--white);
+    scrollbar-width: none;
+    position: sticky;
+    top: 0; /* 상단에 고정 */
+    z-index: 1; /* 다른 요소들 위에 오도록 z-index 설정 */
 }
 .container .content .menu-content .category-content .category{
     margin: 10px;
+    padding: 10px 20px;
+    flex: 0 0 auto; /* flex 항목이 자신의 크기를 유지하도록 설정합니다 */
     border-radius: 20px;
     text-align: center;
-    background-color: white;
+    background-color: var(--white);
+    color:var(--black);
+    cursor: pointer; /* 마우스 오버 시 커서 변경을 위해 추가합니다 */
+    border: 1px solid var(--gray);
+    transition: background-color 0.3s, color 0.3s; /* 부드러운 색상 전환 */
 }
-.container .content .menu-content .category-content .category:hover{
-     transition: 1s;
-     background-color: gray;
- }
+
+.container .content .menu-content .category-content .category.active{
+    background-color: var(--gray);
+    color: var(--white);
+}
+
+.container .content .menu-content .category-content:last-child{
+    margin-right: 0;
+}
 
 /* 메뉴 리스트 */
 .container .content .menu-content .menus-container {
-
 }
-.container .content .menu-content .menus-container .category-name{}
+.container .content .menu-content .menus-container .category-name{
+    padding:var(--padding);
+    background-color: var(--extra-light-gray);
+    color: var(--gray);
+    font-size: var(--font-middle);
+    font-weight: bold;
+    border-bottom: 2px solid var(--light-gray);
+}
 .container .content .menu-content .menus-container .menu{
     width: 100%;
     display: flex;
-    border: 1px solid red;
+    border-bottom: 2px solid var(--light-gray);
 }
 .container .content .menu-content .menus-container .menu .image{
-    width: 70px;
-    height: 70px;
+    padding: 10px;
+    width: 120px;
+    height: 120px;
     overflow: hidden;
 }
 .container .content .menu-content .menus-container .menu .image img{
-    width: 70px;
-    height: 70px;
+    width: 100%;
+    height: 100%;
 }
 .container .content .menu-content .menus-container .menu .text{
+    padding: 10px;
     display: flex;
     flex-direction: column;
 }
-.container .content .menu-content .menus-container .menu .text .menu-name{}
-.container .content .menu-content .menus-container .menu .text .menu-info{}
-.container .content .menu-content .menus-container .menu .text .menu-price{}
+.container .content .menu-content .menus-container .menu .text .menu-name{
+    margin-bottom: 10px;
+    font-size: var(--font-content);
+    font-weight: bold;
+    color:var(--black);
+}
+
+.container .content .menu-content .menus-container .menu .text .menu-info{
+    margin-bottom: 10px;
+    flex: 1;
+    font-size: var(--font-content);
+    color:var(--gray);
+}
+
+.container .content .menu-content .menus-container .menu .text .menu-price{
+    font-size: var(--font-content);
+    color:var(--black);
+}
+
 /* 공지사항 콘텐츠 */
 .container .content .announcement-content{
     width: 100%;
@@ -137,22 +240,26 @@
 
 .container .content .announcement-content .announcement {
     width: 100%;
-    height: 100px;
     display: flex;
     flex-direction: column;
-    padding: 10px;
+    padding: 20px;
+    border-bottom: 2px solid var(--light-gray);
 }
-.container .content .announcement-content .announcement .title {
-    font-size: var(--font-big);
-    color: var(--black);
 
+.container .content .announcement-content .announcement .title {
+    padding:0;
+    font-size: var(--font-middle);
+    color: var(--black);
+    margin-bottom: 20px;
 }
-.container .content .announcement-content .announcement .content{
+.container .content .announcement-content .announcement .date{
+    padding:0;
     font-size: var(--font-small);
     color: var(--light-gray);
 }
-.container .content .announcement-content .announcement .date{
-    font-size: var(--font-middle);
+.container .content .announcement-content .announcement .content{
+    padding:0;
+    font-size: var(--font-content);
     color: var(--gray);
 }
 
@@ -160,29 +267,34 @@
 .container .content .review-content{
     width: 100%;
     display: none;
+    padding: var(--padding);
 }
 
 .container .content .review-content .review{
-    margin: 10px;
-    padding: 10px;
+    margin-bottom: 20px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    border: 2px solid var(--extra-light-gray);
+    padding: var(--padding);
 }
 .container .content .review-content .review .title{
-    font-size: var(--font-big);
+    padding: 0;
+    font-size: var(--font-content);
     color: var(--black);
 }
 .container .content .review-content .review .mid{
     display: flex;
     font-size: var(--font-small);
     color: var(--light-gray);
+    flex: 1;
+    padding-bottom: 20px;
 }
 .container .content .review-content .review .mid .star{}
 .container .content .review-content .review .mid .date{}
 .container .content .review-content .review .content{
-    font-size: var(--font-middle);
-    color: var(--gray);
+    font-size: var(--font-content);
+    color: var(--black);
 }
 
 /* 모달 창 스타일 */
