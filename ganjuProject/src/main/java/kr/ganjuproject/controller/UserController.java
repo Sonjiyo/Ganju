@@ -8,18 +8,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 @Slf4j
-@RequestMapping("/menu")
+@RequestMapping("/user")
 @RequiredArgsConstructor
-public class MenuController {
+public class UserController {
 
     private final MenuService menuService;
     private final CategoryService categoryService;
@@ -30,31 +28,45 @@ public class MenuController {
         model.addAttribute("categories", categories);
         List<Menu> menus = menuService.getList();
         model.addAttribute("menus", menus);
-        return "menu/main";
+        return "user/main";
     }
 
-    @GetMapping("/info/{id}")
-    public String info(@PathVariable Long id, Model model){
+    @GetMapping("/info")
+    public String info(@RequestParam Long id, Model model){
         Optional<Menu> menu = menuService.findById(id);
 
         if(menu.isPresent()) {
             Menu m = menu.get();
             model.addAttribute("menu", m);
-            return"menu/info";
+            return"user/info";
         }else{
-            return "redirect:/menu/main";
+            return "redirect:/user/main";
         }
     }
-    @GetMapping("/cart")
+
+    @PostMapping("/info")
+    public String info(){
+
+        return "user/cart";
+    }
+
+    @PostMapping("/cart")
     public String cart(){
-        return"menu/cart";
+
+        return"user/order";
     }
-    @GetMapping("/order")
+    @PostMapping("/order")
     public String order(){
-        return"menu/order";
+        return"user/order";
     }
+
     @GetMapping("/review")
     public String review(){
-        return"menu/review";
+        return"user/review";
+    }
+
+    @PostMapping("/review")
+    public String review(Model model){
+        return"redirect:/user/main";
     }
 }

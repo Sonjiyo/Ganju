@@ -2,13 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>장바구니</title>
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/user/cart.css" rel="stylesheet" type="text/css">
+    <script src="/js/user/cart.js" type="text/javascript" defer></script>
 </head>
 <body>
 <div class="innerBox">
     <header></header>
     <div class="container">
-        <form action="/menu/order" method="post">
+        <form action="/user/order" method="post">
             <div class="restaurant-name">식당 이름</div>
             <div class="orders">
                 <div class="menu">
@@ -31,7 +34,7 @@
             <div class="request">
                 <div class="title">요청사항</div>
                 <textarea class="contents" id="contents" name="contents" placeholder="내용을 입력하세요" rows="3">1</textarea>
-                <button class="submit">3000원 주문하기</button>
+                <input type="button" class="submit" onclick="cartsubmit(form)" value="3000원 주문하기">
             </div>
         </form>
     </div>
