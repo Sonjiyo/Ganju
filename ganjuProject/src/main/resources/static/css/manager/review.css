@@ -1,0 +1,46 @@
+.review {
+    width: 100%;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: space-around;
+    padding: var(--padding);
+}
+
+.review-count {
+    font-size: var(--font-big);
+}
+
+.review-category {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.line {
+    border: 1px solid lightgrey;
+    width: 395px;
+    height: 119px;
+    text-align: center;
+    margin: 40px;
+}
+
+.new-star {
+    width: 100%;
+}
+
+.left {
+    text-align: left;
+    margin: 10px;
+}
+
+.star {
+    display: flex;
+}
+
+.star .on {
+    color: var(--orange);
+}
+
+.margin {
+    margin-left: 10px;
+}
