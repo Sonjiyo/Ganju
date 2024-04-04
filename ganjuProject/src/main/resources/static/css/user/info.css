@@ -1,5 +1,11 @@
 @charset "UTF-8";
 
+.container form{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    margin-bottom: var(--fixedBtn-height);
+}
 /* 메인 사진 */
 .container .menu-image{
     width: 100%;
@@ -16,33 +22,59 @@
 
 /* 음식 설명 */
 .container .info{
+    padding: var(--padding);
+    margin: 0;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
-.container .info .info-title{
+.container .info .title{
     font-size: var(--font-big);
+    font-weight: bold;
+    margin-bottom: 10px;
     color: var(--black);
 }
 
-.container .info .info-contents{
+.container .info .contents{
     font-size: var(--font-small);
     color: var(--light-gray);
 }
 
-.container .info .info-price{
-    font-size: var(--font-content);
-    color: var(--gray);
+.container .info .price{
+    font-size: var(--font-middle);
+    color: var(--black);
     text-align: right;
+}
+/* 옵션 사용자 버튼 */
+.check{
+    display: none;
+}
+
+.select label::before{
+    content: '\f0c8';
+    font-family: "Font Awesome 5 Free";
+    font-weight: 500;
+    color: var(--light-gray);
+    font-size: var(--font-middle);
+    margin-right: var(--padding);
+}
+
+.select input:checked + label::before{
+    color:var(--orange);
+    content: '\f14a';
 }
 
 /* 옵션 */
 .container .option{
+    margin: 0;
     display: flex;
     flex-direction: column;
 }
 
-.container .option .option-title{
+/* 옵션 이름 부분 */
+.container .option .title{
+    padding: var(--padding);
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -50,51 +82,88 @@
     color: var(--light-gray);
 }
 
-.container .option .option-title .option-title-text{
+.container .option .title .text{
     padding: 10px;
-    color: var(--light-gray);
+    color: var(--gray);
 }
 
-.container .option .option-title .option-title-select{
+.container .option .title .select{
     padding: 10px;
-    background-color: var(--extra-light-gray);
-    color: var(--light-gray);
+    background-color: var(--light-gray);
+    color: var(--gray);
 }
 
-.container .option .option-contents{
+/* 옵션 내용 선택 부분 */
+.container .option .contents{
+    padding: var(--padding);
     width: 100%;
     display: flex;
     flex-direction: column;
 }
 
-.container .option .option-contents .option-title-select{
+.container .option .contents .select{
     display: flex;
+    padding: 10px 0;
 }
 
-.container .option .option-contents .option-title-select .option-contents-content{
+.container .option .contents .select .content{
     flex: 1;
 }
 
 /* 수량 */
-.container .count{
-    bottom: 100px;
-    width: 100%;
-    position: absolute;
+.container .count {
+    position: fixed;
+    left: 50%;
+    bottom: 0;
+    margin: 0;
+    /* 자신의 너비의 반만큼 왼쪽으로 이동하여 정확히 중앙에 위치하도록 조정 */
+    transform: translateX(-50%);
+    width: var(--innerBox-width);
+    background-color: white;
+    z-index: 1; /* 필요에 따라 조정 */
+    padding: var(--padding);
+}
+.container .count .inner{
     display: flex;
-    justify-content: space-between;
-    padding: 10px;
+    justify-content: space-between; /* 내부 요소를 양 끝으로 정렬 */
+    width: 100%; /* 부모 컨테이너의 전체 너비 사용 */
+    padding: 0 20px; /* 좌우 패딩 추가로 내부 요소들 사이 간격 조정 */
+    margin-bottom: 10px;
 }
-.container .count .count-text{
-    font-size: var(--font-content);
-}
-.container .count .count-button{
+.container .count .inner .text {
+    font-size: var(--font-content); /* 필요에 따라 조정 */
+    color: var(--black);
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.container .count .count-button .minus{padding: 5px;}
-.container .count .count-button .text{padding: 5px;}
-.container .count .count-button .plus{padding: 5px;}
+
+.container .count .inner .btn {
+    padding: 5px;
+    display: flex;
+    justify-content: right;
+    border: 2px solid var(--light-gray);
+}
+
+.container .count .inner .btn .minus,
+.container .count .inner .btn .plus{
+    padding: 0 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    background-color: var(--white);
+    font-size: var(--font-content); /* 버튼 내 텍스트 크기 */
+    cursor: pointer; /* 마우스 커서 변경 */
+}
+.container .count .inner .btn .text{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--font-content); /* 필요에 따라 조정 */
+}
 
 /* 버튼 */
 .container .count .submit{
-    width: 100%;
+    width: calc(100% - 20px); /* 패딩 고려하여 너비 조정 */
 }

@@ -1,1 +1,102 @@
 @charset "UTF-8";
+
+.container form{
+    margin: 0;
+    width: 100%;
+    padding: 0;
+}
+
+form>div{
+    margin: 0;
+    padding: 20px;
+}
+
+/* 식당 이름 */
+.container form .restaurant-name{
+    font-size: var(--font-middle);
+    font-weight: bold;
+    border-top: 1px solid var(--light-gray);
+}
+
+/* 주문 리스트 */
+.container form .orders{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-top: 1px solid var(--light-gray);
+}
+.container form .orders .menu{}
+
+.container form .orders .menu .text{
+}
+.container form .orders .menu .text .title,
+.container form .orders .menu .text .total-price{
+    font-size: var(--font-content);
+    color: var(--black);
+    padding-bottom: 10px;
+}
+
+.container form .orders .menu .text .menu-price,
+.container form .orders .menu .text .option
+{
+    font-size: var(--font-small);
+    color: var(--gray);
+    padding-bottom: 10px;
+}
+
+.container form .orders .menu .text .total-price{
+    padding-top: 10px;
+}
+
+.container form .orders .menu .etc{
+    display: flex;
+    flex-direction: column;
+    align-items: right;
+}
+.container form .orders .etc .image{
+    width: 90px;
+    height: 90px;
+    overflow: hidden;
+}
+
+.container form .orders .etc .image img{
+    width: 100%;
+    height: auto;
+}
+
+.container form .orders .etc .num{
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid var(--light-gray);
+    align-items: center;
+}
+.container form .orders .etc .num .minus,
+.container form .orders .etc .num .plus{
+    padding: 5px 10px;
+    border: none;
+    font-size: var(--font-content);
+    background-color: var(--white);
+}
+.container form .orders .etc .num .text{}
+
+/* 새로운 매뉴 추가 */
+.container form .menuplus{
+    background-color: var(--extra-light-gray);
+    text-align: center;
+    color: var(--gray);
+}
+
+/* 요청사항 */
+.container form .request{
+
+    padding-top: 40px;
+}
+.container form .request .title{
+    font-weight: bold;
+}
+.container form .request .contents{
+    border: 1px solid var(--light-gray);
+}
+.container form .request .submit{}
+

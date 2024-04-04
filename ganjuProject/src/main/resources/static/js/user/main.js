@@ -1,4 +1,3 @@
-
 const menu = document.querySelector(".menu-btn");
 const announcement = document.querySelector(".announcement-btn");
 const reviews = document.querySelector(".reviews-btn");
@@ -141,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
     const categories = document.querySelectorAll('.category');
     const menuContainers = document.querySelectorAll('.menu-category');
     const categoryContent = document.querySelector('.category-content');
@@ -201,6 +200,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     behavior: "smooth"
                 });
             }
+            // 현재 클릭된 카테고리가 화면에 완전히 보이도록 스크롤 조정
+            ensureCategoryVisible(this); // 여기서 this는 현재 클릭된 카테고리 요소입니다.
         });
     });
 
@@ -209,4 +210,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 초기 활성화 카테고리 설정
     setActiveCategory();
+});
+
+// 스크롤 이벤트 리스너를 추가하는 새 함수
+window.addEventListener('scroll', function() {
+    var stickyElement = document.querySelector('.category-content');
+    var headerOffset = document.querySelector('header').offsetHeight; // 만약 header가 있다면
+    var stickyOffset = stickyElement.offsetTop - headerOffset; // header 높이를 고려한 조정값
+
+    if (window.pageYOffset >= stickyOffset) {
+        stickyElement.classList.add('sticky');
+    } else {
+        stickyElement.classList.remove('sticky');
+    }
+});
+
+// 리뷰 별점 정수값을 별 개수로 표시하는
+document.addEventListener('DOMContentLoaded', function() {
+    const reviewStars = document.querySelectorAll('.review .star');
+
+    reviewStars.forEach(function(star) {
+        const rating = parseInt(star.getAttribute('data-rating'));
+        let starsText = '★★★★★';
+
+        // 노란색 별을 표시할 부분과 회색 별을 표시할 부분을 결정
+        let filledStars = starsText.slice(0, rating).replace(/★/g, '<span class="filled">★</span>');
+        let emptyStars = starsText.slice(rating).replace(/★/g, '<span class="empty">★</span>');
+
+        // 별점을 HTML로 설정
+        star.innerHTML = filledStars + emptyStars;
+    });
 });

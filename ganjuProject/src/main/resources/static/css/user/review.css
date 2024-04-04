@@ -1,32 +1,68 @@
 @charset "UTF-8";
 
-.star-range {
-    position: relative;
-    font-size: 2em;
-    line-height: 1;
-}
-.star-range input[type="range"] {
-    position: absolute;
-    z-index: 10;
-    opacity: 0;
-    width: 5em;
-    height: 1em;
-    font-size: 1em;
+.container form{
     margin: 0;
+    padding: 0;
 }
-.star {
-    position: absolute;
-    z-index: 5;
-    top:0;
-    left: 0;
-    width: 5em;
-    font-size: 1em;
-    color: grey;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+
+form{
+    width: 100%;
 }
-.star-black {
-    z-index: 6;
-    width: .5em;
-    overflow: hidden;
-    color: yellow;
+
+form>div{
+    margin: 0;
+    padding: 20px;
+}
+
+/* 식당 이름 */
+.container form .restaurant-name{
+    width: 100%;
+    font-size: var(--font-middle);
+    font-weight: bold;
+    text-align: left;
+}
+
+/* 별 */
+.container form .stars{
+    width: 100%;
+    padding: 0 20px;
+}
+.container form .stars .star{
+    font-size: var(--font-big);
+    color: var(--light-gray);
+}
+
+/* 닉네임 */
+.container form .nickname{
+    width: 100%;
+}
+
+.container form .nickname .title{
+    margin-bottom: 10px;
+}
+
+.container form .nickname .contents{
+    border: 1px solid var(--light-gray);
+}
+
+/* 리뷰 내용 */
+.container form .review{
+    width: 100%;
+}
+
+.container form .review .title{
+    margin-bottom: 10px;
+}
+
+.container form .review .contents{
+    margin: 0;
+    border: 1px solid var(--light-gray);
+}
+
+/* 버튼 */
+.container form .buttons{
+    padding-top: 0;
+}
+.container form .buttons .submit{
+    font-size: var(--font-middle);
 }

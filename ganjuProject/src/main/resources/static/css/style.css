@@ -23,10 +23,13 @@
     --font-small:16px;
     --font-extra-small:15px;
     --font-icon:11px;
+
+    --innerBox-width:480px;
+    --fixedBtn-height: 100px;
 }
 
 *{margin:0;padding:0;box-sizing: border-box;}
-*:focus {outline-color:var(--green);}
+*:focus{outline-color: var(--orange);}
 html, body{width: 100%;height: 100%;}
 li{list-style: none;}
 a{text-decoration: none; color:var(--black);cursor: pointer;font-size: var(--font-content);}
@@ -37,7 +40,7 @@ body{
 }
 .innerBox{
     border: 1px solid red;
-    max-width: 480px;
+    max-width: var(--innerBox-width);
     width: auto;
     min-height: 100%;
     position: relative;

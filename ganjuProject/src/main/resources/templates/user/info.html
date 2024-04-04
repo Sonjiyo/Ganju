@@ -16,52 +16,58 @@
                 <img src="/images/sample.png" alt="음식 이미지" class="menu-img">
             </div>
             <div class="info">
-                <div class="info-title">짜파게티</div>
-                <div class="info-contents">맛있는 짜파게티 김치 미포함</div>
-                <div class="info-price">300원</div>
+                <div class="title">짜파게티</div>
+                <div class="contents">맛있는 짜파게티 김치 미포함</div>
+                <div class="price">300원</div>
             </div>
             <div class="option">
-                <div class="option-title">
-                    <div class="option-title-text">매운맛</div>
-                    <div class="option-title-select">필수</div>
+                <div class="title">
+                    <div class="text">매운맛</div>
+                    <div class="select">필수</div>
                 </div>
-                <div class="option-contents">
-                    <div class="option-contents-select">
-                        <input type="checkbox" class="option-check">
-                        <span class="option-contents-content">맵게 해주세요</span>
-                        <span class="option-contents-price">3000원</span>
-                    </div>
-                    <div class="option-contents-select">
-                        <input type="checkbox" class="option-check">
-                        <span class="option-contents-content">안맵게 해주세요</span>
-                        <span class="option-contents-price">4000원</span>
-                    </div>
+                <div class="contents">
+                    <label class="select">
+                        <input type="radio" name="spiciness" class="check" value="spicy">
+                        <label></label>
+                        <span class="content">맵게 해주세요</span>
+                        <span class="price">+3000원</span>
+                    </label>
+                    <label class="select">
+                        <input type="radio" name="spiciness" class="check" value="not-spicy">
+                        <label></label>
+                        <span class="content">안맵게 해주세요</span>
+                        <span class="price">+4000원</span>
+                    </label>
                 </div>
             </div>
             <div class="option">
-                <div class="option-title">
-                    <div class="option-title-text">토핑</div>
-                    <div class="option-title-select">선택</div>
+                <div class="title">
+                    <div class="text">토핑</div>
+                    <div class="select">선택</div>
                 </div>
-                <div class="option-contents">
-                    <div class="option-contents-select">
-                        <input type="checkbox" class="option-check">
-                        <span class="option-contents-content">치즈</span>
-                        <span class="option-contents-price">1000원</span>
-                    </div>
-                    <div class="option-contents-select">
-                        <input type="checkbox" class="option-check">
-                        <span class="option-contents-content">감자</span>
-                        <span class="option-contents-price">1000원</span>
-                    </div>
+                <div class="contents">
+                    <label class="select">
+                        <input type="checkbox" class="check">
+                        <label></label>
+                        <span class="content">치즈</span>
+                        <span class="price">1000원</span>
+                    </label>
+                    <label class="select">
+                        <input type="checkbox" class="check">
+                        <label></label>
+                        <span class="content">감자</span>
+                        <span class="price">1000원</span>
+                    </label>
                 </div>
             </div>
             <div class="count">
-                <div class="count-text">수량</div>
-                <div class="count-button">
-                    <input type="button" class="minus" value="-">
-                    <div class="text">1</div>개
-                    <input type="button"  class="plus" value="+">
+                <div class="inner">
+                    <div class="text">수량</div>
+                    <div class="btn">
+                        <input type="button" class="minus" value="-">
+                        <div class="text">1</div>개
+                        <input type="button"  class="plus" value="+">
+                    </div>
                 </div>
                 <input type="button" class="submit button" value="300원 담기" onclick="infosubmit(form)">
             </div>

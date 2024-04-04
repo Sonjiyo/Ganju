@@ -1,1 +1,85 @@
 @charset "UTF-8";
+
+.container>div{
+    margin: 0;
+    padding: 20px;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+/* 식당 이름 */
+.container .restaurant-name{
+    width: 100%;
+    font-size: var(--font-middle);
+    font-weight: bold;
+    text-align: left;
+}
+
+/* 주문 목록 */
+.container .order{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.container .order .content{}
+
+.container .order .content .title{
+    font-size: var(--font-content);
+    color: var(--black);
+    padding-bottom: 10px;
+}
+.container .order .content .before-price,
+.container .order .content .option{
+    font-size: var(--font-small);
+    color: var(--gray);
+    padding-bottom: 10px;
+}
+
+.container .order .content .option{
+    padding-bottom: 0;
+}
+.container .order .after-price{
+    display: flex;
+    align-items: end;
+}
+
+/* 총 금액 */
+.container .total-price{
+    border-bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.container .total-price .title{}
+.container .total-price .content{}
+
+/* 요청사항 */
+.container .request{
+    border-bottom: 0;
+    width: 100%;
+    background-color: var(--extra-light-gray);
+}
+.container .request .title{
+    padding-bottom: 20px;
+}
+.container .request .content{
+    font-size: var(--font-small);
+    color: var(--gray);
+}
+/* 기타? */
+.container .etc{
+    border-bottom: 0;
+    width: 100%;
+    padding: 20px;
+}
+/* 경고 문구 */
+.container .etc .warning{
+    font-size: var(--font-small);
+    color: var(--red);
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+/* 버튼 */
+.container .etc .submit{
+    width: 100%;
+}
