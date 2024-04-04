@@ -13,21 +13,20 @@
     <div class="container">
         <form action="/user/review" method="post">
             <div class="restaurant-name">더조은 식당</div>
-            <div class="star-range">
-                <input type="range" name="range" min="0" max="10" step="1" value="1">
-                <div class="star-white star">★★★★★</div>
-                <div class="star-black star">★★★★★</div>
+            <div class="stars">
+                <div class="star">★★★★★</div>
             </div>
             <div class="nickname">
                 <label class="title">닉네임</label>
                 <input type="text" class="contents" placeholder="닉네임을 입력해 주세요"></input>
             </div>
-            <div class="review-contents">
+            <div class="review">
                 <label class="title">리뷰 내용</label>
-                <textarea class="contents" cols="3" rows="3"></textarea>
+                <textarea class="contents" cols="3" rows="5"></textarea>
             </div>
-                <p class="warning">이 페이지를 벗어난 후에는 리뷰 작성이 불가능 합니다.</p>
-            <input type="button" class="review-button" onclick="reviewCheck(form)" value="3000원 주문하기">
+            <div class="buttons">
+                <input type="button" class="submit button" onclick="reviewCheck(form)" value="리뷰 작성">
+            </div>
         </form>
     </div>
     <footer></footer>

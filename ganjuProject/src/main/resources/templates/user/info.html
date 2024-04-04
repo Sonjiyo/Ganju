@@ -27,14 +27,14 @@
                 </div>
                 <div class="option-contents">
                     <div class="option-contents-select">
-                        <input type="checkbox" class="option-check">
+                        <input type="radio" name="spiciness" class="option-check" value="spicy">
                         <span class="option-contents-content">맵게 해주세요</span>
-                        <span class="option-contents-price">3000원</span>
+                        <span class="option-contents-price">+3000원</span>
                     </div>
                     <div class="option-contents-select">
-                        <input type="checkbox" class="option-check">
+                        <input type="radio" name="spiciness" class="option-check" value="not-spicy">
                         <span class="option-contents-content">안맵게 해주세요</span>
-                        <span class="option-contents-price">4000원</span>
+                        <span class="option-contents-price">+4000원</span>
                     </div>
                 </div>
             </div>
@@ -56,12 +56,15 @@
                     </div>
                 </div>
             </div>
+            <div class="white-gap"></div>
             <div class="count">
-                <div class="count-text">수량</div>
-                <div class="count-button">
-                    <input type="button" class="minus" value="-">
-                    <div class="text">1</div>개
-                    <input type="button"  class="plus" value="+">
+                <div class="count-inner">
+                    <div class="count-text">수량</div>
+                    <div class="count-button">
+                        <input type="button" class="minus" value="-">
+                        <div class="text">1</div>개
+                        <input type="button"  class="plus" value="+">
+                    </div>
                 </div>
                 <input type="button" class="submit button" value="300원 담기" onclick="infosubmit(form)">
             </div>

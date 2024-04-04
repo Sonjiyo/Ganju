@@ -75,7 +75,7 @@
     left: 0;
     right: 0;
     z-index: 0;
- }
+}
 
 .star-fill {
     display: block;
@@ -156,10 +156,18 @@
     overflow-x: auto; /* 수평 스크롤을 위해 추가합니다 */
     background-color: var(--white);
     scrollbar-width: none;
-    position: sticky;
-    top: 0; /* 상단에 고정 */
     z-index: 1; /* 다른 요소들 위에 오도록 z-index 설정 */
 }
+
+.sticky {
+    position: fixed;
+    top: 0; /* 또는 header 높이에 맞추어 조정 */
+    width: 100%;
+    z-index: 999;
+    background-color: #fff; /* 배경색은 선택사항 */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* 선택사항: 고정된 요소에 그림자 효과 추가 */
+}
+
 .container .content .menu-content .category-content .category{
     margin: 10px;
     padding: 10px 20px;
@@ -275,7 +283,7 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    border: 2px solid var(--extra-light-gray);
+    border: 2px solid var(--light-gray);
     padding: var(--padding);
 }
 .container .content .review-content .review .title{
@@ -290,7 +298,22 @@
     flex: 1;
     padding-bottom: 20px;
 }
-.container .content .review-content .review .mid .star{}
+
+.container .content .review-content .review .mid .star{
+    font-size: var(--font-small); /* 별의 크기 조절 */
+    color: #ccc; /* 기본 별 색상 (회색) */
+    position: relative; /* 상대적 위치 설정 */
+    margin-right: 20px;
+}
+
+.container .content .review-content .review .mid .star span.filled {
+    color: gold; /* 노란색 별 */
+}
+
+.container .content .review-content .review .mid .star span.empty {
+    color: #ccc; /* 회색 별 */
+}
+
 .container .content .review-content .review .mid .date{}
 .container .content .review-content .review .content{
     font-size: var(--font-content);
@@ -348,4 +371,3 @@
     color: #fff; /* 하얀색 글씨 */
     text-align: center;
 }
-

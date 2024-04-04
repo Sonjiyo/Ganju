@@ -12,29 +12,54 @@
     <header></header>
     <div class="container">
         <form action="/user/order" method="post">
-            <div class="restaurant-name">식당 이름</div>
+            <div class="restaurant-name">더조은 식당</div>
             <div class="orders">
                 <div class="menu">
                     <div class="text">
-                        <div class="title">음식이름</div>
+                        <div class="title">짜파게티</div>
                         <div class="menu-price">가격 : 5,000원</div>
                         <div class="option">옵션 : 안맵게 해주세요(-3000원)</div>
                         <div class="total-price">3000원</div>
                     </div>
                 </div>
-                <div class="num">
-                    <button class="minus">-</button>
-                    <div class="text"></div>
-                    <button class="plus">+</button>
+                <div class="etc">
+                    <div class="image">
+                        <img src="/images/sample.png" alt="음식 이미지" class="img">
+                    </div>
+                    <div class="num">
+                        <input type="button" class="minus" value="-">
+                        <div class="text">2</div>
+                        <input type="button"  class="plus" value="+">
+                    </div>
                 </div>
             </div>
-            <div class="menuplus">
+            <div class="orders">
+                <div class="menu">
+                    <div class="text">
+                        <div class="title">짜파게티2</div>
+                        <div class="menu-price">가격 : 4,000원</div>
+                        <div class="option">옵션 : 맵게 해주세요(3000원)</div>
+                        <div class="total-price">10000원</div>
+                    </div>
+                </div>
+                <div class="etc">
+                    <div class="image">
+                        <img src="/images/sample.png" alt="음식 이미지" class="img">
+                    </div>
+                    <div class="num">
+                        <input type="button" class="minus" value="-">
+                        <div class="text">3</div>
+                        <input type="button"  class="plus" value="+">
+                    </div>
+                </div>
+            </div>
+            <div class="menu-plus">
                 +메뉴추가
             </div>
             <div class="request">
-                <div class="title">요청사항</div>
-                <textarea class="contents" id="contents" name="contents" placeholder="내용을 입력하세요" rows="3">1</textarea>
-                <input type="button" class="submit" onclick="cartsubmit(form)" value="3000원 주문하기">
+                <label for="contents" class="title">요청사항</label>
+                <textarea class="contents" id="contents" name="contents" placeholder="내용을 입력하세요" rows="4"></textarea>
+                <input type="button" class="submit button" onclick="cartsubmit(form)" value="3000원 주문하기">
             </div>
         </form>
     </div>

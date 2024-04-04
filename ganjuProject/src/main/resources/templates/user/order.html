@@ -13,32 +13,24 @@
     <div class="container">
         <div class="restaurant-name">더조은 식당</div>
         <div class="order">
-            <div class="order-content">
-                <div class="order-title">짜파게티 1개</div>
-                <div class="order-noOption-price">가격 : 3000원</div>
-                <div class="order-title">옵션 : 안맵게 해주세요(-3,000원)</div>
+            <div class="content">
+                <div class="title">짜파게티 1개</div>
+                <div class="before-price">가격 : 3000원</div>
+                <div class="option">옵션 : 안맵게 해주세요(-3,000원)</div>
             </div>
-            <div class="order-price">3000원</div>
-        </div>
-        <div class="order">
-            <div class="order-content">
-                <div class="order-title">짜파게티 2개</div>
-                <div class="order-noOption-price">가격 : 3000원</div>
-                <div class="order-title">옵션 : 안맵게 해주세요(-3,000원)</div>
-            </div>
-            <div class="order-price">0원</div>
+            <div class="after-price">3000원</div>
         </div>
         <div class="total-price">
             <div class="title">총 금액</div>
             <div class="content">3,000원</div>
         </div>
-        <div class="order-request">
+        <div class="request">
             <div class="title">요청사항</div>
             <div class="content">면 빼고 주세요</div>
         </div>
-        <div class="button">
+        <div class="etc">
             <p class="warning">이 페이지를 벗어난 후에는 리뷰 작성이 불가능 합니다.</p>
-            <input type="button" class="review-button" th:onclick="'location.href=\'/user/review\''" value="3000원 주문하기">
+            <input type="button" class="submit button" th:onclick="'location.href=\'/user/review\''" value="리뷰 쓰기">
         </div>
     </div>
     <footer></footer>
