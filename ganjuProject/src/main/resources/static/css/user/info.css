@@ -50,19 +50,36 @@
 .check{
     display: none;
 }
-
-.select label::before{
-    content: '\f0c8';
-    font-family: "Font Awesome 5 Free";
+/* 라벨의 가상 요소를 이용해 체크박스 스타일링 */
+.select .check[type="checkbox"] + label::before {
+    content: '\f0c8'; /* Font Awesome의 square 아이콘 */
+    font-family: 'Font Awesome 5 Free';
     font-weight: 500;
     color: var(--light-gray);
     font-size: var(--font-middle);
     margin-right: var(--padding);
 }
 
-.select input:checked + label::before{
-    color:var(--orange);
-    content: '\f14a';
+/* 체크된 체크박스의 스타일 */
+.select .check[type="checkbox"]:checked + label::before {
+    content: '\f14a'; /* Font Awesome의 check-square 아이콘 */
+    color: var(--orange);
+}
+
+/* 라벨의 가상 요소를 이용해 라디오 버튼 스타일링 */
+.select .check[type="radio"] + label::before {
+    content: '\f111'; /* Font Awesome의 circle 아이콘 */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 500;
+    color: var(--light-gray);
+    font-size: var(--font-middle);
+    margin-right: var(--padding);
+}
+
+/* 체크된 라디오 버튼의 스타일 */
+.select .check[type="radio"]:checked + label::before {
+    content: '\f058'; /* Font Awesome의 check-circle 아이콘 */
+    color: var(--orange);
 }
 
 /* 옵션 */
@@ -138,15 +155,15 @@
     align-items: center;
 }
 
-.container .count .inner .btn {
+.container .count .inner .num {
     padding: 5px;
     display: flex;
     justify-content: right;
     border: 2px solid var(--light-gray);
 }
 
-.container .count .inner .btn .minus,
-.container .count .inner .btn .plus{
+.container .count .inner .num .minus,
+.container .count .inner .num .plus{
     padding: 0 15px;
     display: flex;
     justify-content: center;
@@ -156,7 +173,8 @@
     font-size: var(--font-content); /* 버튼 내 텍스트 크기 */
     cursor: pointer; /* 마우스 커서 변경 */
 }
-.container .count .inner .btn .text{
+.container .count .inner .num .text{
+    width: 40px;
     display: flex;
     justify-content: center;
     align-items: center;

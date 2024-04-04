@@ -217,11 +217,11 @@ window.addEventListener('scroll', function() {
     var stickyElement = document.querySelector('.category-content');
     var headerOffset = document.querySelector('header').offsetHeight; // 만약 header가 있다면
     var stickyOffset = stickyElement.offsetTop - headerOffset; // header 높이를 고려한 조정값
-
+  
     if (window.pageYOffset >= stickyOffset) {
-        stickyElement.classList.add('sticky');
+      stickyElement.classList.add('sticky');
     } else {
-        stickyElement.classList.remove('sticky');
+      stickyElement.classList.remove('sticky');
     }
 });
 
