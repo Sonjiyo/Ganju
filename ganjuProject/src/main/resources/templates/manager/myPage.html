@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/manager/common.css">
+    <link rel="stylesheet" href="/css/manager/myPage.css">
+    <script defer src="/js/fragments/footer.js"></script>
+    <title>Document</title>
+</head>
+<body>
+<div class="innerBox">
+    <header>
+        <div>
+            <a href=""><i class="fas fa-home"></i></a>
+        </div>
+        <p>마이 페이지</p>
+        <div>
+            <a href="#"></a>
+        </div>
+    </header>
+    <div class="container">
+        <div class="icon">
+            <img src="/images/sample.png" alt="식당 이미지" class="img">
+        </div>
+        <div class="line">
+            <span>더조은 식당</span>
+        </div>
+        <div class="id">
+            <p>아이디</p>
+            <div class="id_line">
+                <p>thejoeun</p>
+            </div>
+        </div>
+        <div class="etc">
+            <p>비밀번호</p>
+            <div class="etc_line">
+                <p>************</p>
+            </div>
+        </div>
+        <div class="etc">
+            <p>이메일</p>
+            <div class="etc_line">
+                <p>thejoeun@korea.co.kr</p>
+            </div>
+        </div>
+        <div class="etc">
+            <p>핸드폰 번호</p>
+            <div class="etc_line">
+                <p>010-1234-1234</p>
+            </div>
+        </div>
+        <div class="upbtn">
+            <button class="button buttons">수정하기</button>
+            <button class="button-info buttons">식당정보</button>
+        </div>
+        <div class="downbtn">
+            <button class="button-etc buttons">로그아웃</button>
+            <button class="button-etc buttons">회원탈퇴</button>
+        </div>
+    </div>
+    <footer>
+        <div class="footer">
+            <button class="footer_menu" onclick="homeReq()">
+                <i class="fas fa-home"></i>홈
+            </button>
+            <button class="footer_menu" onclick="orderInfoReq()">
+                <i class="far fa-clipboard"></i>주문관리
+            </button>
+            <button class="footer_menu" onclick="menuInfoReq()">
+                <i class="fas fa-drumstick-bite"></i>메뉴관리
+            </button>
+            <button class="footer_menu" onclick="reviewInfoReq()">
+                <i class="fas fa-pen-square"></i>리뷰관리
+            </button>
+            <button class="footer_menu on" onclick="myPageReq()">
+                <i class="fas fa-user"></i>마이페이지
+            </button>
+        </div>
+    </footer>
+</div>
+</body>
+
+</html>

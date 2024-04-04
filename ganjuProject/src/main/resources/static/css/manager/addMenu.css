@@ -1,0 +1,170 @@
+.option {
+    width: 100%;
+    display: flex;
+    padding: var(--padding);
+    justify-content: center;
+    flex-direction: column;
+}
+
+select {
+    height: 50px;
+}
+
+.imgbox {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: flex-end;
+    padding: 0 var(--padding);
+}
+
+.small {
+    font-size: var(--font-small);
+}
+
+.flex {
+    display: flex;
+    flex-direction: column;
+}
+
+.img {
+    width: 141px;
+    height: 127px;
+}
+
+.delete-btn {
+    background-color: var(--black);
+    border: var(--black);
+    color: var(--extra-light-gray);
+    border-radius: var(--radius);
+    width: 113px;
+    height: 39px;
+    cursor: pointer;
+}
+
+.menu-name {
+    width: 100%;
+    padding: 0 var(--padding);
+}
+
+.textarea {
+    height: 47px;
+}
+
+.price {
+    width: 100%;
+    padding: 0 var(--padding);
+    position: relative;
+}
+
+.modal-price {
+    width: 100%;
+    position: relative;
+}
+
+.price textarea {
+    padding-right: 30px;
+    /* placeholder를 표시할 오른쪽 여백 */
+    text-align: left;
+    /* 텍스트를 왼쪽으로 정렬 */
+}
+
+.placeholder {
+    position: absolute;
+    top: 50%;
+    /* textarea의 중앙에 맞추기 */
+    transform: translateY(-50%);
+    right: 25px;
+    /* 오른쪽 여백 조절 */
+    color: gray;
+}
+
+.underline-dark {
+    border: 1px solid gray;
+    width: 100%;
+    margin: 10px 0;
+}
+
+.option-l {
+    background-color: var(--extra-light-gray);
+    width: 100%;
+    text-align: center;
+    padding: 0 var(--padding);
+}
+
+.select-option {
+    width: 100%;
+}
+
+.add-option-sub {
+    display: flex;
+    font-size: var(--font-small);
+    color: var(--orange);
+    margin: var(--padding) 0;
+}
+
+.add-option {
+    display: flex;
+    font-size: var(--font-small);
+    margin: var(--padding) 0;
+}
+
+.choice-option {
+    display: flex;
+    align-items: center;
+}
+
+.option-subname {
+    width: 100%;
+}
+
+.menu-add {
+    width: 100%;
+    border: var(--orange);
+    padding: 0 var(--padding);
+}
+
+.div-add-option-sub {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.visible::placeholder {
+    color: var(--gray);
+}
+
+.modal {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: var(--padding);
+    width: 80%;
+}
+
+.close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

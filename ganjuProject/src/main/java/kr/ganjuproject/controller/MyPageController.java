@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @Slf4j
-@RequestMapping("/review")
+@RequestMapping("/myPage")
 @RequiredArgsConstructor
-public class ReviewController {
+public class MyPageController {
     @GetMapping("main")
-    public String review() {
-        return "manager/review";
+    public String myPage() {
+        return "/manager/myPage";
     }
 }

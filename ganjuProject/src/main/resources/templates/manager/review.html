@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/manager/common.css">
+    <link rel="stylesheet" href="/css/manager/review.css">
+    <script defer src="/js/manager/review.js"></script>
+    <script defer src="/js/fragments/footer.js"></script>
+    <title>Document</title>
+</head>
+<body>
+<div class="innerBox">
+    <header>
+        <div>
+            <a href=""><i class="fas fa-home"></i></a>
+        </div>
+        <p>리뷰 관리</p>
+        <div>
+            <a href="#"></a>
+        </div>
+    </header>
+    <div class="container">
+        <div class="review">
+            <div class="review-all">
+                <p>평균</p>
+                <p class="big">0.0</p>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+            </div>
+            <div class="review-count">
+                <p class="big">리뷰 수</p>
+                <p class="big">15개</p>
+            </div>
+        </div>
+        <div class="underline"></div>
+        <div class="new-star">
+            <div class="review-category">
+                <button class="btn small newR on">최신순</button>
+                <button class="btn small highR">별점 높은 순</button>
+                <button class="btn small rowR">별점 낮은 순</button>
+            </div>
+        </div>
+        <div class="review-content">
+            <div class="line">
+                <p class="small left">더조은</p>
+                <div class="star margin">
+                    <i class="fas fa-star fonticon on"></i>
+                    <i class="far fa-star fonticon"></i>
+                    <i class="far fa-star fonticon"></i>
+                    <i class="far fa-star fonticon"></i>
+                    <i class="far fa-star fonticon"></i>
+                    <p class="fonticon margin">1시간 전</p>
+                </div>
+                <p class="small left">진짜 맛없어요.</p>
+            </div>
+            <div class="line">
+                <p class="small left">더조은</p>
+                <div class="star margin">
+                    <i class="fas fa-star fonticon on"></i>
+                    <i class="fas fa-star fonticon on"></i>
+                    <i class="fas fa-star fonticon on"></i>
+                    <i class="fas fa-star fonticon on"></i>
+                    <i class="fas fa-star fonticon on"></i>
+                    <p class="fonticon margin">1시간 전</p>
+                </div>
+                <p class="small left">사장님이 싱싱하고 재료가 신선해요.</p>
+            </div>
+            <div class="line">
+                <p class="small left">더조은</p>
+                <div class="star margin">
+                    <i class="far fa-star fonticon"></i>
+                    <i class="far fa-star fonticon"></i>
+                    <i class="far fa-star fonticon"></i>
+                    <i class="far fa-star fonticon"></i>
+                    <i class="far fa-star fonticon"></i>
+                    <p class="fonticon margin">1시간 전</p>
+                </div>
+                <p class="small left">진짜 맛없어요. 다시는 안올 거 같아요.</p>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer">
+            <button class="footer_menu home" onclick="homeReq()">
+                <i class="fas fa-home"></i>홈
+            </button>
+            <button class="footer_menu" onclick="orderInfoReq()">
+                <i class="far fa-clipboard"></i>주문관리
+            </button>
+            <button class="footer_menu" onclick="menuInfoReq()">
+                <i class="fas fa-drumstick-bite"></i>메뉴관리
+            </button>
+            <button class="footer_menu on" onclick="reviewInfoReq()">
+                <i class="fas fa-pen-square"></i>리뷰관리
+            </button>
+            <button class="footer_menu" onclick="myPageReq()">
+                <i class="fas fa-user"></i>마이페이지
+            </button>
+        </div>
+    </footer>
+</div>
+</body>
+
+</html>

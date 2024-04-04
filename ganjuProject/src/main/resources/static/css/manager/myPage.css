@@ -1,0 +1,93 @@
+.icon {
+    display: flex;
+    width: 114px;
+    height: 114px;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.line {
+    border: 1px solid lightgray;
+    width: 139px;
+    height: 41px;
+    text-align: center;
+    align-content: center;
+}
+
+.id {
+    display: flex;
+    width: 100%;
+    text-align: left;
+    padding: var(--padding);
+    flex-direction: column;
+}
+
+.etc {
+    display: flex;
+    width: 100%;
+    text-align: left;
+    padding: var(--padding);
+    flex-direction: column;
+}
+
+.id_line {
+    height: 47px;
+    border: 1px solid lightgray;
+    background-color: lightgray;
+}
+
+.etc_line {
+    height: 47px;
+    border: 1px solid lightgray;
+}
+
+.button {
+    border: var(--orange);
+}
+
+.btn {
+    color: var(--light-gray);
+}
+
+.button-info {
+    text-align: center;
+    padding: 10px var(--padding);
+    background: var(--gray);
+    border: var(--gray);
+    display: inline-block;
+    border-radius: var(--radius);
+    color: var(--white);
+    cursor: pointer;
+}
+
+.button-info:hover {
+    background: var(--light-gray);
+}
+
+.button-etc {
+    text-align: center;
+    padding: 10px var(--padding);
+    background: var(--white);
+    border: var(--extra-light-gray);
+    display: inline-block;
+    border-radius: var(--radius);
+    color: var(--light-gray);
+    cursor: pointer;
+}
+
+.buttons {
+    width: 160px;
+    height: 45px;
+}
+
+.upbtn {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.downbtn {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
