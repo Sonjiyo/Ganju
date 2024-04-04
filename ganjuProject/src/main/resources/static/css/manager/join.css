@@ -1,0 +1,86 @@
+label{margin-bottom:10px;}
+label span{color:var(--red);}
+input[type=checkbox]{display: none;}
+.login-id{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.login-id label{width: 100%;}
+.login-id input[type="text"]{width: 75%;}
+.login-id input[type="button"]{
+    width: 20%;
+    background: var(--orange);
+    border: none;
+    color: var(--white);
+    cursor: pointer;
+}
+.login-id input[type="button"]:hover{background: var(--orange-hover);}
+.terms label{display: flex;align-items: center;}
+.terms label::before{
+    content: '\f0c8';
+    font-family: "Font Awesome 5 Free";
+    font-weight: 500;
+    color: var(--light-gray);
+    font-size: var(--font-middle);
+    margin-right: var(--padding);
+}
+.terms input:checked + label::before{
+    color:var(--orange);
+    content: '\f14a';
+}
+.button{font-size: var(--font-middle);margin-top: 40px;}
+.msg-ok{
+    color: var(--blue);
+}
+
+
+/* 본인 인증 */
+h2{margin:30px 0;text-align: center;font-size: var(--font-big);}
+.button-verification{
+    margin-top:15px;
+    font-size: var(--font-content);
+    background: var(--light-gray);
+    cursor: pointer;
+}
+.verification label{display: flex;}
+.verification label .time-left{
+    color:var(--gray);
+    margin-left: auto;
+    padding:3px 6px;
+    border: 1px solid var(--light-gray);
+    border-radius: var(--radius);
+}
+.button-verification:hover{background: var(--gray);color: var(--white);}
+
+/* 식당 정보 입력 */
+p span{color:var(--red);}
+.logo-img-upload{
+    width: 100px;
+    height: 100px;
+    background: var(--light-gray);
+    margin-top: var(--padding);
+    margin-bottom: 0;
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow: 0 0 5px 0px #2222221f;
+}
+#logoImage{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.logo-img-upload:hover{filter: brightness(0.9);}
+.logo-upload input{display: none;}
+.resturant-address label{display: flex;align-items:center;}
+.resturant-address input[type="button"]{
+    background: var(--orange);
+    border: none;
+    padding:5px 10px;
+    color: var(--white);
+    margin-left: auto;
+    cursor: pointer;
+}
+.resturant-address input[type="button"]:hover{background: var(--orange-hover);}
+input[name="addressElse"]{margin-top:var(--padding);}

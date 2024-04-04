@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/manager/joinSuccess.css" type="text/css">
+    <script src="/js/manager/joinSuccess.js" defer type="text/javascript"></script>
+</head>
+<body>
+    <div class="innerBox">
+        <header>
+            <div>
+                <a href=""><i class="fas fa-home"></i></a>
+            </div>
+            <p>회원가입</p>
+            <div>
+                <a href="#"></a>
+            </div>
+        </header>
+        <div class="container">
+            <h2>간주에 가입하신 것을<br>환영합니다!</h2>
+            <div class="user-info">
+                <table>
+                    <tr>
+                        <td>로고</td>
+                        <td class="logo-image"><img src="" alt="logo-image"></td>
+                    </tr>
+                    <tr>
+                        <td>아이디</td>
+                        <td>thejoeun</td>
+                    </tr>
+                    <tr>
+                        <td>비밀번호</td>
+                        <td>
+                            <input type="password" value="11111111" class="password" readonly>
+                            <span><i class="far fa-eye-slash passwordEye"></i></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>이메일</td>
+                        <td>thejoeun@korea.co.kr</td>
+                    </tr>
+                    <tr>
+                        <td>전화번호</td>
+                        <td>010-1234-1234</td>
+                    </tr>
+                    <tr>
+                        <td>식당 이름</td>
+                        <td>더조은식당</td>
+                    </tr>
+                    <tr>
+                        <td>가게번호</td>
+                        <td>02-1234-1234</td>
+                    </tr>
+                    <tr>
+                        <td>주소</td>
+                        <td>서울시 용산구 어쩌구 저쩌구 엄청나게 긴 주소 쓰기 연습 어쩌구 저쩌구 </td>
+                    </tr>
+                </table>
+            </div>
+            <p class="warning on">현재 관리자가 식당을 승인 중에 있습니다<br>모든 서비스는 승인 후 이용 가능합니다</p>
+            <input type="button" value="메인으로" class="button main-button" onclick="location.href='/'">
+        </div>
+        <footer></footer>
+    </div>
+</body>
+</html>

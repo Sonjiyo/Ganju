@@ -1,0 +1,102 @@
+.tab-btn{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.tab-btn>div{
+    text-align: center;
+    width: 50%;
+    padding:var(--padding) 0;
+    font-size: 20px;
+    background: var(--extra-light-gray);
+    color:var(--gray);
+    cursor: pointer;
+}
+.tab-btn>div.on{background:inherit;color: var(--black);}
+
+/* 식당 리스트 */
+.resturant-list li .title{
+    padding:var(--padding);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.resturant-list li .title>div{display: flex; align-items: center;}
+.resturant-list li .logo{width: 60px; height: 60px;margin-right: 30px;}
+.resturant-list li .logo img{width: 100%;}
+.resturant-list li .name{
+    font-size: var(--font-content);
+    margin-bottom: 20%;
+}
+.resturant-list li .login-id{font-size: var(--font-small);color:var(--gray);}
+
+/* 뱃지 */
+.badge{
+    font-size: var(--font-extra-small);
+    color: var(--white);
+    padding:3px 9px;
+    margin-right: 20px;
+    border-radius: var(--radius);
+}
+.badge.waiting{background: var(--black);}
+.badge.success{background: var(--orange);}
+.badge.refuse{background: var(--red);}
+
+.title-right button{
+    border: none;
+    background: inherit;
+    cursor: pointer;
+    font-size: var(--font-content);
+    padding:0 10px;
+    transition: all .3s;
+}
+.title-right button.on{transform: rotate(-180deg);}
+/* 내용 */
+.resturant-list{width: 100%;}
+.resturant-list li{
+    width: 100%;
+    border-bottom: 1px solid var(--light-gray);
+    transition: all .3s;
+}
+.resturant-list li .content{
+    width: 100%;
+    table-layout:fixed;
+    background: var(--extra-light-gray);
+    padding:var(--padding);
+    font-size: var(--font-small);
+    display: none;
+    overflow: hidden;
+}
+.resturant-list li .content.on{
+    display: block;
+}
+input{
+    border: none;
+    padding:0;
+    background: inherit;
+    border-radius: 0;
+}
+input:focus{outline: none;}
+.resturant-list li .content td:first-child{width: 20%;}
+.resturant-list li .content td{padding:6px 0;}
+.resturant-list li .content tr td:first-child{color:var(--gray);}
+.resturant-list li .content tr td span{
+    color:var(--orange);
+    cursor: pointer;
+}
+.resturant-list li .content td:has(a) .flex{
+    padding-top: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.resturant-list li .content td a{
+    display: inline-block;
+    padding:10px 30px;
+    background: var(--orange);
+    color: var(--white);
+    border-radius: var(--radius);
+}
+.resturant-list li .content td a:hover{filter: brightness(0.9);}
+.resturant-list li .content td a.refuse{background-color: var(--red);}
