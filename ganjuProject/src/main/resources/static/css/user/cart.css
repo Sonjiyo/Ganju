@@ -81,7 +81,7 @@ form>div{
 .container form .orders .etc .num .text{}
 
 /* 새로운 매뉴 추가 */
-.container form .menu-plus{
+.container form .menuplus{
     background-color: var(--extra-light-gray);
     text-align: center;
     color: var(--gray);

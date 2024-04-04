@@ -29,6 +29,7 @@
 }
 
 *{margin:0;padding:0;box-sizing: border-box;}
+*:focus{outline-color: var(--orange);}
 html, body{width: 100%;height: 100%;}
 li{list-style: none;}
 a{text-decoration: none; color:var(--black);cursor: pointer;font-size: var(--font-content);}
