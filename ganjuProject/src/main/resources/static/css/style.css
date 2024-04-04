@@ -25,7 +25,7 @@
     --font-icon:11px;
 
     --innerBox-width:480px;
-    --fixedBtn-height: 100px;
+    --fixedBtn-height: 200px;
 }
 
 *{margin:0;padding:0;box-sizing: border-box;}

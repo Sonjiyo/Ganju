@@ -27,9 +27,16 @@ form>div{
     width: 100%;
     padding: 0 20px;
 }
-.container form .stars .star{
+
+.container form .stars .star-span{
     font-size: var(--font-big);
     color: var(--light-gray);
+    cursor: default;
+}
+
+.container form .stars .star-span span{
+    margin: -2px;
+    cursor: pointer;
 }
 
 /* 닉네임 */

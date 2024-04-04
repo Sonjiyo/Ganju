@@ -49,12 +49,13 @@ form>div{
     padding-top: 10px;
 }
 
-.container form .orders .menu .etc{
+.container form .orders .etc{
     display: flex;
     flex-direction: column;
-    align-items: right;
+    justify-content: space-between;
 }
 .container form .orders .etc .image{
+    margin-left: auto; /* 오른쪽 정렬 */
     width: 90px;
     height: 90px;
     overflow: hidden;
@@ -66,22 +67,31 @@ form>div{
 }
 
 .container form .orders .etc .num{
+    padding: 5px;
     display: flex;
-    justify-content: space-between;
-    border-top: 1px solid var(--light-gray);
-    align-items: center;
+    border: 1px solid var(--light-gray);
 }
 .container form .orders .etc .num .minus,
 .container form .orders .etc .num .plus{
-    padding: 5px 10px;
-    border: none;
-    font-size: var(--font-content);
+    padding: 0 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0;
     background-color: var(--white);
+    font-size: var(--font-content); /* 버튼 내 텍스트 크기 */
+    cursor: pointer; /* 마우스 커서 변경 */
 }
-.container form .orders .etc .num .text{}
+.container form .orders .etc .num .text{
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--font-content); /* 필요에 따라 조정 */
+}
 
 /* 새로운 매뉴 추가 */
-.container form .menuplus{
+.container form .menu-plus{
     background-color: var(--extra-light-gray);
     text-align: center;
     color: var(--gray);
@@ -89,7 +99,7 @@ form>div{
 
 /* 요청사항 */
 .container form .request{
-
+    
     padding-top: 40px;
 }
 .container form .request .title{
