@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/manager/order.css" type="text/css">
+    <script src="/js/manager/order.js" defer type="text/javascript"></script>
+</head>
+<body>
+    <div class="innerBox">
+        <header>
+            <div>
+                <a href=""><i class="fas fa-home"></i></a>
+            </div>
+            <p>주문관리</p>
+            <div>
+                <a href="#"></a>
+            </div>
+        </header>
+        <div class="container">
+            <ul class="order-state-summary">
+                <li class="call">
+                    <p class="state-name">호출</p>
+                    <p class="state-content"><span>9</span>건</p>
+                </li>
+                <li class="wait">
+                    <p class="state-name">주문</p>
+                    <p class="state-content"><span>3</span>건</p>
+                </li>
+                <li class="okay">
+                    <p class="state-name">승인</p>
+                    <p class="state-content"><span>1</span>건</p>
+                </li>
+            </ul>
+            <button onclick="location.href='/manager/sales'">총 매출 확인하기 ></button>
+            <ul class="list-select">
+                <li class="on">전체</li>
+                <li>호출</li>
+                <li>대기</li>
+                <li>승인</li>
+            </ul>
+            <ul class="order-list">
+                <li>
+                    <div class="content-summary">
+                        <div class="left">
+                            <p class="order-title call">호출</p>
+                            <p class="order-subtitle">와주세요</p>
+                            <span class="table-name">1번 테이블</span>
+                        </div>
+                        <div class="right">
+                            <span class="time">13:00</span>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="content-summary">
+                        <div class="left">
+                            <p class="order-title wait">주문</p>
+                            <span class="table-name">1번 테이블</span>
+                        </div>
+                        <div class="right">
+                            <span class="time">13:00</span>
+                            <button><i class="fas fa-chevron-down"></i></button>
+                        </div>
+                    </div>
+                    <table class="info">
+                        <tr>
+                            <th>상품이름</th>
+                            <th>수량</th>
+                            <th>금액</th>
+                        </tr>
+                        <tr>
+                            <td>짜파게티</td>
+                            <td>2</td>
+                            <td>3,000</td>
+                        </tr>
+                        <tr>
+                            <td>토마토 파스타</td>
+                            <td>23</td>
+                            <td>9,000</td>
+                        </tr>
+                        <tr>
+                            <td>총 합계</td>
+                            <td>25</td>
+                            <td>267,000</td>
+                        </tr>
+                    </table>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

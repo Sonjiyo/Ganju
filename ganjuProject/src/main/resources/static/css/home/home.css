@@ -1,0 +1,17 @@
+label{margin-bottom:10px;}
+.innerBox{justify-content: center;}
+.container{height: 80%;justify-content: space-around;}
+
+input[type=button]{font-size: var(--font-middle); margin-top: 50px;}
+.join-btn-group{width: 95%;padding: 10px;}
+.join-btn-group>p{color:var(--red);}
+.btn-group>div{
+    cursor: pointer;
+    width: 100%;
+    border: 1px solid var(--light-gray);
+    padding: 10px;
+    margin-top:10px;
+    padding-left:50px;
+    border-radius: 5px;
+}
+.btn-group>div:hover{border: 1px solid var(--gray);}

@@ -1,0 +1,95 @@
+.date-choice{
+    width: 100%;
+    padding:var(--padding);
+    background: var(--extra-light-gray);
+    color:var(--gray);
+    display: flex;
+    justify-content: space-between;
+}
+.date-pick{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: end;
+}
+#start-date, #end-date{cursor: pointer;}
+#start-date span, #end-date span{padding:0 var(--padding);}
+#end-date span{padding-right: 0;}
+
+.date-select{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: var(--padding);
+    align-items: center;
+}
+.date-select li{
+    border: 1px solid var(--light-gray);
+    padding:5px 25px;
+    border-radius: var(--radius);
+    cursor: pointer;
+}
+.date-select li.on{
+    background: var(--gray);
+    border: 1px solid var(--gray);
+    color: var(--white);
+}
+
+/* 총 주문 조회 */
+.total-sales{
+    width: 100%;
+    padding:30px var(--padding);
+    font-size: var(--font-small);
+    border-bottom: 1px solid var(--light-gray);
+}
+.total-sales p:first-child{margin-bottom: 30px;}
+.total-sales p span{
+    margin-left:10%;
+    font-size:var(--font-big);
+    font-weight: bold;
+}
+.sales-list{width: 100%;}
+.sales-list li{
+    width: 100%;
+    border-bottom:1px solid var(--light-gray);
+}
+.sales-list li .content-summary{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:var(--padding);
+}
+.table-name{font-size: var(--font-content);display: inline-block;}
+
+.sales-list li .right{display: flex;align-items: center;}
+.sales-list li .right .time{font-size: var(--font-small);color:var(--gray);}
+.sales-list li .right button{
+    margin-left: 10px;
+    padding:0 10px;
+    font-size: var(--font-content);
+    background: inherit;
+    border: none;
+    cursor: pointer;
+    transition: .3s;
+}
+.sales-list li .right button.on{
+    transform: rotate(-180deg);
+}
+
+/* 상세 내용 */
+.info{
+    background: var(--extra-light-gray);
+    width: 100%;
+    padding:var(--padding);
+    display: none;
+}
+.info.on{display: table;}
+td{padding:10px 0;margin:0;}
+td:first-child{width: 45%;}
+td:nth-child(2), th:nth-child(2){text-align: center;width: 20%;}
+td:last-child{width: 35%;}
+td:last-child, th:last-child{text-align: end;}
+th{padding-bottom: 10px;color: var(--gray);font-weight: normal;}
+.info .last{border-top:1px solid var(--light-gray);padding-top:10px;}
+tr:last-child td{border-top:1px solid var(--light-gray);}
