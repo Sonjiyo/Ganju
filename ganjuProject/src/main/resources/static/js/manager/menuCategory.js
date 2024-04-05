@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
     const menuMenus = document.querySelectorAll('.menu_menu');
-
     menuMenus.forEach((menu) => {
         menu.addEventListener('click', function (event) {
             const target = event.target;
