@@ -1,19 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <div th:replace="fragments/header :: header('어드민 페이지')"></div>
     <link rel="stylesheet" href="/css/admin/restaurantList.css" type="text/css">
     <script src="/js/admin/restaurantList.js" defer type="text/javascript"></script>
 </head>
 <body>
     <div class="innerBox">
         <header>
-            <div>
-                <a href=""></a>
-            </div>
+            <div></div>
             <p>어드민 페이지</p>
             <div>
                 <a href="#"><i class="fas fa-sign-out-alt"></i></a>

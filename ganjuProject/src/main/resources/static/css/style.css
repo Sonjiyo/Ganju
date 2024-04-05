@@ -130,15 +130,49 @@ header{
     justify-content: space-between;
     font-size:22px;
 }
-header a{
+header>div{
     display: inline-block;
     width: 25px;height: 25px;
-    font-size: var(--font-middle);
-    cursor: default;
-    -webkit-user-drag: none;
 }
+header a{font-size: var(--font-middle);}
 header a:hover{color: var(--gray);}
 header a:has(i){
     cursor: pointer;
-
 }
+
+footer{
+    position: fixed;
+    width: 480px;
+    height: 80px;
+    bottom:0;left:50%;
+    transform: translateX(-50%);
+    border-top:1px solid var(--light-gray);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+footer a{
+    display: block;
+    text-align: center;
+    font-size: 15px;
+    width: 20%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+footer a.on{background: var(--orange);color: var(--white);}
+footer a.on::before{color:var(--white);}
+footer a::before{
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    display: block;
+    font-size: var(--font-big);
+    color:var(--light-gray);
+}
+footer a:nth-child(1):before{content: '\f015';}
+footer a:nth-child(2)::before{content: '\f328';font-weight: 500;}
+footer a:nth-child(3)::before{content: '\f6d7';}
+footer a:nth-child(4)::before{content: '\f14b';}
+footer a:nth-child(5)::before{content: '\f007';}

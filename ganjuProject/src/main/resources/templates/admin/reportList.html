@@ -1,18 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <div th:replace="fragments/header :: header('어드민 페이지')"></div>
     <link rel="stylesheet" href="/css/admin/reportList.css" type="text/css">
 </head>
 <body>
     <div class="innerBox">
         <header>
-            <div>
-                <a href=""></a>
-            </div>
+            <div></div>
             <p>어드민 페이지</p>
             <div>
                 <a href="#"><i class="fas fa-sign-out-alt"></i></a>
@@ -23,10 +18,10 @@
                 <div onclick="location.href='/admin/restaurantList'">식당 관리</div>
                 <div onclick="location.href='/admin/reportList'" class="on">신고 내역</div>
             </div>
-            <ul class="review">
+            <ul class="review" th:each="report : ${list}">
                 <li>
-                    <p class="title">더조은 식당<span>2024.03.30</span></p>
-                    <p class="content">진짜 맛 없어요. 다시는 안와요.</p>
+                    <p class="title" th:text="${report.restaurant.name + ' '}" th:remove="tag">더조은 식당<span th:text="${report.regDate}">2024.03.30</span></p>
+                    <p class="content" th:text="${report.content}">진짜 맛 없어요. 다시는 안와요.</p>
                     <button><i class="fas fa-times"></i></button>
                 </li>
             </ul>

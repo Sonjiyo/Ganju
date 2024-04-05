@@ -36,16 +36,16 @@ function getAddress() {
                     extraAddr = ' (' + extraAddr + ')';
                 }
                 // 조합된 참고항목을 해당 필드에 넣는다.
-                document.getElementById("address-first").value = extraAddr;
-            
+                document.querySelector('#addressFirst').value = extraAddr;
+
             } else {
-                document.getElementById("address-first").value = '';
+                document.querySelector('#addressFirst').value = '';
             }
 
             // 우편번호와 주소 정보를 해당 필드에 넣는다.
-            document.getElementById("address-first").value = addr;
+            document.querySelector('#addressFirst').value = addr;
             // 커서를 상세주소 필드로 이동한다.
-            document.getElementById("address-else").focus();
+            document.querySelector('#addressElse').focus();
         }
     }).open({
         left: (window.screen.width / 2) - (width / 2),
