@@ -1,0 +1,97 @@
+
+/* 모달 창 스타일 */
+.modal {
+    display: none; /* 초기에는 숨김 */
+    position: absolute; /* 화면 중앙에 위치 */
+    z-index: 1; /* 내용 위에 표시 */
+    left: 0;
+    top: 0;
+    width: 100%; /* 전체 너비 */
+    height: 100%; /* 전체 높이 */
+    overflow: auto; /* 내용이 넘칠 경우 스크롤 */
+    background-color: rgb(0,0,0); /* 검은색 배경 */
+    background-color: rgba(0,0,0,0.4); /* 어두운 투명도 */
+}
+
+/* 모달 내용 스타일 */
+.modal-content {
+    background-color: #ffffff;
+    margin: 10% auto; /* 페이지 중앙에 위치 조정 */
+    padding: 20px; /* 패딩 증가 */
+    border-radius: 8px; /* 모서리 둥글게 처리 */
+    width: 400px; /* 너비 조정 */
+    max-width: 90%; /* 최대 너비 설정 */
+}
+
+.modal-title {
+    font-size: var(--font-middle); /* 글씨 크기 조정 */
+    color: var(--black); /* 글씨 색상 변경 */
+    margin-bottom: 20px; /* 하단 여백 추가 */
+}
+
+.modal-warning {
+    color: var(--red); /* 경고 문구 색상 변경 */
+    font-size: 16px; /* 글씨 크기 조정 */
+    margin-bottom: 20px; /* 하단 여백 추가 */
+}
+
+.modal-label {
+    display: block; /* 라벨을 블록 요소로 변경 */
+    margin-bottom: 10px; /* 여백 추가 */
+    font-weight: bold; /* 글씨 두껍게 */
+    color: var(--black); /* 글씨 색상 변경 */
+}
+
+.modal-input {
+    width: 100%;
+    height: 100px;
+    border: 1px solid var(--light-gray);
+    border-radius: 4px; /* 모서리 둥글게 처리 */
+    padding: 10px; /* 내부 패딩 추가 */
+    margin: 0 0 20px 0; /* 하단 여백 추가 */
+}
+
+.modal-submit {
+    width: 100%;
+    font-size: var(--font-content);
+}
+
+/* 호출하기 모달 */
+#callForm {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+#callForm>label {
+    display: flex; /* 라벨 블록 처리 */
+    align-items: center;
+    margin-bottom: 10px; /* 라벨 간 간격 */
+    cursor: pointer; /* 마우스 오버 시 커서 변경 */
+}
+
+#callForm>.modal-submit{
+    margin-top: 20px;
+}
+/* 옵션 사용자 버튼 */
+.check{
+    display: none;
+}
+
+/* 라벨의 가상 요소를 이용해 라디오 버튼 스타일링 */
+#callForm .check[type="radio"] + label::before {
+    content: '\f111'; /* Font Awesome의 circle 아이콘 */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 500;
+    color: var(--light-gray);
+    font-size: var(--font-middle);
+    margin-right: var(--padding);
+}
+
+/* 체크된 라디오 버튼의 스타일 */
+#callForm .check[type="radio"]:checked + label::before {
+    content: '\f058'; /* Font Awesome의 check-circle 아이콘 */
+    color: var(--orange);
+}

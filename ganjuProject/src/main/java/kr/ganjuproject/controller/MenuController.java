@@ -15,9 +15,9 @@ import java.util.Optional;
 
 @Controller
 @Slf4j
-@RequestMapping("/user")
+@RequestMapping("/menu")
 @RequiredArgsConstructor
-public class UserController {
+public class MenuController {
 
     private final MenuService menuService;
     private final CategoryService categoryService;
