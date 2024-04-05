@@ -32,4 +32,10 @@ public class Restaurant {
     @OneToMany(mappedBy = "id")
     @ToString.Exclude
     private List<Review> reviews = new ArrayList<>();
+    @OneToMany(mappedBy = "id")
+    @ToString.Exclude
+    private List<Board> boards = new ArrayList<>();
+    @OneToMany(mappedBy = "id")
+    @ToString.Exclude
+    private List<Menu> menus = new ArrayList<>();
 }

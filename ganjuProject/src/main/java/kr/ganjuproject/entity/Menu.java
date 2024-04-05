@@ -21,6 +21,10 @@ public class Menu {
     private int price;
     private String menuImage;
     private String info;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id")
+    @ToString.Exclude
+    private Restaurant restaurant;
     @OneToMany(mappedBy = "id")
     @ToString.Exclude
     private List<MenuOption> options = new ArrayList<>();
