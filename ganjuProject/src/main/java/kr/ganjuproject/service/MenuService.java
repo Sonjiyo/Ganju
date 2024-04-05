@@ -13,12 +13,17 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MenuService {
-
     private final MenuRepository menuRepository;
 
     public List<Menu> getList() {
         return menuRepository.findAll();
     }
 
-    public Optional<Menu> findById(Long id){return menuRepository.findById(id);}
+    public Optional<Menu> findById(Long id){
+        return menuRepository.findById(id);
+    }
+
+    public void delete(Long id) {
+        menuRepository.deleteById(id);
+    }
 }

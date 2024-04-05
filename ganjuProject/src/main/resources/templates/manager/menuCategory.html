@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -117,71 +118,30 @@
                     <button class="button border" onclick="addMenuReq()">메뉴 추가</button>
                 </div>
                 <div class="underline"></div>
-                <div class="menu_list-edit">
+                <div class="menu_list-edit" th:each="menu:${menus}">
                     <div class="flex">
                         <div>
-                            <img src="/images/sample.png" alt="메뉴 이미지" class="img">
+                            <img th:src="@{/images/sample.png}" alt="메뉴 이미지" class="img">
                         </div>
                         <div class="menu_center">
-                            <span class="extrasmall">라면</span>
-                            <p>짜파게티</p>
-                            <span class="extrasmall">3,000원</span>
+                            <span class="extrasmall" th:text="${menu.category.name}"></span>
+                            <p th:text="${menu.name}"></p>
+                            <span class="extrasmall" th:text="${menu.price}"></span>
                         </div>
                     </div>
                     <div class="navbar">
                         <div class="dropdown">
-                            <button class="dropbtn" onclick="myFunction(1)"><i class="fas fa-ellipsis-h"></i></button>
-                            <div class="dropdown-content" id="myDropdown1">
+                            <button class="dropbtn" th:onclick="'myFunction(' + ${menu.id} + ')'">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                            <div class="dropdown-content" th:id="'myDropdown' + ${menu.id}">
                                 <a>수정</a>
-                                <a><span class="delete-button">삭제</span></a>
+                                <a><span class="delete-button" th:data-id="${menu.id}">삭제</span></a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="underline"></div>
-                <div class="menu_list-edit">
-                    <div class="flex">
-                        <div>
-                            <img src="/images/sample.png" alt="메뉴 이미지" class="img">
-                        </div>
-                        <div class="menu_center">
-                            <span class="extrasmall">스파게티</span>
-                            <p>토마토 파스타</p>
-                            <span class="extrasmall">9,000원</span>
-                        </div>
-                    </div>
-                    <div class="navbar">
-                        <div class="dropdown">
-                            <button class="dropbtn" onclick="myFunction(2)"><i class="fas fa-ellipsis-h"></i></button>
-                            <div class="dropdown-content" id="myDropdown2">
-                                <a>수정</a>
-                                <a><span>삭제</span></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="underline"></div>
-                <div class="menu_list-edit">
-                    <div class="flex">
-                        <div>
-                            <img src="/images/sample.png" alt="메뉴 이미지" class="img">
-                        </div>
-                        <div class="menu_center">
-                            <p class="extrasmall">만두</p>
-                            <p>소룡포</p>
-                            <p class="extrasmall">18,000원</p>
-                        </div>
-                    </div>
-                    <div class="navbar">
-                        <div class="dropdown">
-                            <button class="dropbtn" onclick="myFunction(3)"><i class="fas fa-ellipsis-h"></i></button>
-                            <div class="dropdown-content" id="myDropdown3">
-                                <a>수정</a>
-                                <a><span>삭제</span></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div class="main-contents">
                 <div class="underline"></div>
@@ -190,77 +150,29 @@
                 </div>
                 <p class="content-center">대표 메뉴</p>
                 <div class="underline"></div>
-                <div class="menu_list-edit">
-                    <input type="checkbox" name="checkbox" id="checkbox1" class="checkbox">
-                    <label class="img-info" for="checkbox1">
+                <div class="menu_list-edit" th:each="menu:${menus}">
+                    <input type="checkbox" name="checkbox" th:id="'checkbox' + ${menu.id}" class="checkbox">
+                    <label class="img-info" th:for="'checkbox' + ${menu.id}">
                         <div class="flex">
                             <div>
-                                <img src="/images/sample.png" alt="메뉴 이미지" class="img">
+                                <img th:src="@{/images/sample.png}" alt="메뉴 이미지" class="img">
                             </div>
                             <div class="menu_center">
-                                <span class="extrasmall">라면</span>
-                                <p>짜파게티</p>
-                                <span class="extrasmall">3,000원</span>
+                                <span class="extrasmall" th:text="${menu.category.name}"></span>
+                                <p th:text="${menu.name}"></p>
+                                <span class="extrasmall" th:text="${menu.price}"></span>
                             </div>
                         </div>
                     </label>
                 </div>
-                <div class="underline"></div>
-                <div class="menu_list-edit">
-                    <input type="checkbox" name="checkbox" id="checkbox2" class="checkbox">
-                    <label class="img-info" for="checkbox2">
-                        <div class="flex">
-                            <div>
-                                <img src="/images/sample.png" alt="메뉴 이미지" class="img">
-                            </div>
-                            <div class="menu_center">
-                                <span class="extrasmall">스파게티</span>
-                                <p>토마토 파스타</p>
-                                <span class="extrasmall">9,000원</span>
-                            </div>
-                        </div>
-                    </label>
+                <div class="content-center">
+                    <button class="button border">등록 하기</button>
                 </div>
-                <div class="underline"></div>
-                <div class="menu_list-edit">
-                    <input type="checkbox" name="checkbox" id="checkbox3" class="checkbox">
-                    <label class="img-info" for="checkbox3">
-                        <div class="flex">
-                            <div>
-                                <img src="/images/sample.png" alt="메뉴 이미지" class="img">
-                            </div>
-                            <div class="menu_center">
-                                <p class="extrasmall">만두</p>
-                                <p>소룡포</p>
-                                <p class="extrasmall">18,000원</p>
-                            </div>
-                        </div>
-                    </label>
-                </div>
-                <div class="underline"></div>
             </div>
         </div>
     </div>
     <div class="underline"></div>
-    <footer>
-        <div class="footer">
-            <button class="footer_menu" onclick="homeReq()">
-                <i class="fas fa-home"></i>홈
-            </button>
-            <button class="footer_menu" onclick="orderInfoReq()">
-                <i class="far fa-clipboard"></i>주문관리
-            </button>
-            <button class="footer_menu on" onclick="menuInfoReq()">
-                <i class="fas fa-drumstick-bite"></i>메뉴관리
-            </button>
-            <button class="footer_menu" onclick="reviewInfoReq()">
-                <i class="fas fa-pen-square"></i>리뷰관리
-            </button>
-            <button class="footer_menu" onclick="myPageReq()">
-                <i class="fas fa-user"></i>마이페이지
-            </button>
-        </div>
-    </footer>
+    <!--    <footer th:replace="fragments/footer :: footer(menu)"></footer>-->
 </div>
 </body>
 </html>

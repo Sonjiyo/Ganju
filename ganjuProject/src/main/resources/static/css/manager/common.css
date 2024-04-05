@@ -7,16 +7,6 @@
     padding: var(--padding);
 }
 
-.content-center {
-    display: flex;
-    background-color: var(--white);
-    width: 100%;
-    height: 69px;
-    align-items: center;
-    justify-content: flex-end;
-    padding: var(--padding);
-}
-
 .underline {
     border: 1px solid whitesmoke;
     width: 100%;
