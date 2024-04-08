@@ -1,4 +1,4 @@
-const width = 500; //팝업의 너비
+const width = 450; //팝업의 너비
 const height = 500; //팝업의 높이
 
 function getAddress() {

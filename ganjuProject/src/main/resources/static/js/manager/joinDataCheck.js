@@ -209,11 +209,8 @@ function verificationCheck(form){
         document.querySelector('.verification').appendChild(msg);
         return false;
     }
-    console.log(loginIdValue);
-    console.log(passwordValue);
-    console.log(phoneValue);
+
     emailValue = form.email.value;
-    console.log(emailValue);
 
     fetch('/manager/join', {
         method: 'POST',
