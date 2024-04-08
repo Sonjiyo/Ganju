@@ -31,6 +31,15 @@
     width: 100%;
 }
 
+.content-center {
+    display: flex;
+    background-color: var(--white);
+    width: 100%;
+    align-items: center;
+    justify-content: flex-end;
+    padding: var(--padding);
+}
+
 .menu-contents {
     display: none;
 }

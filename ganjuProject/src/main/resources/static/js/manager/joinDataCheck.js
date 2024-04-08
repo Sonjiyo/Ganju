@@ -4,9 +4,49 @@ let msgOk = document.createElement('p');
 msgOk.classList.add('msg');
 msgOk.classList.add('msg-ok');
 
+let validIdCheck = false;
+let checkButton = document.querySelector('.check-button');
+//중복 아이디 찾기
+function validId(form){
+    const loginId = form.querySelector('#loginId').value;
+
+    fetch(`/manager/join/${loginId}`, {
+        method: 'POST',
+    }).then(response=>{
+        return response.text();
+    }).then(data => {
+            console.log(data);
+        msg.textContent='';
+        msgOk.textContent='';
+        if(data === 'ok'){
+            validIdCheck = true;
+            checkButton.value='확인완료';
+            checkButton.style.background='#222';
+            msgOk.textContent='사용 가능한 아이디입니다';
+            document.querySelector('.login-id').appendChild(msgOk);
+        }else{
+            validIdCheck = false;
+            msg.textContent= "이미 사용 중인 아이디입니다";
+            document.querySelector('.login-id').appendChild(msg);
+        }
+    }).catch(error => {
+        console.error('확인 실패', error);
+    });
+}
+
+//아이디 리체크
+function idReCheck(){
+    validIdCheck = false;
+    msg.textContent='';
+    msgOk.textContent='';
+    checkButton.value='중복체크';
+    checkButton.style.background='#ff7a2f';
+}
+
 //정보입력
 function joinCheck(form){
     msg.textContent='';
+    msgOk.textContent='';
 
     //아이디 체크
     if(!form.loginId.value.trim()){
@@ -49,16 +89,49 @@ function joinCheck(form){
 		return false;
 	}
 
-
     if(!form.terms.checked){
         msg.textContent= "약관에 동의해주세요";
 		document.querySelector('.terms').appendChild(msg);
 		return false;
     }
+    
+    if(!validIdCheck){
+        msg.textContent= "아이디 중복 체크 해주세요";
+        document.querySelector('.login-id').appendChild(msg);
+        return false;
+    }
+
+    // fetch API를 사용하여 데이터를 서버로 전송
+    fetch('/manager/join', {
+        method: 'POST',
+        body: JSON.stringify({ loginId: form.loginId+"", password: form.password+"", phone: form.phone+""})
+    }).then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+        document.querySelector(".container").innerHTML='' +
+            '<h2>원활한 이용을 위해<br>본인인증이 필요합니다</h2>\n' +
+            '<form action="" method="post">\n' +
+            '                <div class="email">\n' +
+            '<label for="email">이메일<span> *</span></label>\n' +
+            '<input type="email" name="email" id="email" placeholder="이메일을 입력해주세요" onkeyup="emailCheck(form)">\n' +
+            '</div>\n' +
+            '<input type="button" class="button-verification" value="인증번호 발송" onclick="countDown(form)">\n' +
+            '<div class="verification">\n' +
+            '<label for="verification">인증번호 입력<span> *</span></label>\n' +
+            '<input type="number" name="verification" id="verification">\n' +
+            '</div>\n' +
+            '<input type="button" class="button" value="본인인증" onclick="verificationCheck(form)">\n' +
+            '</form>';
+        }).catch(error => {
+            console.error('추가 실패', error);
+        });
+
+
 }
 
 function passwordCompare(form){
-    if(form.password.value.trim()!=form.passwordCheck.value.trim()){
+    if(form.password.value.trim() !== form.passwordCheck.value.trim()){
         msgOk.textContent='';
         msg.textContent='비밀번호가 맞지 않습니다.';
         document.querySelector('.password-check').appendChild(msg);
@@ -76,6 +149,9 @@ function autoHyphen(form){
     .replace(/[^0-9]/g, '')
     .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
 }
+
+
+
 
 //본인인증------------------------------------------------------
 
@@ -129,7 +205,7 @@ function startTimer() {
     let timeArray = timeLeft.innerHTML.split(/[:]+/);
     let m = timeArray[0];
     let s = checkSecond((timeArray[1] - 1));
-    if(s==59){m=m-1}
+    if(s===59){m=m-1}
     if(m<0){
         return
     }

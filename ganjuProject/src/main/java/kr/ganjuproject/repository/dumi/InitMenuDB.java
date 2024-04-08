@@ -47,7 +47,6 @@ public class InitMenuDB {
                     category.getMenus().add(menu);
                 }
             }
-
 //          게시글 더미 데이터
             for (RoleCategory category : RoleCategory.values()) {
                 for (int i = 1; i <= 10; i++) {
@@ -78,6 +77,11 @@ public class InitMenuDB {
                 em.persist(review);
             }
 
+            Users user = new Users();
+            user.setLoginId("admin");
+            user.setPassword("1234");
+            user.setRole(RoleUsers.ROLE_ADMIN);
+            em.persist(user);
             System.out.println("더미 데이터 생성 완료");
         }
     }

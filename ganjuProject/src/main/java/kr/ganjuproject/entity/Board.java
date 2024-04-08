@@ -1,10 +1,7 @@
 package kr.ganjuproject.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -21,4 +18,8 @@ public class Board {
     private LocalDateTime regDate;
     @Enumerated(EnumType.STRING)
     private RoleCategory boardCategory;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id")
+    @ToString.Exclude
+    private Restaurant restaurant;
 }

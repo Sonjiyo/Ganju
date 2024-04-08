@@ -110,5 +110,9 @@ td:nth-child(2), th:nth-child(2){text-align: center;width: 20%;}
 td:last-child{width: 35%;}
 td:last-child, th:last-child{text-align: end;}
 th{padding-bottom: 10px;color: var(--gray);font-weight: normal;}
-.info .last{border-top:1px solid var(--light-gray);padding-top:10px;}
-tr:last-child td{border-top:1px solid var(--light-gray);}
+tr.last td{border-top:1px solid var(--light-gray);}
+tr:last-child td{width: 100%;justify-content: space-between;font-size: var(--font-content);}
+tr:last-child td button{background: var(--red);}
+tr:last-child td button:hover{background: var(--red-hover);}
+tr:last-child td button:first-child{margin-right: 20%;background: var(--gray);}
+tr:last-child td button:first-child:hover{background: var(--black);}
