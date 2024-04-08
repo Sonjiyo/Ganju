@@ -56,7 +56,7 @@ function resturantCheck(form){
         return false;
     }
 
-    
+    form.submit();
 }
 
 //이미지 미리보기

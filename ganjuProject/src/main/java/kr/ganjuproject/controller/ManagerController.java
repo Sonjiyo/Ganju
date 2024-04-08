@@ -34,7 +34,7 @@ public class ManagerController {
         user.setRole(RoleUsers.ROLE_MANAGER);
         managerService.insertUser(user);
 
-        session.setAttribute("log", userDTO.getLoginId());
+        session.setAttribute("log", user);
         return "";
     }
 
