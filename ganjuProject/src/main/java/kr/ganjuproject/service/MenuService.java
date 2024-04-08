@@ -23,7 +23,13 @@ public class MenuService {
         return menuRepository.findById(id);
     }
 
+    @Transactional
     public void delete(Long id) {
         menuRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void add(Menu menu) {
+        menuRepository.save(menu);
     }
 }

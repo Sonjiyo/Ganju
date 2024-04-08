@@ -2,7 +2,7 @@ function myFunction(menuNumber) {
     const dropdownContent = document.getElementById("myDropdown" + menuNumber);
     const isVisible = dropdownContent.classList.contains("show");
     closeAllDropdowns();
-    if(!isVisible) {
+    if (!isVisible) {
         dropdownContent.classList.add("show");
     }
 }
@@ -17,7 +17,7 @@ window.onclick = function (e) {
 function closeAllDropdowns() {
     const dropdowns = document.querySelectorAll(".dropdown-content");
     dropdowns.forEach(dropdown => {
-        if(dropdown.classList.contains("show")) {
+        if (dropdown.classList.contains("show")) {
             dropdown.classList.remove("show");
         }
     });
@@ -43,7 +43,7 @@ function deleteMenu(id, navNav) {
     fetch(`/category/${id}`, {
         method: 'DELETE',
     }).then(response => {
-        if(!response.ok) {
+        if (!response.ok) {
             throw new Error('삭제 실패');
         }
         navNav.remove();
@@ -59,20 +59,20 @@ const maxAllowed = 5;
 const checkboxes = document.querySelectorAll('.checkbox');
 
 // 체크박스의 변경 이벤트를 감지하여 처리합니다
-checkboxes.forEach(function(checkbox) {
-    checkbox.addEventListener('change', function() {
+checkboxes.forEach(function (checkbox) {
+    checkbox.addEventListener('change', function () {
         // 현재 선택된 체크박스 수를 계산합니다.
         const checkedCount = document.querySelectorAll('.checkbox:checked').length;
         // 만약 선택된 체크박스 수가 최대 허용치를 초과하면, 모든 체크박스를 비활성화합니다
         if (checkedCount >= maxAllowed) {
-            checkboxes.forEach(function(checkbox) {
+            checkboxes.forEach(function (checkbox) {
                 if (!checkbox.checked) {
                     checkbox.disabled = true;
                 }
             });
         } else {
             // 그렇지 않으면 모든 체크박스를 활성화합니다
-            checkboxes.forEach(function(checkbox) {
+            checkboxes.forEach(function (checkbox) {
                 checkbox.disabled = false;
             });
         }
