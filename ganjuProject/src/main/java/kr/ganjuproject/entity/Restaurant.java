@@ -21,6 +21,7 @@ public class Restaurant {
     private String address;
     private String phone;
     private int restaurantTable;
+    @Column
     private String logo;
     @Builder.Default
     private int recognize = 0;

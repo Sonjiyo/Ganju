@@ -1,4 +1,4 @@
-package kr.ganjuproject;
+package kr.ganjuproject.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
