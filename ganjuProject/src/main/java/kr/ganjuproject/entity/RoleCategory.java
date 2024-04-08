@@ -6,6 +6,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum RoleCategory {
-    NOTICE("notice"),REPORT("report"),QUESTION("qustion");
+    NOTICE("notice"),REPORT("report"),QUESTION("question");
     private final String role;
 }

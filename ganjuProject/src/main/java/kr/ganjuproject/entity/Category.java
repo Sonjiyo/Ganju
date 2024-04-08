@@ -1,5 +1,6 @@
 package kr.ganjuproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,5 +20,6 @@ public class Category {
     private String name;
     @OneToMany(mappedBy="id")
     @ToString.Exclude
+    @JsonBackReference
     private List<Menu> menus = new ArrayList<>();
 }

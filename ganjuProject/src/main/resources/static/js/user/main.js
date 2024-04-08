@@ -1,3 +1,8 @@
+const buttons = document.querySelectorAll(".tab-btn");
+const contents = document.querySelectorAll(".tab-content");
+const menusContainer = document.querySelector('.menus-container');
+const categoryContent = document.querySelector('.category-content');
+
 /* 식당 평점 별 부분*/
 function ratingStar(){
     const rating = document.querySelector('.ratings');
@@ -27,39 +32,6 @@ function ratingStar(){
         }
     }
 }
-
-/* 메뉴 공지 사항 리뷰 버튼 관련 부분 */
-const buttons = document.querySelectorAll(".tab-btn");
-const contents = document.querySelectorAll(".tab-content");
-
-// 탭 버튼 클릭 이벤트 핸들러
-function handleTabClick(event) {
-    // 모든 버튼과 컨텐츠 초기화
-    buttons.forEach(btn => {
-        btn.style.backgroundColor = 'inherit';
-        btn.style.color = '#717171';
-    });
-
-    contents.forEach(content => {
-        content.style.display = 'none';
-    });
-
-    // 클릭된 버튼과 관련된 컨텐츠 활성화
-    const selectedContentId = event.target.getAttribute('data-target');
-    const selectedContent = document.querySelector(`.${selectedContentId}`);
-
-    console.log(selectedContentId);
-    event.target.style.backgroundColor = 'var(--orange)';
-    event.target.style.color = 'var(--white)';
-    selectedContent.style.display = 'block';
-}
-
-// 각 버튼에 이벤트 리스너 추가
-buttons.forEach(button => {
-    button.addEventListener('click', handleTabClick);
-});
-
-
 // 슬라이더 부분
 const slider = document.querySelector('.category-content');
 let isDown = false;
@@ -94,7 +66,6 @@ slider.addEventListener('mousemove', (e) => {
 // 현재 활성화된 카테고리를 갱신하고 배경과 글씨 색 변견
 const categories = document.querySelectorAll('.category');
 const menuContainers = document.querySelectorAll('.menu-category');
-const categoryContent = document.querySelector('.category-content');
 
 // 카테고리 버튼 색상 변경 이벤트
 function setActiveCategory() {
@@ -121,8 +92,6 @@ function ensureCategoryVisible(category) {
     const categoryRect = category.getBoundingClientRect();
     const containerRect = categoryContent.getBoundingClientRect();
 
-    console.log(category);
-    console.log("들어는 오니");
     if (categoryRect.left < containerRect.left) {
         // 카테고리 버튼이 뷰포트 왼쪽 밖에 위치한 경우
         categoryContent.scrollLeft -= (containerRect.left - categoryRect.left) + 20; // 여백 추가
@@ -134,8 +103,8 @@ function ensureCategoryVisible(category) {
 
 // 카테고리 클릭 이벤트
 categories.forEach(category => {
-    category.addEventListener('click', () => {
-        const targetId = this.getAttribute('data-targets');
+    category.addEventListener('click', e => {
+        const targetId = e.currentTarget.getAttribute('data-targets');
         const targetElement = document.getElementById(targetId);
 
         if (targetElement) {

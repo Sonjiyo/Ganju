@@ -6,6 +6,8 @@
     <link href="/css/style.css" rel="stylesheet">
     <link href="/css/user/main.css" rel="stylesheet" type="text/css">
     <script src="/js/user/main.js" type="text/javascript" defer></script>
+    <!--너무 길어져서 비동기 부분 따로 뺌-->
+    <script src="/js/user/validate/validateMain.js" type="text/javascript" defer></script>
 </head>
 <body>
 <div class="innerBox">
@@ -35,8 +37,8 @@
         </div>
         <div class="buttons">
             <button class="menu-btn button tab-btn" data-target="menu-content">메뉴</button>
-            <button class="announcement-btn button tab-btn" data-target="announcement-content">공지사항</button>
-            <button class="reviews-btn button tab-btn" data-target="review-content">리뷰</button>
+            <button class="board-btn button tab-btn" data-target="board-content">공지사항</button>
+            <button class="review-btn button tab-btn" data-target="review-content">리뷰</button>
         </div>
         <div class="content">
             <div class="menu-content tab-content">
@@ -44,8 +46,8 @@
                     <div th:each="category : ${categories}" class="category" th:text="${category.name}" th:data-targets="'menu-category-' + ${category.id}"></div>
                 </div>
                 <div class="menus-container">
-                    <div th:each="category : ${categories}" class="menu-category"  th:id="'menu-category-' + ${category.id}" th:data-category-id="${category.id}" >
-                        <div th:text="${category.name}" class="category-name"></div>
+                    <div class="menu-category" th:each="category : ${categories}" th:id="'menu-category-' + ${category.id}" th:data-category-id="${category.id}" >
+                        <div class="category-name" th:text="${category.name}"></div>
                         <div class="menus" th:each="menu : ${menus}">
                             <div th:if="${menu.category.id} == ${category.id}" class="menu" th:onclick="'location.href=\'/menu/info?id=' + ${menu.id} + '\''">
                                 <div class="image">
@@ -62,43 +64,7 @@
                     </div>
                 </div>
             </div>
-            <div class="announcement-content tab-content">
-                <div class="announcement">
-                    <div class="title">
-                        <div class="text">공지사항1</div>
-                        <div class="date">16:12</div>
-                    </div>
-                    <div class="content">쉬고싶어서 쉽니다</div>
-                </div>
-                <div class="announcement">
-                    <div class="title">
-                        <div class="text">공지사항2</div>
-                        <div class="date">2024.04.03</div>
-                    </div>
-                    <div class="content">아파서 쉽니다</div>
-                </div>
-                <div class="announcement">
-                    <div class="title">
-                        <div class="text">공지사항3</div>
-                        <div class="date">2024.04.02</div>
-                    </div>
-                    <div class="content">싱숭생숭해서 쉽니다</div>
-                </div>
-                <div class="announcement">
-                    <div class="title">
-                        <div class="text">공지사항4</div>
-                        <div class="date">2024.04.01</div>
-                    </div>
-                    <div class="content">해어져서 쉽니다</div>
-                </div>
-                <div class="announcement">
-                    <div class="title">
-                        <div class="text">공지사항5</div>
-                        <div class="date">2024.03.20</div>
-                    </div>
-                    <div class="content">그냥 쉽니다</div>
-                </div>
-            </div>
+            <div class="board-content tab-content"></div>
             <div class="review-content tab-content">
                 <div class="review">
                     <div class="title">박윤재</div>

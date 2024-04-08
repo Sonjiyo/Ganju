@@ -95,7 +95,7 @@
 }
 
 /* 공지사항 */
-.container .buttons .announcement-btn{
+.container .buttons .board-btn{
     background-color: inherit;
     color: var(--gray);
     border: 0;
@@ -106,7 +106,7 @@
 }
 
 /* 리뷰 */
-.container .buttons .reviews-btn{
+.container .buttons .review-btn{
     background-color: inherit;
     color: var(--gray);
     border: 0;
@@ -212,29 +212,29 @@
 }
 
 /* 공지사항 콘텐츠 */
-.container .content .announcement-content{
+.container .content .board-content{
     width: 100%;
     display: none;
 }
-.container .content .announcement-content .announcement {
+.container .content .board-content .announcement {
     width: 100%;
     display: flex;
     flex-direction: column;
     padding: 20px;
     border-bottom: 2px solid var(--light-gray);
 }
-.container .content .announcement-content .announcement .title {
+.container .content .board-content .announcement .title {
     padding:0;
     font-size: var(--font-middle);
     color: var(--black);
     margin-bottom: 20px;
 }
-.container .content .announcement-content .announcement .date{
+.container .content .board-content .announcement .date{
     padding:0;
     font-size: var(--font-small);
     color: var(--light-gray);
 }
-.container .content .announcement-content .announcement .content{
+.container .content .board-content .announcement .content{
     padding:0;
     font-size: var(--font-content);
     color: var(--gray);
