@@ -12,9 +12,10 @@ import java.util.List;
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
 
-    // 메인 메뉴에서 비동기로 공지사항만 가져갈때 쓰는 메서드
-    @Query("SELECT b FROM Board b WHERE b.boardCategory = 'NOTICE'")
-    List<Board> noticeGetList();
+    // 메인 메뉴에서 비동기로 공지사항만 가져갈때 쓰는 메서드 
+    // 더보기 처리 때문에 안씀
+//    @Query("SELECT b FROM Board b WHERE b.boardCategory = 'NOTICE'")
+//    List<Board> noticeGetList();
 
     List<Board> findByBoardCategory(RoleCategory category);
 

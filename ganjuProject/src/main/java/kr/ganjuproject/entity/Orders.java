@@ -27,4 +27,5 @@ public class Orders {
     @OneToOne(mappedBy = "order")
     @ToString.Exclude
     private Review review;
+    private String uid;
 }

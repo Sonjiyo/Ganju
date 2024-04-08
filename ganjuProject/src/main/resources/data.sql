@@ -1,0 +1,37 @@
+-- -- 관리자 생성
+-- INSERT INTO users(loginId, password, email, phone, role) VALUES ('admin', '1234', 'admin@admin.com', '010-0000-0000', 'ROLE_ADMIN');
+--
+-- -- 매니저와 식당 생성
+-- INSERT INTO users(loginId, password, email, phone, role) VALUES ('manager1', '1234', 'manager1@manager.com', '010-1234-5678', 'ROLE_MANAGER');
+-- SET @manager1Id = LAST_INSERT_ID();
+-- INSERT INTO restaurant(name, address, phone, restaurantTable, logo, recognize, user_id) VALUES ('한식당', '서울시 강남구', '02-1234-5678', 10, 'logo1.png', 0, @manager1Id);
+--
+-- INSERT INTO users(loginId, password, email, phone, role) VALUES ('manager2', '1234', 'manager2@manager.com', '010-2222-3333', 'ROLE_MANAGER');
+-- SET @manager2Id = LAST_INSERT_ID();
+-- INSERT INTO restaurant(name, address, phone, restaurantTable, logo, recognize, user_id) VALUES ('양식당', '서울시 강남구', '02-1234-5678', 10, 'logo2.png', 0, @manager2Id);
+--
+-- -- 카테고리 추가
+-- INSERT INTO category(name) VALUES ('한식');
+-- SET @categoryId = LAST_INSERT_ID();
+--
+-- -- 메뉴 추가
+-- INSERT INTO menu(name, price, category_id, restaurant_id) VALUES ('김치찌개', 7000, @categoryId, @manager1Id);
+--
+-- -- 메뉴 옵션 추가
+-- INSERT INTO menu_option(content, menu_id) VALUES ('사이즈 업', (SELECT id FROM menu WHERE name='김치찌개'));
+-- SET @menuOptionId = LAST_INSERT_ID();
+--
+-- -- 메뉴 옵션 값 추가
+-- INSERT INTO menu_option_value(content, menu_option_id) VALUES ('대', @menuOptionId);
+--
+--
+--
+-- -- 게시글 추가
+-- INSERT INTO board(name, title, content, boardCategory, restaurant_id) VALUES ('운영자', '공지사항', '신메뉴 출시', 'NOTICE', @manager1Id);
+--
+-- -- 리뷰 추가
+-- -- 먼저 주문을 추가해야 합니다. 주문 추가 코드는 여기에 포함되지 않았습니다.
+-- -- 주문 ID를 가정하여 추가합니다. (주문 테이블과 연결된 실제 데이터를 사용해야 함)
+-- INSERT INTO review(name, content, star, restaurant_id, order_id) VALUES ('리뷰어', '맛있어요!', 5, @manager1Id, 1); -- order_id는 실제 주문 데이터에 따라 변경 필요
+--
+-- -- 데이터 추가가 완료됨
