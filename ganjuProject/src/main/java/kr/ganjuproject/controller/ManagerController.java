@@ -1,10 +1,11 @@
 package kr.ganjuproject.controller;
 
+import kr.ganjuproject.entity.Users;
+import kr.ganjuproject.service.ManagerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @Slf4j
@@ -12,10 +13,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class ManagerController {
 
+    private final ManagerService managerService;
+
     @GetMapping("join")
     public String join(){
+
         return "manager/join";
     }
+
+    @PostMapping("join")
+    public @ResponseBody String insertUser(Users user){
+        System.out.println(user);
+        return "";
+    }
+
+    @PostMapping("join/{loginId}")
+    public @ResponseBody String validIdCheck(@PathVariable String loginId){
+        return managerService.isVaildId(loginId) ? "ok" : "no";
+    }
+
     @GetMapping("joinVerification")
     public String joinVerification(){
         return "manager/joinVerification";

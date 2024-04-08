@@ -1,14 +1,13 @@
 package kr.ganjuproject.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Builder
 @Entity
 @Data
 @NoArgsConstructor
@@ -22,6 +21,8 @@ public class Restaurant {
     private String phone;
     private int restaurantTable;
     private String logo;
+    @Builder.Default
+    private int recognize = 0;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(unique = true)
     @ToString.Exclude
