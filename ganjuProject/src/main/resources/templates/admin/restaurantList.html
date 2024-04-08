@@ -19,53 +19,56 @@
                 <div onclick="location.href='/admin/restaurantList'" class="on">식당 관리</div>
                 <div onclick="location.href='/admin/reportList'">신고 내역</div>
             </div>
-            <ul class="resturant-list">
+            <ul class="resturant-list" th:each="manager : ${list}">
                 <li>
                     <div class="title">
                         <div class="title-left">
                             <div class="logo"><img src="https://picsum.photos/id/237/200" alt="resturant img"></div>
                             <div class="resturant-name">
-                                <p class="name">더조은 식당</p>
-                                <p class="login-id">thejoeun</p>
+                                <p class="name" th:text="${manager.restaurant.name}">더조은 식당</p>
+                                <p class="login-id" th:text="${manager.loginId}">thejoeun</p>
                             </div>
                         </div>
                         <div class="title-right">
-                            <div class="badge waiting">대기중</div>
+                            <div class="badge waiting" th:if="${manager.restaurant.recognize eq 0}">대기중</div>
+                            <div class="badge success" th:if="${manager.restaurant.recognize eq 1}">승인완료</div>
+                            <div class="badge refuse" th:if="${manager.restaurant.recognize eq -1}">거절됨</div>
                             <button><i class="fas fa-chevron-down"></i></button>
                         </div>
                     </div>
                     <table class="content">
                         <tr>
                             <td>아이디</td>
-                            <td>thejoeun</td>
+                            <td th:text="${manager.loginId}">thejoeun</td>
                         </tr>
                         <tr>
                             <td>비밀번호</td>
                             <td>
-                                <input type="password" value="11111111" class="password" readonly>
+                                <input type="password" th:value="${manager.password}" class="password" readonly>
                                 <span><i class="far fa-eye-slash passwordEye"></i></span></td>
                         </tr>
                         <tr>
                             <td>이메일</td>
-                            <td>thejoeun@korea.co.kr</td>
+                            <td th:text="${manager.email}">thejoeun@korea.co.kr</td>
                         </tr>
                         <tr>
                             <td>전화번호</td>
-                            <td>010-1234-1234</td>
+                            <td th:text="${manager.phone}">010-1234-1234</td>
                         </tr>
                         <tr>
                             <td>가게번호</td>
-                            <td>02-1234-1234</td>
+                            <td th:text="${manager.restaurant.phone}">02-1234-1234</td>
                         </tr>
                         <tr>
                             <td>주소</td>
-                            <td>서울시 용산구 어쩌구 저쩌구 엄청나게 긴 주소 쓰기 연습 어쩌구 저쩌구 </td>
+                            <td th:text="${manager.restaurant.address}">서울시 용산구 어쩌구 저쩌구 엄청나게 긴 주소 쓰기 연습 어쩌구 저쩌구 </td>
                         </tr>
                         <tr>
                             <td colspan="2">
                                 <div class="flex">
-                                    <a href="">승인하기</a>
-                                    <a href="" class="refuse">거절하기</a>
+                                    <a href="" th:if="${manager.restaurant.recognize ne 1}">승인하기</a>
+                                    <a href="" class="refuse" th:if="${manager.restaurant.recognize eq 0}">거절하기</a>
+                                    <a href="" class="refuse" th:if="${manager.restaurant.recognize ne 0}">탈퇴하기</a>
                                 </div>
                             </td>
                         </tr>

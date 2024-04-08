@@ -5,7 +5,7 @@ import lombok.*;
 
 @Entity
 @Data
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
 public class Users {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +17,6 @@ public class Users {
     @OneToOne(mappedBy = "user")
     @ToString.Exclude
     private Restaurant restaurant;
-    private int approve;
     @Enumerated(EnumType.STRING)
     private RoleUsers role;
 

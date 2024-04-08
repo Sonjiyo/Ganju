@@ -1,8 +1,11 @@
 package kr.ganjuproject.controller;
 
 import kr.ganjuproject.entity.Board;
+import kr.ganjuproject.entity.Restaurant;
+import kr.ganjuproject.entity.Users;
 import kr.ganjuproject.service.BoardService;
 import kr.ganjuproject.service.ManagerService;
+import kr.ganjuproject.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -22,7 +25,9 @@ public class AdminController {
     private final BoardService boardService;
 
     @GetMapping("/restaurantList")
-    public String restaurantList(){
+    public String restaurantList(Model model){
+        List<Users> list = managerService.getManagerList();
+        model.addAttribute("list", list);
         return "admin/restaurantList";
     }
     @GetMapping("/reportList")

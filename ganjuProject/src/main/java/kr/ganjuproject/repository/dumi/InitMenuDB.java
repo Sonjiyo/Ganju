@@ -2,9 +2,7 @@ package kr.ganjuproject.repository.dumi;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
-import kr.ganjuproject.entity.Category;
-import kr.ganjuproject.entity.Menu;
-import kr.ganjuproject.entity.Restaurant;
+import kr.ganjuproject.entity.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -48,6 +46,11 @@ public class InitMenuDB {
                     category.getMenus().add(menu);
                 }
             }
+            Users user = new Users();
+            user.setLoginId("admin");
+            user.setPassword("1234");
+            user.setRole(RoleUsers.ROLE_ADMIN);
+            em.persist(user);
             System.out.println("더미 데이터 생성 완료");
         }
     }
