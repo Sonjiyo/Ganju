@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <div th:replace="fragments/header :: header('주문관리')"></div>
     <link rel="stylesheet" href="/css/manager/order.css" type="text/css">
     <script src="/js/manager/order.js" defer type="text/javascript"></script>
 </head>
@@ -15,9 +12,7 @@
                 <a href=""><i class="fas fa-home"></i></a>
             </div>
             <p>주문관리</p>
-            <div>
-                <a href="#"></a>
-            </div>
+            <div></div>
         </header>
         <div class="container">
             <ul class="order-state-summary">
@@ -86,10 +81,17 @@
                             <td>25</td>
                             <td>267,000</td>
                         </tr>
+                        <tr>
+                            <td colspan="3">
+                                <button class="button">거부</button>
+                                <button class="button">승인</button>
+                            </td>
+                        </tr>
                     </table>
                 </li>
             </ul>
         </div>
+        <footer th:replace="fragments/footer :: footer(order)"></footer>
     </div>
 </body>
 </html>

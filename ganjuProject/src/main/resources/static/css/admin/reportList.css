@@ -22,11 +22,13 @@
     padding:var(--padding);
     position: relative;
     margin-bottom: var(--padding);
+    display: flex;
+    flex-direction: column;
 }
 .review .title{margin-bottom:var(--padding);font-weight: bold;}
 .review .title span{font-weight:normal;font-size: var(--font-small);color:var(--gray);margin-left:15px;}
 
-.review li button{
+.review li button:has(i){
     position: absolute;
     top:0;right:0;
     padding:10px 15px;
@@ -35,5 +37,9 @@
     border: none;
     background: inherit;
     cursor: pointer;
+}
+.review li .button{
+    margin-top:var(--padding);
+    align-self: flex-end;
 }
 
