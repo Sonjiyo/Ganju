@@ -6,11 +6,14 @@ import kr.ganjuproject.service.CategoryService;
 import kr.ganjuproject.service.MenuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -22,6 +25,7 @@ public class MenuController {
     private final MenuService menuService;
     private final CategoryService categoryService;
 
+    // 메인 메뉴 첫 페이지
     @GetMapping("/main")
     public String main(Model model) {
         List<Category> categories = categoryService.getList();
@@ -29,6 +33,21 @@ public class MenuController {
         List<Menu> menus = menuService.getList();
         model.addAttribute("menus", menus);
         return "user/main";
+    }
+
+    // 비동기 메인 메뉴 데이터
+    @GetMapping("/validateMenuMenu")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>>  validateMenu(Model model) {
+        System.out.println("비동기 메뉴");
+        Map<String, Object> response = new HashMap<>();
+        List<Category> categories = categoryService.getList();
+        List<Menu> menus = menuService.getList();
+
+        response.put("categories", categories);
+        response.put("menus", menus);
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/info")
