@@ -20,4 +20,6 @@ public class ManagerService {
     public boolean isVaildId(String loginId){
         return managerRepository.findByLoginId(loginId).isEmpty();
     }
+    @Transactional
+    public Users insertUser(Users user){return managerRepository.save(user);}
 }

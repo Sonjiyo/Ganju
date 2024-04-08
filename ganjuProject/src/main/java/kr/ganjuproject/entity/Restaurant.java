@@ -1,5 +1,6 @@
 package kr.ganjuproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -20,16 +21,15 @@ public class Restaurant {
     private String address;
     private String phone;
     private int restaurantTable;
+    @Column
     private String logo;
     @Builder.Default
     private int recognize = 0;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(unique = true)
     @ToString.Exclude
+    @JsonBackReference
     private Users user;
-    @OneToMany(mappedBy = "id")
-    @ToString.Exclude
-    private List<RestaurantImage> images = new ArrayList<>();
     @OneToMany(mappedBy = "id")
     @ToString.Exclude
     private List<Review> reviews = new ArrayList<>();
@@ -39,4 +39,12 @@ public class Restaurant {
     @OneToMany(mappedBy = "id")
     @ToString.Exclude
     private List<Menu> menus = new ArrayList<>();
+
+    public Restaurant(String name, String address, String phone, int restaurantTable, String logo) {
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+        this.restaurantTable = restaurantTable;
+        this.logo = logo;
+    }
 }

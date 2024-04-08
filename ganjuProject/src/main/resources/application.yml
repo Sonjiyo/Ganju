@@ -25,3 +25,16 @@ spring:
 
 server:
   port: 8081
+
+cloud:
+  aws:
+    s3:
+      bucket: ganju-test # {버킷명}
+    credentials:
+      access-key:
+      secret-key:
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
