@@ -1,7 +1,5 @@
 package kr.ganjuproject.service;
 
-
-
 import kr.ganjuproject.entity.Category;
 import kr.ganjuproject.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,5 +16,15 @@ public class CategoryService {
 
     public List<Category> getList(){
         return categoryRepository.findAll();
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        categoryRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void add(Category category) {
+        categoryRepository.save(category);
     }
 }

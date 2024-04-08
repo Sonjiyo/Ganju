@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 
 function deleteMenu(id, navNav) {
-    fetch(`/category/${id}`, {
+    fetch(`/menu/${id}`, {
         method: 'DELETE',
     }).then(response => {
         if (!response.ok) {
@@ -78,3 +78,7 @@ checkboxes.forEach(function (checkbox) {
         }
     });
 });
+
+const addMenuReq = () => {
+    location.href = "/menu/add";
+}
