@@ -23,12 +23,13 @@
     </header>
     <div class="container">
         <div class="option">
-            <p>카테고리 선택</p>
-            <select name="option" id="option">
-                <option value="none" selected>선택 안함</option>
-                <option value="ramen">라면</option>
-                <option value="spaghetti">스파게티</option>
-                <option value="mandu">만두</option>
+            <label for="category">카테고리 선택</label>
+            <select name="category" id="category">
+                <option value="" selected disabled>선택 안함</option>
+                <option th:each="category:${categories}"
+                        th:value="${category.id}"
+                        th:text="${category.name}">
+                </option>
             </select>
         </div>
         <div class="imgbox">

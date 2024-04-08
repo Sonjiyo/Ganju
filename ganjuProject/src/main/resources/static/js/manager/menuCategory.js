@@ -71,6 +71,40 @@ main.addEventListener('click', () => {
     menuc.style.display = 'none';
 })
 
-const addMenuReq = () => {
-    location.href = "/category/add";
+document.addEventListener("DOMContentLoaded", function () {
+    const deleteBtn = document.querySelectorAll('.menu_menu');
+    deleteBtn.forEach(button => {
+        button.addEventListener('click', function () {
+            const nava = button.closest('a');
+            const id = button.dataset.id;
+            if(id) {
+                deleteCategory(id, nava);
+            } else{
+                console.error("id 정의 되지 않음");
+            }
+        })
+    })
+})
+
+function deleteCategory(id, nava){
+    fetch(`/category/${id}`, {
+        method: 'DELETE',
+    }).then(response => {
+        if(!response.ok) {
+            throw new Error('삭제 실패');
+        }
+        nava.remove();
+    }).catch(error => {
+        console.error('삭제 실패함', error);
+    })
 }
+
+// 옵션 추가 버튼 클릭 시 모달 창 열기
+document.querySelector('.padding').addEventListener('click', function () {
+    document.querySelector('.modal').style.display = 'block';
+});
+
+// 모달 창 닫기
+document.querySelector('.close').addEventListener('click', function () {
+    document.querySelector('.modal').style.display = 'none';
+});
