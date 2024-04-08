@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
@@ -22,6 +23,7 @@ public class Review {
     private Restaurant restaurant;
     private String name;
     private String content;
+    @CreatedDate // 나중에 service 쪽에서 정렬 기준으로 삼기 위한 메서드
     private LocalDateTime regDate;
     private int star;
     @OneToOne(fetch = FetchType.LAZY)

@@ -3,8 +3,11 @@ const contents = document.querySelectorAll(".tab-content");
 const menusContainer = document.querySelector('.menus-container');
 const categoryContent = document.querySelector('.category-content');
 
+// 화면 맨 위로 올라가는 버튼 관련
+const scrollTopBtn = document.querySelector('.scroll-to-top');
+
 /* 식당 평점 별 부분*/
-function ratingStar(){
+function ratingStar() {
     const rating = document.querySelector('.ratings');
     const stars = rating.querySelectorAll('.stars span i');
     const label = rating.querySelector('label');
@@ -19,12 +22,11 @@ function ratingStar(){
 
     // 평점에 따라 별 아이콘 적용
     for (let i = 0; i < stars.length; i++) {
-        if ((ratingValue - i) > 1 ) {
+        if ((ratingValue - i) > 1) {
             stars[i].classList.remove('far', 'fa-star-half-alt');
             stars[i].classList.add('fas', 'fa-star');
             stars[i].style.color = 'var(--gold)'; // 채워진 별 색상
-        }
-        else if((ratingValue - i) >= 0.5){
+        } else if ((ratingValue - i) >= 0.5) {
             stars[i].classList.remove('far', 'fa-star');
             stars[i].classList.add('fas', 'fa-star-half-alt');
             stars[i].style.color = 'var(--gold)'; // 반 채워진 별 색상
@@ -32,6 +34,7 @@ function ratingStar(){
         }
     }
 }
+
 // 슬라이더 부분
 const slider = document.querySelector('.category-content');
 let isDown = false;
@@ -56,7 +59,7 @@ slider.addEventListener('mouseup', () => {
 });
 
 slider.addEventListener('mousemove', (e) => {
-    if(!isDown) return;
+    if (!isDown) return;
     e.preventDefault();
     const x = e.pageX - slider.offsetLeft;
     const walk = (x - startX) * 3; //scroll-fast
@@ -101,31 +104,34 @@ function ensureCategoryVisible(category) {
     }
 }
 
+// 카테고리 클릭 리스너를 위한 분리된 함수
+function categoryClickListener(e) {
+    const targetId = e.currentTarget.getAttribute('data-targets');
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+        // category-content의 높이를 가져옵니다.
+        const categoryContentHeight = document.querySelector('.category-content').offsetHeight;
+
+        // targetElement까지의 절대 위치를 계산합니다.
+        const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+
+        // category-content의 높이만큼 위치를 조정합니다.
+        const offsetPosition = elementPosition - categoryContentHeight;
+
+        // 계산된 위치로 스크롤합니다.
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+        });
+    }
+    // 현재 클릭된 카테고리가 화면에 완전히 보이도록 스크롤 조정
+    ensureCategoryVisible(e.currentTarget); // 여기서 this는 현재 클릭된 카테고리 요소입니다.
+}
+
 // 카테고리 클릭 이벤트
 categories.forEach(category => {
-    category.addEventListener('click', e => {
-        const targetId = e.currentTarget.getAttribute('data-targets');
-        const targetElement = document.getElementById(targetId);
-
-        if (targetElement) {
-            // category-content의 높이를 가져옵니다.
-            const categoryContentHeight = document.querySelector('.category-content').offsetHeight;
-
-            // targetElement까지의 절대 위치를 계산합니다.
-            const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-
-            // category-content의 높이만큼 위치를 조정합니다.
-            const offsetPosition = elementPosition - categoryContentHeight;
-
-            // 계산된 위치로 스크롤합니다.
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: "smooth"
-            });
-        }
-        // 현재 클릭된 카테고리가 화면에 완전히 보이도록 스크롤 조정
-        ensureCategoryVisible(this); // 여기서 this는 현재 클릭된 카테고리 요소입니다.
-    });
+    category.addEventListener('click', categoryClickListener);
 });
 
 // 페이지 로드 시 .category-content의 원래 위치를 계산하여 저장
@@ -135,47 +141,53 @@ const originalOffsetTop = stickyElement.offsetTop - headerOffset; // header 높�
 
 // 스크롤 이벤트 리스너를 추가하는 새 함수
 window.addEventListener('scroll', () => {
-    if (window.pageYOffset >= originalOffsetTop ) {
+    if (window.pageYOffset >= originalOffsetTop) {
         stickyElement.classList.add('sticky');
     } else {
         stickyElement.classList.remove('sticky');
     }
+
+    if (window.scrollY > 100) { // 사용자가 100px 이상 스크롤하면 버튼 표시
+        scrollTopBtn.style.display = 'flex';
+    } else {
+        scrollTopBtn.style.display = 'none';
+    }
 });
 
 // 리뷰 별점 정수값을 별 개수로 표시하는
-function reviewStar(){
-    const reviewStars = document.querySelectorAll('.review .star');
+function reviewStar(star) {
+    const rating = parseInt(star.getAttribute('data-rating'));
+    const totalStars = 5;
+    let starsHtml = '';
 
-    reviewStars.forEach(star => {
-        const rating = parseInt(star.getAttribute('data-rating'));
-        const totalStars = 5;
-        let starsHtml = '';
+    // 채워진 별 생성
+    for (let i = 1; i <= rating; i++) {
+        starsHtml += '<span><i class="fas fa-star"></i></span>';
+    }
 
-        // 채워진 별 생성
-        for (let i = 1; i <= rating; i++) {
-            starsHtml += '<span><i class="fas fa-star"></i></span>';
-        }
+    // 빈 별 생성
+    for (let i = rating + 1; i <= totalStars; i++) {
+        starsHtml += '<span><i class="far fa-star"></i></span>';
+    }
 
-        // 빈 별 생성
-        for (let i = rating + 1; i <= totalStars; i++) {
-            starsHtml += '<span><i class="far fa-star"></i></span>';
-        }
-
-        // 별점을 HTML에 삽입
-        star.innerHTML = starsHtml;
-    });
+    // 별점을 HTML에 삽입
+    star.innerHTML = starsHtml;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     // 별포 표시 부분 함수
     ratingStar();
 
-    // 리뷰 콘텐츠의 별점 개수 표시 하는 함수
-    reviewStar();
-
     // 스크롤 이벤트
     window.addEventListener('scroll', setActiveCategory);
 
     // 초기 활성화 카테고리 설정
     setActiveCategory();
+});
+
+scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
 });

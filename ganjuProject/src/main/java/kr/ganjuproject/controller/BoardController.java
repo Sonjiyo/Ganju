@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
@@ -26,12 +27,13 @@ public class BoardController {
     // 비동기로 데이터 보내기
     @GetMapping("/validateMenuBoard")
     @ResponseBody
-    public ResponseEntity<Map<String, Object>>  validateBoard(Model model) {
+    public ResponseEntity<Map<String, Object>>  validateBoard(@RequestParam(defaultValue = "0") int page) {
         System.out.println("비동기 공지");
         Map<String, Object> response = new HashMap<>();
-        List<Board> boards = boardService.noticeGetList();
+        List<Board> boards = boardService.noticeGetList(page);
 
         response.put("boards", boards);
+        response.put("size", boardService.findAll().size() );
         return ResponseEntity.ok(response);
     }
 }

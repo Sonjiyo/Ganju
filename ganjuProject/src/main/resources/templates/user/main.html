@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <meta charset="UTF-8" />
-    <title></title>
-    <link href="/css/style.css" rel="stylesheet">
+    <div th:replace="fragments/header :: header('더조은 식당')"></div>
     <link href="/css/user/main.css" rel="stylesheet" type="text/css">
     <script src="/js/user/main.js" type="text/javascript" defer></script>
     <!--너무 길어져서 비동기 부분 따로 뺌-->
@@ -31,7 +29,7 @@
                     <span><i class="far fa-star"></i></span>
                     <span><i class="far fa-star"></i></span>
                 </div>  <!-- 5개의 별을 기본으로 설정 -->
-                <label>3.8</label> <!-- 예시 평점 -->
+                <label th:text="${ staAve }"></label> <!-- 예시 평점 -->
             </div>
             <button class="call-button button">호출하기</button>
         </div>
@@ -66,35 +64,16 @@
             </div>
             <div class="board-content tab-content"></div>
             <div class="review-content tab-content">
-                <div class="review">
-                    <div class="title">박윤재</div>
-                    <div class="mid">
-                        <!-- 여기에 별점을 표시할 div를 추가합니다. 데이터 속성(data-rating)을 사용하여 별점을 지정합니다. -->
-                        <div class="star" data-rating="5"></div>
-                        <div class="date">1달전</div>
-                    </div>
-                    <div class="content">음식이 친절하고 사장님이 맛있어요</div>
-                </div>
-                <div class="review">
-                    <div class="title">손지영</div>
-                    <div class="mid">
-                        <div class="star" data-rating="4"></div>
-                        <div class="date">2024.04.01</div>
-                    </div>
-                    <div class="content">1주전</div>
-                </div>
-                <div class="review">
-                    <div class="title">윤경재</div>
-                    <div class="mid">
-                        <div class="star" data-rating="1"></div>
-                        <div class="date">2시간전</div>
-                    </div>
-                    <div class="content">집에 보내주세요</div>
-                </div>
+            </div>
+            <div class="review-plus">
+                <button id="loadMoreReviews" class="load-more button">더 보기</button>
             </div>
         </div>
     </div>
-    <footer></footer>
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
     <template  th:replace="~{user/modal/modal :: modal}" ></template>
 </div>
 </body>

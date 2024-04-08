@@ -4,6 +4,7 @@ import kr.ganjuproject.entity.Category;
 import kr.ganjuproject.entity.Menu;
 import kr.ganjuproject.service.CategoryService;
 import kr.ganjuproject.service.MenuService;
+import kr.ganjuproject.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ public class MenuController {
 
     private final MenuService menuService;
     private final CategoryService categoryService;
+    private final ReviewService reviewService;
 
     // 메인 메뉴 첫 페이지
     @GetMapping("/main")
@@ -32,6 +34,8 @@ public class MenuController {
         model.addAttribute("categories", categories);
         List<Menu> menus = menuService.getList();
         model.addAttribute("menus", menus);
+//      리뷰 평균 점수
+        model.addAttribute("staAve", reviewService.getAverageRating(1L));
         return "user/main";
     }
 
