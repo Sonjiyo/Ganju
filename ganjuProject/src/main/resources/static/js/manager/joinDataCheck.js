@@ -184,6 +184,7 @@ function countDown(form){
 
     emailCheck(form);
     if(!emailPatternCheck){return false;}
+    timeCheck = true;
 
     fetch(`/email/${form.email.value}`, {
         method: 'POST',
@@ -195,7 +196,7 @@ function countDown(form){
         console.error('확인 실패', error);
     });
 
-    timeLeft.innerHTML = 0o2 + ":" + 0o0;
+    timeLeft.innerHTML = 0o3 + ":" + 0o0;
     document.querySelector('.verification label').appendChild(timeLeft);
     startTimer();
 }
@@ -257,8 +258,9 @@ function startTimer() {
     let timeArray = timeLeft.innerHTML.split(/[:]+/);
     let m = timeArray[0];
     let s = checkSecond((timeArray[1] - 1));
-    if(s===59){m=m-1}
+    if(s==59){m=m-1}
     if(m<0){
+        timeCheck = false;
         return;
     }
     
