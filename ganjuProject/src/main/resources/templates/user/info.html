@@ -12,81 +12,52 @@
     <header></header>
     <div class="container">
         <form action="/user/info" method="post" class="info-form">
+            <input class="menuId" name="menuId" type="hidden" th:value="${menu.id}">
             <div class="menu-image">
                 <!-- th:src="@{'/images/' + ${menu.menuImage}}" -->
                 <img src="/images/sample.png" alt="음식 이미지" class="menu-img">
             </div>
-            <div th:text="${menu}"></div>
-            <div th:each="mo : ${menuOption}">
-                <div th:text="${mo}"></div>
-            </div>
-            <div th:each="mov : ${menuOptionValue}">
-                <div th:text="${mov}"></div>
-            </div>
-
             <div class="info">
                 <div class="title" th:text="${menu.name}"></div>
                 <div class="contents" th:text="${menu.info}"></div>
                 <div class="price" th:text="${menu.price}"></div>
             </div>
-            <!-- 메뉴 옵션을 동적으로 표시하는 부분 -->
+            <!-- 메뉴 옵션 중 REQUIRED만 표시하는 부분 -->
             <div th:each="menuOption : ${menuOptions}">
-                <div class="option">
+                <div class="option" th:if="${menuOption.menuOptionId == T(kr.ganjuproject.entity.RoleMenuOption).REQUIRED}">
                     <div class="title">
                         <div class="text" th:text="${menuOption.content}"></div>
-                        <!-- 필수/선택 표시, 조건부로 표시 변경 가능 -->
-                        <div class="select" th:text="${menuOption.menuOptionId ? 'REQUIRED' : 'OPTIONAL'}"></div>
+                        <div class="select">필수</div>
                     </div>
-                    <div class="contents">
-                        <!-- 메뉴 옵션 값 표시 -->
-                        <div th:each="value : ${menuOptionValues[menuOption.id]}">
-                            <label class="select">
-                                <input th:type="${menuOption.type == 'CHECKBOX' ? 'checkbox' : 'radio'}" th:name="${'option' + menuOption.id}" th:value="${value.id}" class="check">
-                                <span class="content" th:text="${value.name}"></span>
-                                <span class="price" th:if="${value.price != null}" th:text="${'+' + value.price + '원'}"></span>
-                            </label>
-                        </div>
+                    <!-- 해당 메뉴 옵션 ID에 대한 옵션 값들 반복 -->
+                    <div class="contents" th:name="option + ${menuOption.id}" th:each="value : ${menuOptionValues[menuOption.id.toString()]}">
+                        <label class="select">
+                            <!-- 메뉴 옵션 타입에 따라 input 타입 결정 -->
+                            <input type="radio" th:name="${menuOption.id}" class="check" th:value="${value.id}">
+                            <label></label>
+                            <span class="content" th:text="${value.content}"></span>
+                            <span class="price" th:text="${'+' + value.price + '원'}"></span>
+                        </label>
                     </div>
                 </div>
             </div>
-            <div class="option">
-                <div class="title">
-                    <div class="text">매운맛</div>
-                    <div class="select">필수</div>
-                </div>
-                <div class="contents">
-                    <label class="select">
-                        <input type="radio" name="spiciness" class="check" value="spicy">
-                        <label></label>
-                        <span class="content">맵게 해주세요</span>
-                        <span class="price">+3000원</span>
-                    </label>
-                    <label class="select">
-                        <input type="radio" name="spiciness" class="check" value="not-spicy">
-                        <label></label>
-                        <span class="content">안맵게 해주세요</span>
-                        <span class="price">+4000원</span>
-                    </label>
-                </div>
-            </div>
-            <div class="option">
-                <div class="title">
-                    <div class="text">토핑</div>
-                    <div class="select">선택</div>
-                </div>
-                <div class="contents">
-                    <label class="select">
-                        <input type="checkbox" class="check">
-                        <label></label>
-                        <span class="content">치즈</span>
-                        <span class="price">1000원</span>
-                    </label>
-                    <label class="select">
-                        <input type="checkbox" class="check">
-                        <label></label>
-                        <span class="content">감자</span>
-                        <span class="price">1000원</span>
-                    </label>
+            <!-- 메뉴 옵션 중 OPTIONAL만 표시하는 부분 -->
+            <div th:each="menuOption : ${menuOptions}">
+                <div class="option" th:if="${menuOption.menuOptionId == T(kr.ganjuproject.entity.RoleMenuOption).OPTIONAL}">
+                    <div class="title">
+                        <div class="text" th:text="${menuOption.content}"></div>
+                        <div class="select">필수</div>
+                    </div>
+                    <!-- 해당 메뉴 옵션 ID에 대한 옵션 값들 반복 -->
+                    <div class="contents" th:each="value : ${menuOptionValues[menuOption.id.toString()]}">
+                        <label class="select">
+                            <!-- 메뉴 옵션 타입에 따라 input 타입 결정 -->
+                            <input type="checkbox" class="check" th:value="${value.id}">
+                            <label></label>
+                            <span class="content" th:text="${value.content}"></span>
+                            <span class="price" th:text="${'+' + value.price + '원'}"></span>
+                        </label>
+                    </div>
                 </div>
             </div>
             <div class="count">

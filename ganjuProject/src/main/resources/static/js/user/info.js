@@ -1,7 +1,11 @@
 /* form 하기 전에 체크 */
-
+let infoCheck = false;
 function infosubmit(form) {
-    form.submit();
+    console.log(form.menuId);
+    console.log(form);
+    if(infoCheck){
+        form.submit();
+    }
 }
 
 // 수량 증감 액션
