@@ -1,5 +1,6 @@
 package kr.ganjuproject.controller;
 
+import kr.ganjuproject.dto.ReviewDTO;
 import kr.ganjuproject.entity.Board;
 import kr.ganjuproject.entity.Review;
 import kr.ganjuproject.service.BoardService;
@@ -37,7 +38,7 @@ public class ReviewController {
         System.out.println("비동기 리뷰");
         Map<String, Object> response = new HashMap<>();
         System.out.println("page = " + page);
-        List<Review> reviews = reviewService.reviewGetList(page);
+        List<ReviewDTO> reviews = reviewService.reviewGetList(1L,page);
 
         response.put("reviews", reviews);
         // 더보기 했을때 페이지를 다 불러 왔으면 비활성화

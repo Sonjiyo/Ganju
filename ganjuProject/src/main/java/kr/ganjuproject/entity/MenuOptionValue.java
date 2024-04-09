@@ -19,4 +19,5 @@ public class MenuOptionValue {
     @JoinColumn(name="menu_option_id")
     @ToString.Exclude
     private MenuOption menuOption;
+    private int price;
 }
