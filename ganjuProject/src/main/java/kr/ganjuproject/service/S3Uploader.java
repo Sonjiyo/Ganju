@@ -1,8 +1,8 @@
 package kr.ganjuproject.service;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.*;
+import com.amazonaws.util.IOUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,10 +10,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Optional;
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.util.*;
 
 @Slf4j
 @Component
@@ -27,46 +28,81 @@ public class S3Uploader {
     private String bucket;
 
     // MultipartFile을 전달받아 File로 전환한 후 S3에 업로드
-    public String upload(MultipartFile multipartFile, String dirName) throws IOException {
-        File uploadFile = convert(multipartFile)
-                .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File 전환 실패"));
-        return upload(uploadFile, dirName);
+    public String upload(MultipartFile image) {
+        if(image.isEmpty() || Objects.isNull(image.getOriginalFilename())){
+            throw new IllegalArgumentException("이미지가 없습니다");
+        }
+        return this.uploadImage(image);
     }
 
-    private String upload(File uploadFile, String dirName) {
-        String fileName = dirName + "/" + uploadFile.getName();
-        String uploadImageUrl = putS3(uploadFile, fileName);
-
-        removeNewFile(uploadFile);  // 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)
-
-        return uploadImageUrl;      // 업로드된 파일의 S3 URL 주소 반환
-    }
-
-    private String putS3(File uploadFile, String fileName) {
-        amazonS3Client.putObject(
-                new PutObjectRequest(bucket, fileName, uploadFile)
-                        .withCannedAcl(CannedAccessControlList.PublicRead)	// PublicRead 권한으로 업로드 됨
-        );
-        return amazonS3Client.getUrl(bucket, fileName).toString();
-    }
-
-    private void removeNewFile(File targetFile) {
-        if(targetFile.delete()) {
-            log.info("파일이 삭제되었습니다.");
-        }else {
-            log.info("파일이 삭제되지 못했습니다.");
+    private String uploadImage(MultipartFile image) {
+        this.validateImageFileExtention(image.getOriginalFilename());
+        try {
+            return this.uploadImageToS3(image);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("이미지 업로드 실패");
         }
     }
 
-    private Optional<File> convert(MultipartFile file) throws  IOException {
-        File convertFile = new File(file.getOriginalFilename());
-        if(convertFile.createNewFile()) {
-            try (FileOutputStream fos = new FileOutputStream(convertFile)) {
-                fos.write(file.getBytes());
-            }
-            return Optional.of(convertFile);
+    private void validateImageFileExtention(String filename) {
+        int lastDotIndex = filename.lastIndexOf(".");
+        if (lastDotIndex == -1) {
+            throw new IllegalArgumentException("파일이 없습니다");
         }
-        return Optional.empty();
+
+        String extention = filename.substring(lastDotIndex + 1).toLowerCase();
+        List<String> allowedExtentionList = Arrays.asList("jpg", "jpeg", "png", "gif");
+
+        if (!allowedExtentionList.contains(extention)) {
+            throw new IllegalArgumentException("유효한 파일이 아닙니다");
+        }
     }
 
+    private String uploadImageToS3(MultipartFile image) throws IOException {
+        String originalFilename = image.getOriginalFilename(); //원본 파일 명
+        String extention = originalFilename.substring(originalFilename.lastIndexOf(".")); //확장자 명
+
+        String s3FileName = UUID.randomUUID().toString().substring(0, 10) + originalFilename; //변경된 파일 명
+
+        InputStream is = image.getInputStream();
+        byte[] bytes = IOUtils.toByteArray(is);
+
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentType("image/" + extention);
+        metadata.setContentLength(bytes.length);
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
+
+        try{
+            PutObjectRequest putObjectRequest =
+                    new PutObjectRequest(bucket, s3FileName, byteArrayInputStream, metadata)
+                            .withCannedAcl(CannedAccessControlList.PublicRead);
+            amazonS3Client.putObject(putObjectRequest); // put image to S3
+        }catch (Exception e){
+            throw new IllegalArgumentException("파일 업로드 실패");
+        }finally {
+            byteArrayInputStream.close();
+            is.close();
+        }
+
+        return amazonS3Client.getUrl(bucket, s3FileName).toString();
+    }
+
+    public void deleteImageFromS3(String imageAddress){
+        String key = getKeyFromImageAddress(imageAddress);
+        try{
+            amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, key));
+        }catch (Exception e){
+            throw new IllegalArgumentException("파일 삭제 실패");
+        }
+    }
+
+    private String getKeyFromImageAddress(String imageAddress){
+        try{
+            URL url = new URL(imageAddress);
+            String decodingKey = URLDecoder.decode(url.getPath(), "UTF-8");
+            return decodingKey.substring(1); // 맨 앞의 '/' 제거
+        }catch (MalformedURLException | UnsupportedEncodingException e){
+            throw new IllegalArgumentException("파일 삭제 실패");
+        }
+    }
 }

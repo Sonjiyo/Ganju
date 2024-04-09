@@ -24,6 +24,13 @@ public class AdminController {
     private final ManagerService managerService;
     private final BoardService boardService;
 
+    @GetMapping("")
+    public String home(Model model){
+        List<Users> list = managerService.getManagerList();
+        model.addAttribute("list", list);
+        return "admin/restaurantList";
+    }
+
     @GetMapping("/restaurantList")
     public String restaurantList(Model model){
         List<Users> list = managerService.getManagerList();

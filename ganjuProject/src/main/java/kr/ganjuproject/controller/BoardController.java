@@ -10,10 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,5 +34,12 @@ public class BoardController {
         // 전체 게시글 수를 가져와서 응답에 포함시킵니다.
         response.put("size", boardService.getNoticeCountForRestaurant(1L)); // 이 부분이 수정되었습니다.
         return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{keyId}")
+    public @ResponseBody String deleteMemberAjax(@PathVariable Long keyId){
+        log.trace("keyId={}" , keyId);
+        boardService.deleteBoard(keyId);
+        return "ok";
     }
 }

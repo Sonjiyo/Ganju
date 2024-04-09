@@ -20,6 +20,8 @@ input:focus{outline: none;}
 .user-info td{padding:10px 0;}
 .user-info td:first-child{color:var(--gray);}
 .user-info td span{color:var(--orange);cursor: pointer;}
+.logo-image{width: 100px;height: 100px;overflow: hidden;}
+.logo-image img{width: 100%;}
 
 .warning{
     color: var(--red);

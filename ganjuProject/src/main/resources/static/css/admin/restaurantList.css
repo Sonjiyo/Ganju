@@ -78,6 +78,9 @@ input{
     border-radius: 0;
 }
 input:focus{outline: none;}
+.resturant-list li .content tbody,
+.resturant-list li .content tr{
+    width: 100%;display:table ;}
 .resturant-list li .content td:first-child{width: 20%;}
 .resturant-list li .content td{padding:6px 0;}
 .resturant-list li .content tr td:first-child{color:var(--gray);}

@@ -21,6 +21,10 @@ public class Orders {
     @JoinColumn(name = "menu_id")
     @ToString.Exclude
     private Menu menu;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id")
+    @ToString.Exclude
+    private Restaurant restaurant;
     private int price;
     private LocalDateTime regDate;
     private String content;

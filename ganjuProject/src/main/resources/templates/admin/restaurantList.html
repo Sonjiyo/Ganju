@@ -11,7 +11,7 @@
             <div></div>
             <p>어드민 페이지</p>
             <div>
-                <a href="#"><i class="fas fa-sign-out-alt"></i></a>
+                <a href="/manager/logout"><i class="fas fa-sign-out-alt"></i></a>
             </div>
         </header>
         <div class="container">
@@ -23,7 +23,7 @@
                 <li>
                     <div class="title">
                         <div class="title-left">
-                            <div class="logo"><img src="https://picsum.photos/id/237/200" alt="resturant img"></div>
+                            <div class="logo"><img th:src="${manager.restaurant.logo}" src="https://ganju-test.s3.ap-northeast-2.amazonaws.com/images/noImage.png" alt="restaurant img"></div>
                             <div class="resturant-name">
                                 <p class="name" th:text="${manager.restaurant.name}">더조은 식당</p>
                                 <p class="login-id" th:text="${manager.loginId}">thejoeun</p>

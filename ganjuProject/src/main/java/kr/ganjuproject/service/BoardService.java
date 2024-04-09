@@ -48,6 +48,10 @@ public class BoardService {
     }
     public List<Board> getReortList(){ return boardRepository.findByBoardCategory(REPORT); }
 
+
+    @Transactional
+    public void deleteBoard(Long id){boardRepository.deleteById(id);}
+
     private BoardDTO convertToDTO(Board board) {
         BoardDTO boardDTO = new BoardDTO();
         boardDTO.setId(board.getId());
@@ -59,4 +63,5 @@ public class BoardService {
         boardDTO.setBoardCategory(board.getBoardCategory().name());
         return boardDTO;
     }
+
 }
