@@ -66,7 +66,7 @@ slider.addEventListener('mousemove', (e) => {
     slider.scrollLeft = scrollLeft - walk;
 });
 
-// 현재 활성화된 카테고리를 갱신하고 배경과 글씨 색 변견
+// 현재 활성화된 카테고리를 갱신하고 배경과 글씨 색 변경
 const categories = document.querySelectorAll('.category');
 const menuContainers = document.querySelectorAll('.menu-category');
 
@@ -78,8 +78,12 @@ function setActiveCategory() {
         if (containerTop - window.innerHeight / 2 < 0) {
             currentActiveIndex = index;
         }
+        console.log("containerTop - window.innerHeight / 2 = " +( containerTop - window.innerHeight / 2 ));
+        console.log("index = " + index);
+        console.log("containerTop = " + containerTop);
+        console.log("window.innerHeight = " + window.innerHeight);
+        console.log("currentActiveIndex = " + currentActiveIndex);
     });
-
     categories.forEach((category, index) => {
         if (index === currentActiveIndex) {
             category.classList.add('active');
@@ -106,7 +110,7 @@ function ensureCategoryVisible(category) {
 
 // 카테고리 클릭 리스너를 위한 분리된 함수
 function categoryClickListener(e) {
-    const targetId = e.currentTarget.getAttribute('data-targets');
+    const targetId = e.currentTarget.getAttribute('data-target');
     const targetElement = document.getElementById(targetId);
 
     if (targetElement) {
@@ -179,7 +183,9 @@ document.addEventListener('DOMContentLoaded', () => {
     ratingStar();
 
     // 스크롤 이벤트
-    window.addEventListener('scroll', setActiveCategory);
+    window.addEventListener('scroll', () =>{
+        setActiveCategory();
+    });
 
     // 초기 활성화 카테고리 설정
     setActiveCategory();

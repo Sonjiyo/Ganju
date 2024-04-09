@@ -27,9 +27,9 @@ public class CategoryController {
 
     @GetMapping("/main")
     public String menuCategory(Model model) {
-        List<Category> categories = categoryService.getList();
+        List<Category> categories = categoryService.findByRestaurantId(1L);
         model.addAttribute("categories", categories);
-        List<Menu> menus = menuService.getList();
+        List<Menu> menus = menuService.findByRestaurantId(1L);
         System.out.println("menus = " + menus);
         System.out.println("menus = " + menus.size());
         model.addAttribute("menus", menus);
@@ -38,7 +38,7 @@ public class CategoryController {
 
     @GetMapping("/add")
     public String addCategory(Model model) {
-        List<Category> categories = categoryService.getList();
+        List<Category> categories = categoryService.findByRestaurantId(1L);
         model.addAttribute("categories", categories);
         return "manager/menuCategory";
     }

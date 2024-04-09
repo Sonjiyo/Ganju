@@ -2,6 +2,8 @@ package kr.ganjuproject.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import kr.ganjuproject.dto.CategoryDTO;
+import kr.ganjuproject.dto.MenuDTO;
 import kr.ganjuproject.entity.Category;
 import kr.ganjuproject.entity.Menu;
 import kr.ganjuproject.service.CategoryService;
@@ -30,9 +32,9 @@ public class MenuController {
     // 메인 메뉴 첫 페이지
     @GetMapping("/main")
     public String main(Model model) {
-        List<Category> categories = categoryService.getList();
+        List<CategoryDTO> categories = categoryService.findCategoriesByRestaurantId(1L);
         model.addAttribute("categories", categories);
-        List<Menu> menus = menuService.getList();
+        List<MenuDTO> menus = menuService.findMenusByRestaurantId(1L);
         model.addAttribute("menus", menus);
 //      리뷰 평균 점수
         model.addAttribute("staAve", reviewService.getAverageRating(1L));
@@ -44,9 +46,8 @@ public class MenuController {
     @ResponseBody
     public ResponseEntity<Map<String, Object>> validateMenu(Model model) {
         System.out.println("비동기 메뉴");
-        Map<String, Object> response = new HashMap<>();
-        List<Category> categories = categoryService.getList();
-        List<Menu> menus = menuService.getList();
+        Map<String, Object> response = new HashMap<>();  List<CategoryDTO> categories = categoryService.findCategoriesByRestaurantId(1L);
+        List<MenuDTO> menus = menuService.findMenusByRestaurantId(1L);
 
         response.put("categories", categories);
         response.put("menus", menus);
@@ -96,9 +97,10 @@ public class MenuController {
 
     @GetMapping("/add")
     public String addMenuForm(Model model) {
-        List<Category> categories = categoryService.getList();
+        List<CategoryDTO> categories = categoryService.findCategoriesByRestaurantId(1L);
+
         model.addAttribute("categories", categories);
-        List<Menu> menus = menuService.getList();
+        List<MenuDTO> menus = menuService.findMenusByRestaurantId(1L);
         model.addAttribute("menus", menus);
         return "manager/addMenu";
     }
@@ -114,7 +116,7 @@ public class MenuController {
             Menu obj = new Menu();
             obj.setName(input.get("name"));
             obj.setPrice(Integer.parseInt(input.get("price")));
-            Category test = categoryService.getList().get(0);
+            Category test = categoryService.findByRestaurantId(1L).get(0);
             obj.setCategory(test);
             menuService.add(obj);
             return ResponseEntity.ok().body("메뉴가 성공적으로 등록되었습니다.");
