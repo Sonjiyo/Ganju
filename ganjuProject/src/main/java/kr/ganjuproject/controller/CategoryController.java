@@ -1,5 +1,7 @@
 package kr.ganjuproject.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.ganjuproject.entity.Category;
 import kr.ganjuproject.entity.Menu;
 import kr.ganjuproject.service.CategoryService;
@@ -14,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @Controller
@@ -31,7 +34,6 @@ public class CategoryController {
         model.addAttribute("categories", categories);
         List<Menu> menus = menuService.findByRestaurantId(1L);
         System.out.println("menus = " + menus);
-        System.out.println("menus = " + menus.size());
         model.addAttribute("menus", menus);
         return "manager/menuCategory";
     }
@@ -43,10 +45,16 @@ public class CategoryController {
         return "manager/menuCategory";
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<String> addCategory(@RequestBody Category category) {
+    @PostMapping(value = "/add")
+    public ResponseEntity<String> addCategory(@RequestBody String category) {
         try {
-            categoryService.add(category);
+            ObjectMapper mapper = new ObjectMapper();
+            Map<String, String> input = mapper.readValue(category, new
+                    TypeReference<Map<String, String>>() {
+                    });
+            Category cg = new Category();
+            cg.setName(input.get("name"));
+            categoryService.add(cg);
             return ResponseEntity.ok().body("카테고리 등록 성공");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("카테고리 등록 실패");
@@ -61,7 +69,7 @@ public class CategoryController {
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ID 에 해당하는 카테고리가 없습니다");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("카테고리 삭제 실패");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("카테고리 삭제 실패 : " + e.getMessage());
         }
     }
 }
