@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <div th:replace="fragments/header :: header('회원가입 성공')"></div>
+    <link rel="stylesheet" href="/css/manager/home.css">
+</head>
+<body>
+    <div class="innerBox">
+        <header>
+            <div></div>
+            <p>홈</p>
+            <div></div>
+        </header>
+        <div class="container">
+            <div class="profile">
+                <div>
+                    <div class="logo-image"><img src="https://picsum.photos/id/1/200/200" alt="logo-image"></div>
+                    <div class="info">
+                        <p>더조은 식당</p>
+                        <div class="review-all">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <p>0.0</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="today-sales">
+                <p>오늘의 주문<span>36건</span></p>
+                <p>오늘의 매출<span>121,121,122원</span></p>
+            </div>
+            <div class="order">
+                <p>주문 현황</p>
+                <ul class="order-list">
+                    <li>
+                        <p>호출</p>
+                        <h2>9<span>건</span></h2>
+                    </li>
+                    <li>
+                        <p>대기</p>
+                        <h2>3<span>건</span></h2>
+                    </li>
+                    <li>
+                        <p>승인</p>
+                        <h2>1<span>건</span></h2>
+                    </li>
+                </ul>
+            </div>
+            <div class="direct-url">
+                <a href="">메뉴 관리</a>
+                <a href="">리뷰 관리</a>
+                <a href="">공지 관리</a>
+            </div>
+            <div class="qna">
+                <button>1 대 1 문의 남기기</button>
+            </div>
+            <div class="warning">
+                <p>경고 횟수</p>
+                <h2>1건</h2>
+                <span>경고가 많이 쌓이는 경우<br>사용에 제한이 있을 수 있습니다.</span>
+            </div>
+        </div>
+        <footer>
+            <a href="">홈</a>
+            <a href="" class="on">주문관리</a>
+            <a href="">메뉴관리</a>
+            <a href="">리뷰관리</a>
+            <a href="">마이페이지</a>
+        </footer>
+    </div>
+</body>
+</html>

@@ -43,10 +43,17 @@ public class ManagerController {
         return managerService.isVaildId(loginId) ? "ok" : "no";
     }
 
+    @GetMapping("logout")
+    public String logout(HttpSession session){
+        session.invalidate();
+        return "/";
+    }
+
     @GetMapping("joinRestaurant")
     public String joinRestaurant(){
         return "manager/joinRestaurant";
     }
+
     @GetMapping("joinSuccess")
     public String joinSuccess(){
         return "manager/joinSuccess";

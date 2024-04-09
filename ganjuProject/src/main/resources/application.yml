@@ -1,9 +1,17 @@
 spring:
+  profiles:
+    active: local
+    group:
+      local: common, secret
+---
+
+spring:
   output:
     ansi:
       enabled: always
-  profiles:
-    active: local
+  config:
+    activate:
+      on-profile: common
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/ganjudb?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
@@ -25,16 +33,3 @@ spring:
 
 server:
   port: 8081
-
-cloud:
-  aws:
-    s3:
-      bucket: ganju-test # {버킷명}
-    credentials:
-      access-key:
-      secret-key:
-    region:
-      static: ap-northeast-2
-      auto: false
-    stack:
-      auto: false

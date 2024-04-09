@@ -32,4 +32,7 @@ public class BoardService {
         return boardRepository.findAll();
     }
     public List<Board> getReortList(){ return boardRepository.findByBoardCategory(REPORT); }
+
+    @Transactional
+    public void deleteBoard(Long id){boardRepository.deleteById(id);}
 }

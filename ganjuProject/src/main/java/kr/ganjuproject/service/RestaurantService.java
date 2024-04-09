@@ -22,9 +22,8 @@ public class RestaurantService {
     public List<Restaurant> getRestaurantList(){return restaurantRepository.findAll();}
     @Transactional
     public Restaurant insertRestaurant(MultipartFile image, Restaurant restaurant) throws IOException {
-        System.out.println("image = " + image);
         if(!image.isEmpty()){
-            String storedFileName = s3Uploader.upload(image, "images");
+            String storedFileName = s3Uploader.upload(image);
             restaurant.setLogo(storedFileName);
         }
         return restaurantRepository.save(restaurant);
