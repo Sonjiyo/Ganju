@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -49,11 +50,21 @@
         </div>
         <p>필수 옵션</p>
         <div class="option-l">
-            <p class="small">매운맛</p>
-            <select name="spicy" id="spicy" class="select-option">
-                <option value="less_spicy">안맵게 해주세요</option>
-                <option value="more_spicy">맵게 해주세요</option>
-            </select>
+            <div class="title">
+                <p class="small">매운맛</p>
+            </div>
+            <div class="contents">
+                <label class="select">
+                    <input type="radio" name="spiciness" class="check" value="less_spicy">
+                    <span class="spicy">안맵게 해주세요</span>
+                    <span>-3000원</span>
+                </label>
+                <label class="select">
+                    <input type="radio" name="spiciness" class="check" value="more_spicy">
+                    <span class="spicy">맵게 해주세요</span>
+                    <span>+3000원</span>
+                </label>
+            </div>
             <p class="add-option-sub"><i class="fas fa-plus"></i>세부 옵션 추가</p>
             <div class="underline-dark"></div>
             <p class="add-option"><i class="fas fa-plus"></i>옵션 추가</p>
@@ -69,7 +80,8 @@
                     <textarea name="option_name" id="option_name" placeholder="옵션 이름"></textarea>
                     <button class="button border">옵션 추가</button>
                 </div>
-                <textarea name="option-subname" id="option-subname" placeholder="세부 옵션 이름" class="option-subname"></textarea>
+                <textarea name="option-subname" id="option-subname" placeholder="세부 옵션 이름"
+                          class="option-subname"></textarea>
                 <div class="modal-price">
                     <p>가격</p>
                     <textarea class="visible" id="price2"></textarea>
@@ -84,25 +96,25 @@
             <button id="addMenuButton" class="button border select-option">메뉴 등록</button>
         </div>
     </div>
-    <footer>
-        <div class="footer">
-            <button class="footer_menu" onclick="homeReq()">
-                <i class="fas fa-home"></i>홈
-            </button>
-            <button class="footer_menu" onclick="orderInfoReq()">
-                <i class="far fa-clipboard"></i>주문관리
-            </button>
-            <button class="footer_menu on" onclick="menuInfoReq()">
-                <i class="fas fa-drumstick-bite"></i>메뉴관리
-            </button>
-            <button class="footer_menu" onclick="reviewInfoReq()">
-                <i class="fas fa-pen-square"></i>리뷰관리
-            </button>
-            <button class="footer_menu" onclick="myPageReq()">
-                <i class="fas fa-user"></i>마이페이지
-            </button>
-        </div>
-    </footer>
+<!--    <footer>-->
+<!--        <div class="footer">-->
+<!--            <button class="footer_menu" onclick="homeReq()">-->
+<!--                <i class="fas fa-home"></i>홈-->
+<!--            </button>-->
+<!--            <button class="footer_menu" onclick="orderInfoReq()">-->
+<!--                <i class="far fa-clipboard"></i>주문관리-->
+<!--            </button>-->
+<!--            <button class="footer_menu on" onclick="menuInfoReq()">-->
+<!--                <i class="fas fa-drumstick-bite"></i>메뉴관리-->
+<!--            </button>-->
+<!--            <button class="footer_menu" onclick="reviewInfoReq()">-->
+<!--                <i class="fas fa-pen-square"></i>리뷰관리-->
+<!--            </button>-->
+<!--            <button class="footer_menu" onclick="myPageReq()">-->
+<!--                <i class="fas fa-user"></i>마이페이지-->
+<!--            </button>-->
+<!--        </div>-->
+<!--    </footer>-->
 </div>
 </body>
 
