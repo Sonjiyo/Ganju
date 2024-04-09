@@ -136,6 +136,7 @@ public class MenuController {
             obj.setPrice(Integer.parseInt(input.get("price")));
             Category test = categoryService.findByRestaurantId(1L).get(0);
             obj.setCategory(test);
+            System.out.println("obj = " + obj);
             menuService.add(obj);
             return ResponseEntity.ok().body("메뉴가 성공적으로 등록되었습니다.");
         } catch (Exception e) {
