@@ -2,11 +2,9 @@ package kr.ganjuproject.oauth.provider;
 
 import java.util.Map;
 
-public class GoogleUserInfo implements OAuth2UserInfo{
+public class KakaoUserInfo implements OAuth2UserInfo{
     private Map<String, Object> attributes;
-    public GoogleUserInfo(Map<String, Object> attributes){
-        this.attributes = attributes;
-    }
+    public KakaoUserInfo(Map<String, Object> attributes){this.attributes = attributes;}
     @Override
     public String getProviderId() {
         return (String)attributes.get("sub");
@@ -17,10 +15,9 @@ public class GoogleUserInfo implements OAuth2UserInfo{
     }
     @Override
     public String getEmail() {
-        return (String)attributes.get("email");
+        return (String)attributes.get("account_email");
     }
 
     @Override
     public String getPhone() {return "";}
-
 }

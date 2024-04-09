@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface ManagerRepository extends JpaRepository<Users, Long> {
     List<Users> findByRole(RoleUsers role);
     Optional<Users> findByLoginId(String loginId);
+    Optional<Users> findByProviderAndProviderId(String provider , String providerId);
 }

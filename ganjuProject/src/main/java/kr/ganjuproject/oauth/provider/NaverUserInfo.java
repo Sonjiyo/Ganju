@@ -1,23 +1,26 @@
 package kr.ganjuproject.oauth.provider;
 
+import java.util.Map;
+
 public class NaverUserInfo implements OAuth2UserInfo{
+    private Map<String, Object> attributes;
+    public NaverUserInfo(Map<String, Object> attributes ){
+        this.attributes = attributes;
+    }
     @Override
     public String getProviderId() {
-        return null;
+        return (String)attributes.get("id");
     }
-
     @Override
     public String getProvider() {
-        return null;
+        return "naver";
     }
-
     @Override
     public String getEmail() {
-        return null;
+        return (String)attributes.get("email");
     }
 
     @Override
-    public String getName() {
-        return null;
-    }
+    public String getPhone() {return (String)attributes.get("mobile");}
+
 }
