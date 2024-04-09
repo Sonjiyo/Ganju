@@ -18,10 +18,6 @@ select {
     padding: 0 var(--padding);
 }
 
-.small {
-    font-size: var(--font-small);
-}
-
 .flex {
     display: flex;
     flex-direction: column;
@@ -122,6 +118,22 @@ select {
     width: 100%;
     border: var(--orange);
     padding: 0 var(--padding);
+}
+
+.contents {
+    padding: var(--padding);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.select {
+    display: flex;
+    align-items: center;
+}
+
+.spicy {
+    flex: 1;
 }
 
 .div-add-option-sub {

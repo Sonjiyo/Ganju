@@ -32,7 +32,9 @@ function handleTabClick(e) {
 let currentPage = 0;
 
 function fetchTap(e){
+    console.log(e.target);
     const target = e.target.getAttribute('data-target').split("-")[0];
+    console.log(target);
     const capitalizedTarget = target.charAt(0).toUpperCase() + target.slice(1);
     let url = `/${target}/validateMenu${capitalizedTarget}`;
 
@@ -184,7 +186,7 @@ function menuList(data){
         const categoryDiv = document.createElement('div');
         categoryDiv.className = 'category';
         categoryDiv.textContent = category.name;
-        categoryDiv.setAttribute('data-targets', 'menu-category-' + category.id);
+        categoryDiv.setAttribute('data-target', 'menu-category-' + category.id);
         categoryContent.appendChild(categoryDiv);
 
         // 해당 카테고리의 메뉴 목록을 생성
@@ -199,7 +201,8 @@ function menuList(data){
 
         const menusDiv = document.createElement('div');
         menusDiv.className = 'menus';
-        data.menus.filter(menu => menu.category.id === category.id).forEach(menu => {
+        data.menus.filter(menu => menu.categoryId === category.id).forEach(menu => {
+            console.log("menu = " + menu);
             const menuDiv = document.createElement('div');
             menuDiv.className = 'menu';
             menuDiv.onclick = function() {

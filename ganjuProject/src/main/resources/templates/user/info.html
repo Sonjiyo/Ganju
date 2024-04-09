@@ -13,12 +13,41 @@
     <div class="container">
         <form action="/user/info" method="post" class="info-form">
             <div class="menu-image">
+                <!-- th:src="@{'/images/' + ${menu.menuImage}}" -->
                 <img src="/images/sample.png" alt="음식 이미지" class="menu-img">
             </div>
+            <div th:text="${menu}"></div>
+            <div th:each="mo : ${menuOption}">
+                <div th:text="${mo}"></div>
+            </div>
+            <div th:each="mov : ${menuOptionValue}">
+                <div th:text="${mov}"></div>
+            </div>
+
             <div class="info">
-                <div class="title">짜파게티</div>
-                <div class="contents">맛있는 짜파게티 김치 미포함</div>
-                <div class="price">300원</div>
+                <div class="title" th:text="${menu.name}"></div>
+                <div class="contents" th:text="${menu.info}"></div>
+                <div class="price" th:text="${menu.price}"></div>
+            </div>
+            <!-- 메뉴 옵션을 동적으로 표시하는 부분 -->
+            <div th:each="menuOption : ${menuOptions}">
+                <div class="option">
+                    <div class="title">
+                        <div class="text" th:text="${menuOption.content}"></div>
+                        <!-- 필수/선택 표시, 조건부로 표시 변경 가능 -->
+                        <div class="select" th:text="${menuOption.menuOptionId ? 'REQUIRED' : 'OPTIONAL'}"></div>
+                    </div>
+                    <div class="contents">
+                        <!-- 메뉴 옵션 값 표시 -->
+                        <div th:each="value : ${menuOptionValues[menuOption.id]}">
+                            <label class="select">
+                                <input th:type="${menuOption.type == 'CHECKBOX' ? 'checkbox' : 'radio'}" th:name="${'option' + menuOption.id}" th:value="${value.id}" class="check">
+                                <span class="content" th:text="${value.name}"></span>
+                                <span class="price" th:if="${value.price != null}" th:text="${'+' + value.price + '원'}"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="option">
                 <div class="title">

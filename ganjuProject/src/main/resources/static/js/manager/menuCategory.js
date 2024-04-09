@@ -72,31 +72,31 @@ main.addEventListener('click', () => {
 })
 
 document.addEventListener("DOMContentLoaded", function () {
-    const deleteBtn = document.querySelectorAll('.menu_menu');
+    const deleteBtn = document.querySelectorAll('.category_deleteBtn');
     deleteBtn.forEach(button => {
         button.addEventListener('click', function () {
-            const nava = button.closest('a');
+            const nava = button.closest('.menu_menu');
             const id = button.dataset.id;
-            if(id) {
+            if (id) {
                 deleteCategory(id, nava);
-            } else{
+            } else {
                 console.error("id 정의 되지 않음");
             }
         })
     })
 })
 
-function deleteCategory(id, nava){
+function deleteCategory(id, nava) {
     fetch(`/category/${id}`, {
         method: 'DELETE',
     }).then(response => {
-        if(!response.ok) {
+        if (!response.ok) {
             throw new Error('삭제 실패');
         }
         nava.remove();
     }).catch(error => {
         console.error('삭제 실패함', error);
-    })
+    });
 }
 
 // 옵션 추가 버튼 클릭 시 모달 창 열기
@@ -107,4 +107,31 @@ document.querySelector('.padding').addEventListener('click', function () {
 // 모달 창 닫기
 document.querySelector('.close').addEventListener('click', function () {
     document.querySelector('.modal').style.display = 'none';
+});
+
+// 카테고리 추가
+document.getElementById("addCategoryBtn").addEventListener("click", async function () {
+    const categoryName = document.querySelector('.modal-content textarea').value.trim();
+    if (!categoryName) {
+        alert("카테고리 이름을 적어주세요");
+        return;
+    }
+    const categoryData = {
+        name: categoryName,
+    }
+    fetch("/category/add", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(categoryData)
+    }).then(response => {
+        if (response.ok) {
+            alert("카테고리 등록 성공");
+            console.log("1 : " + categoryName);
+            window.location.href = "/category/main";
+        } else {
+            alert("카테고리 등록 실패");
+        }
+    }).catch(error => console.log(error));
 });

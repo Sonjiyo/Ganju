@@ -22,4 +22,8 @@ public class Category {
     @ToString.Exclude
     @JsonBackReference
     private List<Menu> menus = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id")
+    @ToString.Exclude
+    private Restaurant restaurant;
 }
