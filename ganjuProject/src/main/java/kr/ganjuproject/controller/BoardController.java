@@ -1,5 +1,6 @@
 package kr.ganjuproject.controller;
 
+import kr.ganjuproject.dto.BoardDTO;
 import kr.ganjuproject.entity.Board;
 import kr.ganjuproject.entity.Category;
 import kr.ganjuproject.entity.Menu;
@@ -30,10 +31,11 @@ public class BoardController {
     public ResponseEntity<Map<String, Object>>  validateBoard(@RequestParam(defaultValue = "0") int page) {
         System.out.println("비동기 공지");
         Map<String, Object> response = new HashMap<>();
-        List<Board> boards = boardService.noticeGetList(page);
+        List<BoardDTO> boards = boardService.noticeGetList(1L, page);
 
         response.put("boards", boards);
-        response.put("size", boardService.findAll().size() );
+        // 전체 게시글 수를 가져와서 응답에 포함시킵니다.
+        response.put("size", boardService.getNoticeCountForRestaurant(1L)); // 이 부분이 수정되었습니다.
         return ResponseEntity.ok(response);
     }
 }

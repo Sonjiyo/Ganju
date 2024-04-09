@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <div th:replace="fragments/header :: header('더조은 식당')"></div>
+    <div th:replace="~{fragments/header :: header('더조은 식당')}"></div>
     <link href="/css/user/main.css" rel="stylesheet" type="text/css">
     <script src="/js/user/main.js" type="text/javascript" defer></script>
     <!--너무 길어져서 비동기 부분 따로 뺌-->
@@ -41,20 +41,20 @@
         <div class="content">
             <div class="menu-content tab-content">
                 <div class="category-content">
-                    <div th:each="category : ${categories}" class="category" th:text="${category.name}" th:data-targets="'menu-category-' + ${category.id}"></div>
+                    <div th:each="category : ${categories}" class="category" th:text="${category.name}" th:data-target="'menu-category-' + ${category.id}"></div>
                 </div>
                 <div class="menus-container">
                     <div class="menu-category" th:each="category : ${categories}" th:id="'menu-category-' + ${category.id}" th:data-category-id="${category.id}" >
                         <div class="category-name" th:text="${category.name}"></div>
                         <div class="menus" th:each="menu : ${menus}">
-                            <div th:if="${menu.category.id} == ${category.id}" class="menu" th:onclick="'location.href=\'/menu/info?id=' + ${menu.id} + '\''">
+                            <div th:if="${menu.categoryId} == ${category.id}" class="menu" th:onclick="'location.href=\'/menu/info?id=' + ${menu.id} + '\''">
                                 <div class="image">
                                     <img src="/images/sample.png" alt="메뉴 이미지" class="restaurant-image">
                                 </div>
                                 <div class="text">
                                     <div th:text="${menu.name}" class="menu-name"></div>
                                     <!--th:text="${menu.info}"-->
-                                    <div class="menu-info">맛있음</div>
+                                    <div th:text="${menu.info}" class="menu-info">맛있음</div>
                                     <div th:text="${menu.price + '원'}" class="menu-price"></div>
                                 </div>
                             </div>
