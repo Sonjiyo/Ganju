@@ -10,7 +10,7 @@
     padding-bottom:30px;
 }
 .logo-image{width: 70px;height: 70px;overflow: hidden;border-radius: 50%;margin-right: 20px;}
-.logo-image img{width: 100%;}
+.logo-image img{width: 100%;object-fit: cover;height: 100%;}
 .review-all{
     font-size: var(--font-small);
     display: flex;

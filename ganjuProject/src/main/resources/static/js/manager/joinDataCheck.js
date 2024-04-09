@@ -177,14 +177,25 @@ function emailCheck(form){
 
 let timeLeft = document.createElement('span');
 timeLeft.classList.add('time-left');
-
-//카운트다운
+let num = "";
+//카운트다운 & 이메일 전송
 function countDown(form){
     msg.textContent='';
 
     emailCheck(form);
     if(!emailPatternCheck){return false;}
-    timeLeft.innerHTML = 0o3 + ":" + 0o0;
+
+    fetch(`/email/${form.email.value}`, {
+        method: 'POST',
+    }).then(response=>{
+        return response.text();
+    }).then(data => {
+        num = data;
+    }).catch(error => {
+        console.error('확인 실패', error);
+    });
+
+    timeLeft.innerHTML = 0o2 + ":" + 0o0;
     document.querySelector('.verification label').appendChild(timeLeft);
     startTimer();
 }
@@ -192,15 +203,23 @@ function countDown(form){
 let timeCheck = true;
 
 function verificationCheck(form){
+
     msg.textContent='';
 
     emailCheck(form);
     if(!emailPatternCheck){return false;}
 
+
     //인증번호 확인
     if(!form.verification.value.trim()){
         msg.textContent= "인증번호를 입력해주세요";
 		document.querySelector('.verification').appendChild(msg);
+        return false;
+    }
+
+    if(form.verification.value.trim()+"" !== num.trim()){
+        msg.textContent= "인증번호가 올바르지 않습니다.";
+        document.querySelector('.verification').appendChild(msg);
         return false;
     }
 
@@ -240,7 +259,6 @@ function startTimer() {
     let s = checkSecond((timeArray[1] - 1));
     if(s===59){m=m-1}
     if(m<0){
-        timeCheck = false;
         return;
     }
     

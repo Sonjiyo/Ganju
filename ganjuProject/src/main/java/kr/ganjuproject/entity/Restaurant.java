@@ -39,6 +39,9 @@ public class Restaurant {
     @OneToMany(mappedBy = "id")
     @ToString.Exclude
     private List<Menu> menus = new ArrayList<>();
+    @OneToMany(mappedBy = "id")
+    @ToString.Exclude
+    private List<Orders> orders = new ArrayList<>();
 
     public Restaurant(String name, String address, String phone, int restaurantTable, String logo) {
         this.name = name;

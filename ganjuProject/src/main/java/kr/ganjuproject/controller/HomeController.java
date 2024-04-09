@@ -13,8 +13,8 @@ public class HomeController {
         Users user = (Users) session.getAttribute("log");
 
         if(user.getLoginId().equals("admin")){
-
+            return "redirect:/manager";
         }
-        return "home/home";
+        return "redirect:/admin";
     }
 }

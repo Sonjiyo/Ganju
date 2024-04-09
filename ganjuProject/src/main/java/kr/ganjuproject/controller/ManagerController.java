@@ -5,6 +5,7 @@ import kr.ganjuproject.entity.RoleUsers;
 import kr.ganjuproject.entity.Users;
 import kr.ganjuproject.form.UserDTO;
 import kr.ganjuproject.service.ManagerService;
+import kr.ganjuproject.service.OrdersService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @Slf4j
@@ -20,6 +22,20 @@ import java.util.HashMap;
 public class ManagerController {
 
     private final ManagerService managerService;
+    private final OrdersService ordersService;
+
+    @GetMapping("")
+    public String main(HttpSession session, Model model){
+        if(session.getAttribute("log")==null
+                || ((Users) session.getAttribute("log")).getLoginId().equals("admin")) return "redirect:/";
+        Users user = (Users) session.getAttribute("log");
+        Map<String, Object> map = ordersService.getRestaurantOrderData(user.getRestaurant());
+        model.addAttribute("orderCount", map.get("count"));
+        model.addAttribute("orderPrice", map.get("price"));
+
+
+        return "manager/home";
+    }
 
     @GetMapping("join")
     public String join(){return "manager/join";}
@@ -46,7 +62,7 @@ public class ManagerController {
     @GetMapping("logout")
     public String logout(HttpSession session){
         session.invalidate();
-        return "/";
+        return "redirect:/";
     }
 
     @GetMapping("joinRestaurant")
@@ -59,12 +75,5 @@ public class ManagerController {
         return "manager/joinSuccess";
     }
 
-    @GetMapping("order")
-    public String order(){
-        return "manager/order";
-    }
-    @GetMapping("sales")
-    public String salesr(){
-        return "manager/sales";
-    }
+
 }
