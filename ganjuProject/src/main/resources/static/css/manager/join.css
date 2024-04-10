@@ -1,22 +1,22 @@
 label{margin-bottom:10px;}
 label span{color:var(--red);}
 input[type=checkbox]{display: none;}
-.login-id{
+.username{
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between;
 }
-.login-id label{width: 100%;}
-.login-id input[type="text"]{width: 75%;}
-.login-id input[type="button"]{
+.username label{width: 100%;}
+.username input[type="text"]{width: 75%;}
+.username input[type="button"]{
     width: 20%;
     background: var(--orange);
     border: none;
     color: var(--white);
     cursor: pointer;
 }
-.login-id input[type="button"]:hover{background: var(--orange-hover);}
+.username input[type="button"]:hover{background: var(--orange-hover);}
 .terms label{display: flex;align-items: center;}
 .terms label::before{
     content: '\f0c8';

@@ -47,7 +47,7 @@ public class PrincipalDetails implements UserDetails , OAuth2User{
 
     @Override
     public String getUsername() {
-        return user.getLoginId();
+        return user.getUsername();
     }
 
     // 계정이 만료되지않았는가?

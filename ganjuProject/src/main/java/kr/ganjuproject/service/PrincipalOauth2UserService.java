@@ -1,4 +1,4 @@
-package kr.ganjuproject.oauth;
+package kr.ganjuproject.service;
 
 import kr.ganjuproject.auth.PrincipalDetails;
 import kr.ganjuproject.entity.Users;
@@ -7,7 +7,6 @@ import kr.ganjuproject.oauth.provider.NaverUserInfo;
 import kr.ganjuproject.oauth.provider.OAuth2UserInfo;
 import kr.ganjuproject.repository.ManagerRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -56,7 +55,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         if (!userOptional.isPresent()) {
             // user의 패스워드가 null이기 때문에 OAuth 유저는 일반적인 로그인을 할 수 없음.
             user = Users.builder()
-                    .loginId(oAuth2UserInfo.getProvider() + "_" + oAuth2UserInfo.getProviderId())
+                    .username(oAuth2UserInfo.getProvider() + "_" + oAuth2UserInfo.getProviderId())
                     .email(oAuth2UserInfo.getEmail())
                     .phone(oAuth2UserInfo.getPhone())
                     .provider(oAuth2UserInfo.getProvider())

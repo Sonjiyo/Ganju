@@ -1,20 +1,32 @@
 package kr.ganjuproject.controller;
 
 import jakarta.servlet.http.HttpSession;
+import kr.ganjuproject.auth.PrincipalDetails;
 import kr.ganjuproject.entity.Users;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController {
     @GetMapping("/")
-    public String home(HttpSession session){
-        if(session.getAttribute("log")==null) return "home/home";
-        Users user = (Users) session.getAttribute("log");
+    public String home(HttpSession session, Authentication authentication){
+        if(authentication == null) return "home/home";
+        Object principal = authentication.getPrincipal();
 
-        if(user.getLoginId().equals("admin")){
-            return "redirect:/manager";
+        if(principal instanceof PrincipalDetails){
+            PrincipalDetails principalDetails = (PrincipalDetails) principal;
+            Users user = principalDetails.getUser();
+
+            if(user.getUsername().equals("admin")){
+                return "redirect:/admin";
+            } else {
+                return "redirect:/manager";
+            }
+        } else {
+            // 인증된 사용자가 PrincipalDetails가 아닌 다른 경우 처리
+            return "redirect:/"; // 예를 들어 홈 페이지로 리다이렉트
         }
-        return "redirect:/admin";
     }
 }
