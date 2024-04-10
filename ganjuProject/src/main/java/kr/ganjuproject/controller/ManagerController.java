@@ -3,7 +3,7 @@ package kr.ganjuproject.controller;
 import jakarta.servlet.http.HttpSession;
 import kr.ganjuproject.entity.RoleUsers;
 import kr.ganjuproject.entity.Users;
-import kr.ganjuproject.form.UserDTO;
+import kr.ganjuproject.dto.UserDTO;
 import kr.ganjuproject.service.ManagerService;
 import kr.ganjuproject.service.OrdersService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class ManagerController {
     @GetMapping("")
     public String main(HttpSession session, Model model){
         if(session.getAttribute("log")==null
-                || ((Users) session.getAttribute("log")).getUsername().equals("admin")) return "redirect:/";
+                || ((Users) session.getAttribute("log")).getLoginId().equals("admin")) return "redirect:/";
         Users user = (Users) session.getAttribute("log");
         Map<String, Object> map = ordersService.getRestaurantOrderData(user.getRestaurant());
         model.addAttribute("orderCount", map.get("count"));
@@ -42,7 +42,7 @@ public class ManagerController {
     @PostMapping("join")
     public @ResponseBody String insertUser(@RequestBody UserDTO userDTO, HttpSession session) {
         Users user = new Users();
-        user.setUsername(userDTO.getUsername());
+        user.setLoginId(userDTO.getLoginId());
         user.setPassword(userDTO.getPassword());
         user.setPhone(userDTO.getPhone());
         user.setEmail(userDTO.getEmail());
@@ -53,10 +53,9 @@ public class ManagerController {
         return "";
     }
 
-    @GetMapping("join/{username}")
-    public @ResponseBody String validUsernameCheck(@PathVariable(value = "username") String username){
-        System.out.println("username = " + username);
-        return managerService.isVaildUsername(username) ? "ok" : "no";
+    @GetMapping("join/{loginId}")
+    public @ResponseBody String validUsernameCheck(@PathVariable(value = "loginId") String loginId){
+        return managerService.isVaildLoginId(loginId) ? "ok" : "no";
     }
 
     @GetMapping("logout")

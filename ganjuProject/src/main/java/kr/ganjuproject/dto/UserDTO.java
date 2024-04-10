@@ -1,10 +1,10 @@
-package kr.ganjuproject.form;
+package kr.ganjuproject.dto;
 
 import lombok.Data;
 
 @Data
 public class UserDTO {
-    private String username;
+    private String loginId;
     private String password;
     private String phone;
     private String email;

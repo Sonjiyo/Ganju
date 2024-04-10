@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class PrincipalDetailsService implements UserDetailsService {
@@ -21,13 +23,14 @@ public class PrincipalDetailsService implements UserDetailsService {
     //session(내부 Authenticaiton (내부 UserDetails ))
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Users userEntity = managerRepository.findByUsername(username).get();
-        if(userEntity!= null){
-            System.out.println(" 유저 디테일 객체 생성 !!! " + userEntity);
-            return new PrincipalDetails(userEntity); // 이 함수가 종료가 될때 @Authentication 객체가 만들어진다
+    public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
+        Optional<Users> userEntityOptional = managerRepository.findByLoginId(loginId);
+        if(userEntityOptional.isPresent()) {
+            Users userEntity = userEntityOptional.get();
+            // 사용자 정보를 이용하여 PrincipalDetails 객체 생성
+            return new PrincipalDetails(userEntity);
+        } else {
+            throw new UsernameNotFoundException("User not found with loginId: " + loginId);
         }
-
-        return null;
     }
 }

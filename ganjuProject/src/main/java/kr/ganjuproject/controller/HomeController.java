@@ -19,10 +19,12 @@ public class HomeController {
             PrincipalDetails principalDetails = (PrincipalDetails) principal;
             Users user = principalDetails.getUser();
 
-            if(user.getUsername().equals("admin")){
+            if(user.getLoginId().equals("admin")){
                 return "redirect:/admin";
-            } else {
+            } else if(user.getRestaurant() != null){
                 return "redirect:/manager";
+            } else{
+                return "redirect:/manager/joinRestaurant";
             }
         } else {
             // 인증된 사용자가 PrincipalDetails가 아닌 다른 경우 처리

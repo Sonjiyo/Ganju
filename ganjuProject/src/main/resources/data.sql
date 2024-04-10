@@ -1,9 +1,9 @@
 -- 관리자 생성
-INSERT INTO users (username, password, email, phone, role) VALUES ('admin', '1234', 'admin@example.com', '010-0000-0001', 'ROLE_ADMIN');
+INSERT INTO users (login_id, password, email, phone, role) VALUES ('admin', '1234', 'admin@example.com', '010-0000-0001', 'ROLE_ADMIN');
 
 -- 매니저 생성 및 식당 정보와 연결
-INSERT INTO users (username, password, email, phone, role) VALUES ('manager1', '1234', 'manager1@example.com', '010-0000-0002', 'ROLE_MANAGER');
-INSERT INTO users (username, password, email, phone, role) VALUES ('manager2', '1234', 'manager2@example.com', '010-0000-0003', 'ROLE_MANAGER');
+INSERT INTO users (login_id, password, email, phone, role) VALUES ('manager1', '1234', 'manager1@example.com', '010-0000-0002', 'ROLE_MANAGER');
+INSERT INTO users (login_id, password, email, phone, role) VALUES ('manager2', '1234', 'manager2@example.com', '010-0000-0003', 'ROLE_MANAGER');
 
 -- MySQL의 LAST_INSERT_ID() 함수를 사용하여 가장 최근에 삽입된 ID를 가져오는 방법 예시입니다.
 -- 사용하기 전에 MySQL 버전과 환경이 이 기능을 지원하는지 확인해야 합니다.

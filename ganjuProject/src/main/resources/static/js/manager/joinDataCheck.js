@@ -7,16 +7,15 @@ msgOk.classList.add('msg-ok');
 let validIdCheck = false;
 let checkButton = document.querySelector('.check-button');
 //중복 아이디 찾기
-function validUsername(form){
-    if(!form.username.value.trim()){
+function validLoginId(form){
+    if(!form.loginId.value.trim()){
         msg.textContent='아이디를 입력해주세요';
-        document.querySelector('.username').appendChild(msg);
+        document.querySelector('.loginId').appendChild(msg);
         return false;
     }
 
-    const username = form.querySelector('#username').value;
-    console.log(username);
-    fetch(`/manager/join/${username}`, {
+    const loginId = form.querySelector('#loginId').value;
+    fetch(`/manager/join/${loginId}`, {
         method: 'GET',
     }).then(response=>{
         return response.text();
@@ -29,11 +28,11 @@ function validUsername(form){
             checkButton.value='확인완료';
             checkButton.style.background='#222';
             msgOk.textContent='사용 가능한 아이디입니다';
-            document.querySelector('.username').appendChild(msgOk);
+            document.querySelector('.login-id').appendChild(msgOk);
         }else{
             validIdCheck = false;
             msg.textContent= "이미 사용 중인 아이디입니다";
-            document.querySelector('.username').appendChild(msg);
+            document.querySelector('.login-id').appendChild(msg);
         }
     }).catch(error => {
         console.error('확인 실패', error);
@@ -41,7 +40,7 @@ function validUsername(form){
 }
 
 //아이디 리체크
-function usernameReCheck(){
+function loginIdReCheck(){
     validIdCheck = false;
     msg.textContent='';
     msgOk.textContent='';
@@ -49,7 +48,7 @@ function usernameReCheck(){
     checkButton.style.background='#ff7a2f';
 }
 
-let usernameValue = "";
+let loginIdValue = "";
 let passwordValue = "";
 let phoneValue = "";
 let emailValue = "";
@@ -61,14 +60,14 @@ function joinCheck(form){
     msgOk.textContent='';
 
     //아이디 체크
-    if(!form.username.value.trim()){
+    if(!form.loginId.value.trim()){
         msg.textContent='아이디를 입력해주세요';
-        document.querySelector('.username').appendChild(msg);
+        document.querySelector('.login-id').appendChild(msg);
         return false;
     }
-    if(!form.username.value.trim().match(/^[A-Za-z]{1}[A-Za-z\d]{2,19}$/)){
+    if(!form.loginId.value.trim().match(/^[A-Za-z]{1}[A-Za-z\d]{2,19}$/)){
         msg.textContent='영어 포함 3자이상 20자 미만으로 작성해주세요';
-        document.querySelector('.username').appendChild(msg);
+        document.querySelector('.login-id').appendChild(msg);
         return false;
     }
 
@@ -109,11 +108,11 @@ function joinCheck(form){
     
     if(!validIdCheck){
         msg.textContent= "아이디 중복 체크 해주세요";
-        document.querySelector('.username').appendChild(msg);
+        document.querySelector('.login-id').appendChild(msg);
         return false;
     }
 
-    usernameValue = form.username.value;
+    loginIdValue = form.loginId.value;
     passwordValue = form.password.value;
     phoneValue = form.phone.value;
 
@@ -238,7 +237,7 @@ function verificationCheck(form){
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            username: usernameValue,
+            loginId: loginIdValue,
             password: passwordValue,
             phone: phoneValue,
             email:emailValue

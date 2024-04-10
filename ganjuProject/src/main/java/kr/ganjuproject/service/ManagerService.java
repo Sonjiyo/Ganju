@@ -19,8 +19,8 @@ public class ManagerService {
     private final PasswordEncoder passwordEncoder;
 
     public List<Users> getManagerList(){return managerRepository.findByRole(ROLE_MANAGER);}
-    public boolean isVaildUsername(String username){
-        return managerRepository.findByUsername(username).isEmpty();
+    public boolean isVaildLoginId(String loginId){
+        return managerRepository.findByLoginId(loginId).isEmpty();
     }
     @Transactional
     public Users insertUser(Users user){

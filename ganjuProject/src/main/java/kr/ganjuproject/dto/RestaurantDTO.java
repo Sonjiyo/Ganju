@@ -1,4 +1,4 @@
-package kr.ganjuproject.form;
+package kr.ganjuproject.dto;
 
 import lombok.Data;
 

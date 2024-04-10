@@ -12,7 +12,7 @@ import net.minidev.json.annotate.JsonIgnore;
 public class Users {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String username;
+    private String loginId;
     private String password;
     private String email;
     private String phone;
@@ -24,8 +24,8 @@ public class Users {
     private RoleUsers role;
 
     @Builder
-    public Users(String username, String password, String email,String phone, String provider, String providerId) {
-        this.username = username;
+    public Users(String loginId, String password, String email,String phone, String provider, String providerId) {
+        this.loginId = loginId;
         this.password = password;
         this.email = email;
         this.phone = phone;
