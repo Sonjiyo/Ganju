@@ -14,5 +14,5 @@ function loginCheck(form){
         document.querySelector('.password').appendChild(msg);
         return false;
     }
-
+    form.submit();
 }
