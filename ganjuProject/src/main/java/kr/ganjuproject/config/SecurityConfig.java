@@ -41,7 +41,7 @@ public class SecurityConfig {
 
         ).formLogin(
                 form->{
-                    form.loginPage("/loginForm")   // 우리가 만든 로그인페이지로 자동 인터셉트됨
+                    form.loginPage("/home/home")   // 우리가 만든 로그인페이지로 자동 인터셉트됨
                             .loginProcessingUrl("/login")
                             .failureHandler(customAuthFailureHandler())
                             .defaultSuccessUrl("/",true);  // 로그인 성공하면 돌아올 페이지
