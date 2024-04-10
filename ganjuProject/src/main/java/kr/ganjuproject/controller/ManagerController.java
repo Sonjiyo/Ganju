@@ -3,7 +3,7 @@ package kr.ganjuproject.controller;
 import jakarta.servlet.http.HttpSession;
 import kr.ganjuproject.entity.RoleUsers;
 import kr.ganjuproject.entity.Users;
-import kr.ganjuproject.form.UserDTO;
+import kr.ganjuproject.dto.UserDTO;
 import kr.ganjuproject.service.ManagerService;
 import kr.ganjuproject.service.OrdersService;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -55,8 +54,8 @@ public class ManagerController {
     }
 
     @GetMapping("join/{loginId}")
-    public @ResponseBody String validIdCheck(@PathVariable String loginId){
-        return managerService.isVaildId(loginId) ? "ok" : "no";
+    public @ResponseBody String validUsernameCheck(@PathVariable(value = "loginId") String loginId){
+        return managerService.isVaildLoginId(loginId) ? "ok" : "no";
     }
 
     @GetMapping("logout")
