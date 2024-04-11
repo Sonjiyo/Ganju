@@ -27,4 +27,7 @@ public class ManagerService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return managerRepository.save(user);
     }
+    public Users getOneUser(Long id){
+        return managerRepository.findById(id).orElse(null);
+    }
 }

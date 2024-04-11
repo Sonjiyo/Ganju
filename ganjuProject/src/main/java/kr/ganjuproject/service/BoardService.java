@@ -1,10 +1,7 @@
 package kr.ganjuproject.service;
 
 import kr.ganjuproject.dto.BoardDTO;
-import kr.ganjuproject.entity.Board;
-import kr.ganjuproject.entity.Category;
-import kr.ganjuproject.entity.Review;
-import kr.ganjuproject.entity.RoleCategory;
+import kr.ganjuproject.entity.*;
 import kr.ganjuproject.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -66,6 +63,10 @@ public class BoardService {
 
     @Transactional
     public void deleteBoard(Long id){boardRepository.deleteById(id);}
+
+    public int getReortAcceptList(Restaurant restaurant){
+        return boardRepository.findByBoardCategoryAndTitleAndRestaurant(REPORT, "accept", restaurant).size();
+    }
 
     private BoardDTO convertToDTO(Board board) {
         BoardDTO boardDTO = new BoardDTO();

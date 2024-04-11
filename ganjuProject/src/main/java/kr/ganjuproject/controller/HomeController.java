@@ -20,17 +20,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class HomeController {
 
     private final ManagerService managerService;
+    private Boolean passwordCheck = true;
     @GetMapping("/")
     public String home(HttpSession session, Authentication authentication, Model model){
         //임의로 넣어놓은 어드민
-        if(managerService.isVaildLoginId("admin")){
-            var user = new Users();
-            user.setLoginId("admin");
-            user.setPassword("1234");
-            user.setEmail("admin@example.com");
-            user.setPhone("010-0000-0001");
-            user.setRole(RoleUsers.ROLE_ADMIN);
-            managerService.insertUser(user);
+        if(passwordCheck){
+            for(Long i = 1L; i<=3; i++){
+                managerService.insertUser(managerService.getOneUser(i));
+            }
+            passwordCheck = false;
         }
 
         if(authentication == null) return "home/home";

@@ -5,6 +5,7 @@ import kr.ganjuproject.auth.PrincipalDetails;
 import kr.ganjuproject.entity.RoleUsers;
 import kr.ganjuproject.entity.Users;
 import kr.ganjuproject.dto.UserDTO;
+import kr.ganjuproject.service.BoardService;
 import kr.ganjuproject.service.ManagerService;
 import kr.ganjuproject.service.OrdersService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ import java.util.Map;
 public class ManagerController {
 
     private final ManagerService managerService;
+    private final BoardService boardService;
     private final OrdersService ordersService;
 
     @GetMapping("")
@@ -37,8 +39,10 @@ public class ManagerController {
             if(user.getLoginId().equals("admin")) return "redirect:/";
 
             Map<String, Object> map = ordersService.getRestaurantOrderData(user.getRestaurant());
+            model.addAttribute("user", user);
             model.addAttribute("orderCount", map.get("count"));
             model.addAttribute("orderPrice", map.get("price"));
+            model.addAttribute("reportCount", boardService.getReortAcceptList(user.getRestaurant()));
         }
 
         return "manager/home";

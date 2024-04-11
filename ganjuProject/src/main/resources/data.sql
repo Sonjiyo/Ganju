@@ -1,5 +1,5 @@
 -- 관리자 생성
---INSERT INTO users (login_id, password, email, phone, role) VALUES ('admin', '1234', 'admin@example.com', '010-0000-0001', 'ROLE_ADMIN');
+INSERT INTO users (login_id, password, email, phone, role) VALUES ('admin', '1234', 'admin@example.com', '010-0000-0001', 'ROLE_ADMIN');
 
 -- 매니저 생성 및 식당 정보와 연결
 INSERT INTO users (login_id, password, email, phone, role) VALUES ('manager1', '1234', 'manager1@example.com', '010-0000-0002', 'ROLE_MANAGER');
@@ -11,8 +11,8 @@ SET @manager1Id = LAST_INSERT_ID() - 1; -- 이전 ID를 가져오기 위해
 SET @manager2Id = LAST_INSERT_ID();
 
 -- 식당 정보 삽입
-INSERT INTO restaurant (name, address, phone, restaurant_table, logo, recognize, user_id) VALUES ('한식당', '서울시 강남구 역삼동', '02-123-4567', 20, 'logo1.png', 0, @manager1Id);
-INSERT INTO restaurant (name, address, phone, restaurant_table, logo, recognize, user_id) VALUES ('중식당', '서울시 서초구 반포동', '02-765-4321', 15, 'logo2.png', 0, @manager2Id);
+INSERT INTO restaurant (name, address, phone, restaurant_table, logo, recognize, user_id) VALUES ('한식당', '서울시 강남구 역삼동', '02-123-4567', 20, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2973c8ec-7profile.png', 0, @manager1Id);
+INSERT INTO restaurant (name, address, phone, restaurant_table, logo, recognize, user_id) VALUES ('중식당', '서울시 서초구 반포동', '02-765-4321', 15, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2973c8ec-7profile.png', 0, @manager2Id);
 SET @restaurantId1 = LAST_INSERT_ID() - 1; -- 이전 ID를 가져오기 위해
 SET @restaurantId2 = LAST_INSERT_ID();
 
