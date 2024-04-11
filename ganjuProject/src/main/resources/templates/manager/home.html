@@ -14,9 +14,9 @@
         <div class="container">
             <div class="profile">
                 <div>
-                    <div class="logo-image"><img th:src="${session.log.restaurant.logo}" src="https://picsum.photos/id/1/200/200" alt="logo-image"></div>
+                    <div class="logo-image"><img th:src="${user.restaurant.logo}" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="logo-image"></div>
                     <div class="info">
-                        <p th:text="${session.log.restaurant.name}">더조은 식당</p>
+                        <p th:text="${user.restaurant.name}">더조은 식당</p>
                         <div class="review-all">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -59,7 +59,7 @@
             </div>
             <div class="warning">
                 <p>경고 횟수</p>
-                <h2>1건</h2>
+                <h2 th:text="${reportCount+'건'}">1건</h2>
                 <span>경고가 많이 쌓이는 경우<br>사용에 제한이 있을 수 있습니다.</span>
             </div>
         </div>

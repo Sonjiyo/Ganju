@@ -18,13 +18,16 @@ public class MenuOption {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="menu_id")
     @ToString.Exclude
     private Menu menu;
-    @OneToMany(mappedBy = "id")
+
+    @OneToMany(mappedBy = "menuOption", orphanRemoval = true, cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<MenuOptionValue> values = new ArrayList<>();
+
     @Enumerated(EnumType.STRING)
     private RoleMenuOption menuOptionId;
 }

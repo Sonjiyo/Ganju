@@ -42,4 +42,11 @@ public class BoardController {
         boardService.deleteBoard(keyId);
         return "ok";
     }
+
+    @PutMapping("/report/{keyId}")
+    public @ResponseBody String acceptReport(@PathVariable Long keyId){
+        log.trace("keyId={}" , keyId);
+        boardService.acceptReport(boardService.getOneBoard(keyId));
+        return "ok";
+    }
 }

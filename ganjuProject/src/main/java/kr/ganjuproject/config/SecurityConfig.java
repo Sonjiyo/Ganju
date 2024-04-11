@@ -1,7 +1,8 @@
 package kr.ganjuproject.config;
 
+import jakarta.servlet.http.HttpSession;
 import kr.ganjuproject.CustomAuthFailureHandler;
-import kr.ganjuproject.service.PrincipalOauth2UserService;
+import kr.ganjuproject.auth.PrincipalOauth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -53,6 +54,22 @@ public class SecurityConfig {
 
                 }
         ).oauth2Login(Customizer.withDefaults());
+
+        http.logout(logout -> {
+                    logout
+                    .logoutUrl("/logout") // 로그아웃을 수행할 URL 설정
+                    .addLogoutHandler((request, response, authentication) -> {
+                        // 세션 무효화
+                        HttpSession session = request.getSession();
+                        if (session != null) {
+                            session.invalidate();
+                        }
+                    })  // 로그아웃 핸들러 추가
+                    .logoutSuccessHandler((request, response, authentication) -> {
+                        // 로그아웃 성공 후 리다이렉트
+                        response.sendRedirect("/");
+                    });
+                });
 
         return http.build();
     }

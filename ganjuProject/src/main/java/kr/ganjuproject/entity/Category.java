@@ -18,7 +18,7 @@ public class Category {
     private Long id;
     private int turn;
     private String name;
-    @OneToMany(mappedBy="id")
+    @OneToMany(mappedBy="category", orphanRemoval = true, cascade = CascadeType.ALL)
     @ToString.Exclude
     @JsonBackReference
     private List<Menu> menus = new ArrayList<>();

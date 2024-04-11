@@ -14,32 +14,24 @@
     cursor: pointer;
 }
 .tab-btn>div.on{background:inherit;color: var(--black);}
-.review{width: 100%;padding:var(--padding);}
-.review li{
+.report-list{width: 100%;padding:var(--padding);}
+.report-list li{
     width:100%;
     border: 1px solid var(--light-gray);
     border-radius: var(--radius);
     padding:var(--padding);
     position: relative;
-    margin-bottom: var(--padding);
+    margin-bottom: 10px;
     display: flex;
     flex-direction: column;
 }
-.review .title{margin-bottom:var(--padding);font-weight: bold;}
-.review .title span{font-weight:normal;font-size: var(--font-small);color:var(--gray);margin-left:15px;}
+.report-list .title{margin-bottom:var(--padding);font-weight: bold;}
+.report-list .title span{font-weight:normal;font-size: var(--font-small);color:var(--gray);margin-left:15px;}
 
-.review li button:has(i){
-    position: absolute;
-    top:0;right:0;
-    padding:10px 15px;
-    font-size: var(--font-content);
-    color:var(--gray);
-    border: none;
-    background: inherit;
-    cursor: pointer;
-}
-.review li .button{
+.report-list li .button-group{
+    display: flex;
+    justify-content: space-between;
     margin-top:var(--padding);
-    align-self: flex-end;
 }
-
+.report-list li .button-group .button:last-child{background: var(--gray);}
+.report-list li .button-group .button:last-child:hover{background: var(--black);}

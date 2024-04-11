@@ -1,6 +1,7 @@
 package kr.ganjuproject.repository;
 
 import kr.ganjuproject.entity.Board;
+import kr.ganjuproject.entity.Restaurant;
 import kr.ganjuproject.entity.RoleCategory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,4 +28,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     Long countByRestaurantIdAndBoardCategory(@Param("restaurantId") Long restaurantId, @Param("boardCategory") RoleCategory boardCategory);
 
     List<Board> findByBoardCategory(RoleCategory category);
+
+    List<Board> findByBoardCategoryAndTitleAndRestaurant(RoleCategory category, String title, Restaurant restaurant);
 }

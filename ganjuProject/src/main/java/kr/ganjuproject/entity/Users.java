@@ -31,7 +31,7 @@ public class Users {
         this.phone = phone;
         this.provider = provider;
         this.providerId = providerId;
-        this.role=RoleUsers.ROLE_USER;
+        this.role=RoleUsers.ROLE_MANAGER;
     }
     @Column(nullable = true)
     private String provider;
