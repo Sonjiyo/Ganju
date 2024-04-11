@@ -1,6 +1,7 @@
 package kr.ganjuproject.controller;
 
 import jakarta.servlet.http.HttpSession;
+import kr.ganjuproject.auth.PrincipalDetails;
 import kr.ganjuproject.entity.RoleUsers;
 import kr.ganjuproject.entity.Users;
 import kr.ganjuproject.dto.UserDTO;
@@ -8,6 +9,8 @@ import kr.ganjuproject.service.ManagerService;
 import kr.ganjuproject.service.OrdersService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,14 +27,19 @@ public class ManagerController {
     private final OrdersService ordersService;
 
     @GetMapping("")
-    public String main(HttpSession session, Model model){
-        if(session.getAttribute("log")==null
-                || ((Users) session.getAttribute("log")).getLoginId().equals("admin")) return "redirect:/";
-        Users user = (Users) session.getAttribute("log");
-        Map<String, Object> map = ordersService.getRestaurantOrderData(user.getRestaurant());
-        model.addAttribute("orderCount", map.get("count"));
-        model.addAttribute("orderPrice", map.get("price"));
+    public String main(Authentication authentication, Model model){
+        if(authentication == null) return "redirect:/";
+        Object principal = authentication.getPrincipal();
 
+        if(principal instanceof PrincipalDetails) {
+            PrincipalDetails principalDetails = (PrincipalDetails) principal;
+            Users user = principalDetails.getUser();
+            if(user.getLoginId().equals("admin")) return "redirect:/";
+
+            Map<String, Object> map = ordersService.getRestaurantOrderData(user.getRestaurant());
+            model.addAttribute("orderCount", map.get("count"));
+            model.addAttribute("orderPrice", map.get("price"));
+        }
 
         return "manager/home";
     }
@@ -40,7 +48,7 @@ public class ManagerController {
     public String join(){return "manager/join";}
 
     @PostMapping("join")
-    public @ResponseBody String insertUser(@RequestBody UserDTO userDTO, HttpSession session) {
+    public @ResponseBody String insertUser(@RequestBody UserDTO userDTO) {
         Users user = new Users();
         user.setLoginId(userDTO.getLoginId());
         user.setPassword(userDTO.getPassword());
@@ -49,7 +57,6 @@ public class ManagerController {
         user.setRole(RoleUsers.ROLE_MANAGER);
         managerService.insertUser(user);
 
-        session.setAttribute("log", user);
         return "";
     }
 
@@ -57,22 +64,4 @@ public class ManagerController {
     public @ResponseBody String validUsernameCheck(@PathVariable(value = "loginId") String loginId){
         return managerService.isVaildLoginId(loginId) ? "ok" : "no";
     }
-
-    @GetMapping("logout")
-    public String logout(HttpSession session){
-        session.invalidate();
-        return "redirect:/";
-    }
-
-    @GetMapping("joinRestaurant")
-    public String joinRestaurant(){
-        return "manager/joinRestaurant";
-    }
-
-    @GetMapping("joinSuccess")
-    public String joinSuccess(){
-        return "manager/joinSuccess";
-    }
-
-
 }

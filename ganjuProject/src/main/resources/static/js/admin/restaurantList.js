@@ -30,3 +30,23 @@ passwordEye.forEach(e=>{
         } 
     })
 })
+
+function recognizeRestaurant(keyId){
+    fetch(`/restaurant/recognize/${keyId}`, {
+        method: 'PUT',
+    }).then(response=>{
+        return response.text();
+    }).then(data => {
+        if(data === 'ok'){
+            console.log('승인 성공');
+        }else{
+            console.log('승인 실패');
+        }
+    }).catch(error => {
+        console.error('확인 실패', error);
+    });
+}
+
+function deleteRestaurant(keyId){
+
+}

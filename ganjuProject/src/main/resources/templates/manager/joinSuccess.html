@@ -12,7 +12,9 @@
                 <a href="/"><i class="fas fa-home"></i></a>
             </div>
             <p>회원가입</p>
-            <div></div>
+            <div>
+                <a href="/logout"><i class="fas fa-sign-out-alt"></i></a>
+            </div>
         </header>
         <div class="container">
             <h2>간주에 가입하신 것을<br>환영합니다!</h2>
@@ -22,45 +24,38 @@
                         <td>로고</td>
                         <td>
                             <div class="logo-image">
-                                <img th:src="${session.log.restaurant.logo}" src="https://ganju-test.s3.ap-northeast-2.amazonaws.com/images/noImage.png" alt="logo-image">
+                                <img th:src="${user.restaurant.logo}" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="logo-image">
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td>아이디</td>
-                        <td th:text="${session.log.loginId}">thejoeun</td>
-                    </tr>
-                    <tr>
-                        <td>비밀번호</td>
-                        <td>
-                            <input type="password" th:value="${session.log.password}" value="11111111" class="password" readonly>
-                            <span><i class="far fa-eye-slash passwordEye"></i></span>
-                        </td>
+                        <td th:text="${user.loginId}">thejoeun</td>
                     </tr>
                     <tr>
                         <td>이메일</td>
-                        <td th:text="${session.log.email}">thejoeun@korea.co.kr</td>
+                        <td th:text="${user.email}">thejoeun@korea.co.kr</td>
                     </tr>
                     <tr>
                         <td>전화번호</td>
-                        <td th:text="${session.log.phone}">010-1234-1234</td>
+                        <td th:text="${user.phone}">010-1234-1234</td>
                     </tr>
                     <tr>
                         <td>식당 이름</td>
-                        <td th:text="${session.log.restaurant.name}">더조은식당</td>
+                        <td th:text="${user.restaurant.name}">더조은식당</td>
                     </tr>
                     <tr>
                         <td>가게번호</td>
-                        <td th:text="${session.log.restaurant.phone}">02-1234-1234</td>
+                        <td th:text="${user.restaurant.phone}">02-1234-1234</td>
                     </tr>
                     <tr>
                         <td>주소</td>
-                        <td th:text="${session.log.restaurant.address}">서울시 용산구 어쩌구 저쩌구 엄청나게 긴 주소 쓰기 연습 어쩌구 저쩌구 </td>
+                        <td th:text="${user.restaurant.address}">서울시 용산구 어쩌구 저쩌구 엄청나게 긴 주소 쓰기 연습 어쩌구 저쩌구 </td>
                     </tr>
                 </table>
             </div>
-            <p class="warning on" th:if="${session.log.restaurant.recognize eq 0}">현재 관리자가 식당을 승인 중에 있습니다<br>모든 서비스는 승인 후 이용 가능합니다</p>
-            <input type="button" value="메인으로" class="button main-button" onclick="location.href='/'" th:if="${session.log.restaurant.recognize eq 1}">
+            <p class="warning on" th:if="${user.restaurant.recognize eq 0}">현재 관리자가 식당을 승인 중에 있습니다<br>모든 서비스는 승인 후 이용 가능합니다</p>
+            <input type="button" value="메인으로" class="button main-button" onclick="location.href='/'" th:if="${user.restaurant.recognize eq 1}">
         </div>
     </div>
 </body>

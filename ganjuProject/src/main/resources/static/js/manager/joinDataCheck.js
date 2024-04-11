@@ -185,15 +185,15 @@ function countDown(form){
     if(!emailPatternCheck){return false;}
     timeCheck = true;
 
-    // fetch(`/email/${form.email.value}`, {
-    //     method: 'POST',
-    // }).then(response=>{
-    //     return response.text();
-    // }).then(data => {
-    //     num = data;
-    // }).catch(error => {
-    //     console.error('확인 실패', error);
-    // });
+    fetch(`/email/${form.email.value}`, {
+        method: 'POST',
+    }).then(response=>{
+        return response.text();
+    }).then(data => {
+        num = data;
+    }).catch(error => {
+        console.error('확인 실패', error);
+    });
 
     timeLeft.innerHTML = 0o3 + ":" + 0o0;
     document.querySelector('.verification label').appendChild(timeLeft);
@@ -216,12 +216,12 @@ function verificationCheck(form){
 		document.querySelector('.verification').appendChild(msg);
         return false;
     }
-    //
-    // if(form.verification.value.trim()+"" !== num.trim()){
-    //     msg.textContent= "인증번호가 올바르지 않습니다.";
-    //     document.querySelector('.verification').appendChild(msg);
-    //     return false;
-    // }
+
+    if(form.verification.value.trim()+"" !== num.trim()){
+        msg.textContent= "인증번호가 올바르지 않습니다.";
+        document.querySelector('.verification').appendChild(msg);
+        return false;
+    }
 
     if(!timeCheck){
         msg.textContent= "입력 시간이 지났습니다. 다시 시도해주세요";
@@ -247,7 +247,7 @@ function verificationCheck(form){
             throw new Error('Network response was not ok');
         }
         console.log('추가 성공');
-        location.href="/manager/joinRestaurant";
+        location.href="/";
     }).catch(error => {
         console.error('추가 실패', error);
     });

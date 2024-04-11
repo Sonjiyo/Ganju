@@ -27,11 +27,14 @@ public class RestaurantService {
             String storedFileName = s3Uploader.upload(image);
             restaurant.setLogo(storedFileName);
         }
-        return restaurantRepository.save(restaurant);
+        return save(restaurant);
     }
 
     public Optional<Restaurant> findById(Long id) {
         return restaurantRepository.findById(id);
+    }
+    public Restaurant save(Restaurant restaurant){
+        return restaurantRepository.save(restaurant);
     }
 
 }

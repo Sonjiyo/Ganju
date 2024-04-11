@@ -23,7 +23,6 @@ public class Restaurant {
     private int restaurantTable;
     @Column
     private String logo;
-    @Builder.Default
     private int recognize = 0;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(unique = true)
