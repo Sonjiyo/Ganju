@@ -13,7 +13,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static kr.ganjuproject.entity.RoleCategory.REPORT;
@@ -46,8 +48,21 @@ public class BoardService {
     public List<Board> findAll(){
         return boardRepository.findAll();
     }
-    public List<Board> getReortList(){ return boardRepository.findByBoardCategory(REPORT); }
+    public List<Board> getReortList(){
+        List<Board> reportList = boardRepository.findByBoardCategory(REPORT);
+        Collections.reverse(reportList); // 리스트를 역순으로 정렬
+        return reportList;
+    }
 
+    public Board getOneBoard(Long id){
+        return boardRepository.findById(id).orElse(null);
+    }
+
+    @Transactional
+    public Board acceptReport(Board board){
+        board.setTitle("accept");
+        return boardRepository.save(board);
+    }
 
     @Transactional
     public void deleteBoard(Long id){boardRepository.deleteById(id);}

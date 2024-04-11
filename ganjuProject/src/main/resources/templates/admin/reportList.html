@@ -3,6 +3,7 @@
 <head>
     <div th:replace="fragments/header :: header('어드민 페이지')"></div>
     <link rel="stylesheet" href="/css/admin/reportList.css" type="text/css">
+    <script src="/js/admin/reportList.js" defer type="text/javascript"></script>
 </head>
 <body>
     <div class="innerBox">
@@ -18,11 +19,14 @@
                 <div onclick="location.href='/admin/restaurantList'">식당 관리</div>
                 <div onclick="location.href='/admin/reportList'" class="on">신고 내역</div>
             </div>
-            <ul class="review" th:each="report : ${list}">
-                <li>
-                    <p class="title" th:text="${report.restaurant.name + ' '}" th:remove="tag">더조은 식당<span th:text="${report.regDate}">2024.03.30</span></p>
+            <ul class="report-list">
+                <li th:each="report : ${list}">
+                    <p class="title">[(${report.restaurant.name})]<span th:text="${#temporals.format(report.regDate, 'yyyy.MM.dd')}">2024.03.30</span></p>
                     <p class="content" th:text="${report.content}">진짜 맛 없어요. 다시는 안와요.</p>
-                    <button onclick=""><i class="fas fa-times"></i></button>
+                    <div class="button-group">
+                        <button class="button accept" th:onclick="'acceptReport(\'' + ${report.id} + '\', this)'">승인하기</button>
+                        <button class="button reject" th:onclick="'rejectReport(\'' + ${report.id} + '\', this)'">삭제하기</button>
+                    </div>
                 </li>
             </ul>
         </div>

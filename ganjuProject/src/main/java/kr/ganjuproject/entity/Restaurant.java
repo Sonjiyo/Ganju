@@ -23,27 +23,27 @@ public class Restaurant {
     private int restaurantTable;
     @Column
     private String logo;
-    private int recognize = 0;
+    private int recognize;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(unique = true)
     @ToString.Exclude
     @JsonBackReference
     private Users user;
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "restaurant", orphanRemoval = true, cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<Review> reviews = new ArrayList<>();
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "restaurant", orphanRemoval = true, cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<Board> boards = new ArrayList<>();
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "restaurant", orphanRemoval = true, cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<Menu> menus = new ArrayList<>();
   
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "restaurant", orphanRemoval = true, cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<Orders> orders = new ArrayList<>();
   
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "restaurant", orphanRemoval = true, cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<Category> categories = new ArrayList<>();
 

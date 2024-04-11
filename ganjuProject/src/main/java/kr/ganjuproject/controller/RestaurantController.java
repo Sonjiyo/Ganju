@@ -67,4 +67,15 @@ public class RestaurantController {
         }
         return "ok";
     }
+
+    @DeleteMapping("/{keyId}")
+    public @ResponseBody String DeleteRestaurant(@PathVariable Long keyId){
+        Optional<Restaurant> optionalRestaurant = restaurantService.findById(keyId);
+        if (optionalRestaurant.isPresent()) {
+            Restaurant restaurant = optionalRestaurant.get();
+            restaurantService.delete(restaurant);
+            return "ok";
+        }
+        return "no";
+    }
 }

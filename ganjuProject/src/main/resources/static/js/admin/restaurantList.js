@@ -31,7 +31,7 @@ passwordEye.forEach(e=>{
     })
 })
 
-function recognizeRestaurant(keyId){
+function recognizeRestaurant(keyId, btn){
     fetch(`/restaurant/recognize/${keyId}`, {
         method: 'PUT',
     }).then(response=>{
@@ -39,6 +39,13 @@ function recognizeRestaurant(keyId){
     }).then(data => {
         if(data === 'ok'){
             console.log('승인 성공');
+            let btns = [...document.querySelectorAll('.recognize')];
+            let btnIndex = btns.indexOf(btn);
+            let badge = document.querySelectorAll(".badge.waiting");
+            badge[btnIndex].classList.remove("waiting");
+            badge[btnIndex].classList.add("success");
+            badge[btnIndex].textContent = "승인완료";
+            btn.remove();
         }else{
             console.log('승인 실패');
         }
@@ -47,6 +54,22 @@ function recognizeRestaurant(keyId){
     });
 }
 
-function deleteRestaurant(keyId){
-
+function deleteRestaurant(keyId, btn){
+    fetch(`/restaurant/${keyId}`, {
+        method: 'DELETE',
+    }).then(response=>{
+        return response.text();
+    }).then(data => {
+        if(data === 'ok'){
+            console.log('삭제 성공');
+            let btns = [...document.querySelectorAll('.refuse')];
+            let btnIndex = btns.indexOf(btn);
+            let restaurantList = document.querySelectorAll(".resturant-list li");
+            restaurantList[btnIndex].remove();
+        }else{
+            console.log('삭제 실패');
+        }
+    }).catch(error => {
+        console.error('확인 실패', error);
+    });
 }

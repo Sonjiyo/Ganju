@@ -232,6 +232,13 @@ VALUES
     ('운영자', '메뉴 가격 조정 안내', '원자재 가격 상승으로 일부 메뉴의 가격이 조정됩니다.', '2023-08-23', 'NOTICE', @restaurantId1),
     ('운영자', '정기 점검 일정 안내', '더 나은 서비스 제공을 위한 정기 점검을 실시합니다.', '2023-12-01', 'NOTICE', @restaurantId1);
 
+-- 신고 추가
+INSERT INTO board (title, content, reg_date, board_category, restaurant_id)
+VALUES
+    ('', '위생 불량으로 신고합니다', '2020-09-15', 'REPORT', @restaurantId1),
+    ('', '직원 태도 불량으로 신고합니다', '2020-09-15', 'REPORT', @restaurantId1),
+    ('', '음식이 너무 맛이 없습니다', '2020-09-15', 'REPORT', @restaurantId1),
+    ('', '허위신고', '2020-09-15', 'REPORT', @restaurantId1);
 -- 주문 정보 삽입 예시
 INSERT INTO orders (restaurant_table_no, menu_id, price, reg_date, content, uid)
 VALUES
@@ -259,3 +266,4 @@ VALUES
     ('조민서', '재방문 의사 있습니다!', 5, '2024-04-04 20:00:00', 1, 8, 0),
     ('윤소희', '친절하셨어요.', 5, '2024-04-05 20:30:00', 1, 9, 0),
     ('이준호', '음식이 식어서 나왔어요.', 3, '2024-04-05 21:00:00', 1, 10, 0);
+

@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +21,11 @@ public class RestaurantService {
 
     private final S3Uploader s3Uploader;
 
-    public List<Restaurant> getRestaurantList(){return restaurantRepository.findAll();}
+    public List<Restaurant> getRestaurantList(){
+        List<Restaurant> restaurantList = restaurantRepository.findAll();
+        Collections.reverse(restaurantList);
+        return restaurantList;
+    }
     @Transactional
     public Restaurant insertRestaurant(MultipartFile image, Restaurant restaurant) throws IOException {
         if(!image.isEmpty()){
@@ -33,8 +38,14 @@ public class RestaurantService {
     public Optional<Restaurant> findById(Long id) {
         return restaurantRepository.findById(id);
     }
+    @Transactional
     public Restaurant save(Restaurant restaurant){
         return restaurantRepository.save(restaurant);
+    }
+
+    @Transactional
+    public void delete(Restaurant restaurant){
+        restaurantRepository.delete(restaurant);
     }
 
 }

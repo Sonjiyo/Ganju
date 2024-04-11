@@ -19,8 +19,8 @@
                 <div onclick="location.href='/admin/restaurantList'" class="on">식당 관리</div>
                 <div onclick="location.href='/admin/reportList'">신고 내역</div>
             </div>
-            <ul class="resturant-list" th:each="manager : ${list}">
-                <li>
+            <ul class="resturant-list" >
+                <li th:each="manager : ${list}">
                     <div class="title">
                         <div class="title-left">
                             <div class="logo"><img th:src="${manager.restaurant.logo}" src="https://ganju-test.s3.ap-northeast-2.amazonaws.com/images/noImage.png" alt="restaurant img"></div>
@@ -60,8 +60,8 @@
                         <tr>
                             <td colspan="2">
                                 <div class="flex">
-                                    <a th:onclick="'recognizeRestaurant(\'' + ${manager.restaurant.id} + '\')'" th:if="${manager.restaurant.recognize ne 1}">승인하기</a>
-                                    <a th:onclick="deleteRestaurant('${manager.restaurant.id}')" class="refuse" >탈퇴하기</a>
+                                    <a th:onclick="'recognizeRestaurant(\'' + ${manager.restaurant.id} + '\', this)'" class="recognize" th:if="${manager.restaurant.recognize ne 1}">승인하기</a>
+                                    <a th:onclick="'deleteRestaurant(\'' + ${manager.restaurant.id} + '\', this)'" class="refuse" >탈퇴하기</a>
                                 </div>
                             </td>
                         </tr>
