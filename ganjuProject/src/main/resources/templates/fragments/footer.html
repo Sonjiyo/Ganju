@@ -6,11 +6,11 @@
 </head>
 <body>
 <footer th:fragment="footer(menu)">
-    <a href="/manager/home" th:class="${menu eq 'home'} ? 'on'">홈</a>
+    <a href="/" th:class="${menu eq 'home'} ? 'on'">홈</a>
     <a href="/orders" th:class="${menu eq 'order'} ? 'on'">주문관리</a>
     <a href="/category/main" th:class="${menu eq 'menu'} ? 'on'">메뉴관리</a>
     <a href="/review/main" th:class="${menu eq 'review'} ? 'on'">리뷰관리</a>
-    <a href="/" th:class="${menu eq 'myPage'} ? 'on'">마이페이지</a>
+    <a href="/myPage/main" th:class="${menu eq 'myPage'} ? 'on'">마이페이지</a>
 </footer>
 </body>
 </html>
