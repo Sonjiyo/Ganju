@@ -43,7 +43,7 @@
                             <a class="down-arrow">
                                 <i class="fas fa-chevron-down"></i>
                             </a>
-                            <p th:text="${category.name}"></p>
+                            <p th:text="${category.name}" th:data-id="${category.id}"></p>
                         </div>
                         <a>
                             <i class="fas fa-times category_deleteBtn" th:data-id="${category.id}"></i>

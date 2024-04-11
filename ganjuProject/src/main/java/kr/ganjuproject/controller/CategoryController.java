@@ -17,10 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @Slf4j
@@ -34,6 +31,7 @@ public class CategoryController {
     @GetMapping("/main")
     public String menuCategory(Model model) {
         List<Category> categories = categoryService.findByRestaurantId(1L);
+        categories.sort(Comparator.comparingInt(Category::getTurn));
         model.addAttribute("categories", categories);
         List<Menu> menus = menuService.findByRestaurantId(1L);
         System.out.println("menus = " + menus);
@@ -80,6 +78,31 @@ public class CategoryController {
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("카테고리 삭제 실패: " + e.getMessage());
+        }
+    }
+
+    @PostMapping(value = "/swapTurn")
+    public ResponseEntity<Map<String, String>> swapTurn(@RequestBody Map<String, Object> requestBody) {
+        Long id1 = Long.parseLong(requestBody.get("id1").toString());
+        Long id2 = Long.parseLong(requestBody.get("id2").toString());
+        if (id1 == null || id2 == null) {
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "ID가 없습니다");
+            return ResponseEntity.badRequest().body(response);
+        }
+        try {
+            categoryService.swapTurn(id1, id2);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "턴이 성공적으로 변경되었습니다");
+            return ResponseEntity.ok().body(response);
+        } catch (IllegalArgumentException e) {
+            Map<String, String> response = new HashMap<>();
+            response.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        } catch (Exception e) {
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "턴 변경 중 오류가 발생했습니다");
+            return ResponseEntity.status(500).body(response);
         }
     }
 }

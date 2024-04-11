@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,10 +30,10 @@ public class CategoryService {
             return dto;
         }).collect(Collectors.toList());
     }
+
     // DTO 말고 카테고리 가져가는것도 만들자
     public List<Category> findByRestaurantId(Long restaurantId) {
         List<Category> categories = categoryRepository.findByRestaurantId(restaurantId);
-
         return categories;
     }
 
@@ -48,5 +49,19 @@ public class CategoryService {
 
     public Optional<Category> findById(Long id) {
         return categoryRepository.findById(id);
+    }
+
+    @Transactional
+    public void swapTurn(Long id1, Long id2) {
+        Category category1 = categoryRepository.findById(id1).orElse(null);
+        Category category2 = categoryRepository.findById(id2).orElse(null);
+        if (category1 == null || category2 == null) {
+            throw new IllegalArgumentException("주어진 ID에 해당하는 카테고리를 찾을 수 없습니다");
+        }
+        int tempTurn = category1.getTurn();
+        category1.setTurn(category2.getTurn());
+        category2.setTurn(tempTurn);
+        categoryRepository.save(category1);
+        categoryRepository.save(category2);
     }
 }

@@ -116,7 +116,6 @@ public class MenuController {
     @GetMapping("/add")
     public String addMenuForm(Model model) {
         List<CategoryDTO> categories = categoryService.findCategoriesByRestaurantId(1L);
-
         model.addAttribute("categories", categories);
         List<MenuDTO> menus = menuService.findMenusByRestaurantId(1L);
         model.addAttribute("menus", menus);
@@ -124,18 +123,20 @@ public class MenuController {
     }
 
     @PostMapping(value = "/add")
-    public ResponseEntity<String> addMenu(@RequestBody String menu) {
+    public ResponseEntity<String> addMenu(@RequestBody String menuData) {
         try {
-            System.out.println("menu = " + menu);
+            System.out.println("menu = " + menuData);
             ObjectMapper mapper = new ObjectMapper();
-            Map<String, String> input = mapper.readValue(menu, new
-                    TypeReference<Map<String, String>>() {
-                    });
+            Map<String, String> input = mapper.readValue(menuData, new TypeReference<Map<String, String>>() {});
+            // 받아온 레스토랑 ID를 사용하여 해당 레스토랑에 속한 카테고리를 데이터베이스에서 조회
+            Long restaurantId = Long.parseLong(input.get("restaurantId"));
+            List<Category> categories = categoryService.findByRestaurantId(restaurantId);
+            // 여기서 적절한 카테고리 선택 로직이 필요합니다. 예를 들어 첫 번째 카테고리를 선택하거나, 특정 조건에 따라 선택할 수 있습니다.
+            Category category = categories.get(0); // 여기서는 첫 번째 카테고리를 선택하는 것으로 가정합니다.
             Menu obj = new Menu();
             obj.setName(input.get("name"));
             obj.setPrice(Integer.parseInt(input.get("price")));
-            Category test = categoryService.findByRestaurantId(1L).get(0);
-            obj.setCategory(test);
+            obj.setCategory(category); // 조회된 카테고리를 메뉴 객체에 설정
             System.out.println("obj = " + obj);
             menuService.add(obj);
             return ResponseEntity.ok().body("메뉴가 성공적으로 등록되었습니다.");
