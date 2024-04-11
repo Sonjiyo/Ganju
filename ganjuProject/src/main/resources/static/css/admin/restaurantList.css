@@ -30,6 +30,15 @@
     margin-bottom: 20%;
 }
 .resturant-list li .login-id{font-size: var(--font-small);color:var(--gray);}
+.resturant-name{width: 150px;}
+.resturant-name>p{
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
+}
+
 
 /* 뱃지 */
 .badge{
@@ -82,6 +91,7 @@ input:focus{outline: none;}
 .resturant-list li .content tr{
     width: 100%;display:table ;}
 .resturant-list li .content td:first-child{width: 20%;}
+.resturant-list li .content td:last-child{width: 80%;word-break: break-all;}
 .resturant-list li .content td{padding:6px 0;}
 .resturant-list li .content tr td:first-child{color:var(--gray);}
 .resturant-list li .content tr td span{

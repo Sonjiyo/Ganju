@@ -1,8 +1,9 @@
-package kr.ganjuproject.service;
+package kr.ganjuproject.auth;
 
 import kr.ganjuproject.auth.PrincipalDetails;
 import kr.ganjuproject.entity.Users;
 import kr.ganjuproject.oauth.provider.GoogleUserInfo;
+import kr.ganjuproject.oauth.provider.KakaoUserInfo;
 import kr.ganjuproject.oauth.provider.NaverUserInfo;
 import kr.ganjuproject.oauth.provider.OAuth2UserInfo;
 import kr.ganjuproject.repository.ManagerRepository;
@@ -37,12 +38,16 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
     private OAuth2User processOAuthUser(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
         // Attribute를 파싱해서 공통 객체로 묶는다. 관리가 편함.
         OAuth2UserInfo oAuth2UserInfo = null;
+        System.out.println("userRequest = " + userRequest.getClientRegistration().getRegistrationId());
         if (userRequest.getClientRegistration().getRegistrationId().equals("google")) {
             System.out.println("구글 로그인");
             oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
         } else if (userRequest.getClientRegistration().getRegistrationId().equals("naver")) {
             System.out.println("네이버 로그인");
             oAuth2UserInfo = new NaverUserInfo((Map) oAuth2User.getAttributes().get("response"));
+        } else if (userRequest.getClientRegistration().getRegistrationId().equals("kakao")) {
+            System.out.println("카카오 로그인");
+            oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes(), (Map<String, Object>) oAuth2User.getAttributes().get("kakao_account"));
         } else {
             System.out.println("요청 실패 ");
         }

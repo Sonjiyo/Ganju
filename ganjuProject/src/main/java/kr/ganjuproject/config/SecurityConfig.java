@@ -2,7 +2,7 @@ package kr.ganjuproject.config;
 
 import jakarta.servlet.http.HttpSession;
 import kr.ganjuproject.CustomAuthFailureHandler;
-import kr.ganjuproject.service.PrincipalOauth2UserService;
+import kr.ganjuproject.auth.PrincipalOauth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
