@@ -1,3 +1,4 @@
+// 카테고리 이동 버튼
 document.addEventListener('DOMContentLoaded', function () {
     const menuMenus = document.querySelectorAll('.menu_menu');
     menuMenus.forEach((menu) => {
@@ -12,23 +13,48 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function moveUp(menu) {
+        const categoryId = menu.querySelector('p').dataset.id;
         const previousMenu = menu.previousElementSibling;
         if (previousMenu !== null) {
+            const previousCategoryId = previousMenu.querySelector('p').dataset.id;
+            swapTurn(categoryId, previousCategoryId);
             menu.parentNode.insertBefore(menu, previousMenu);
         }
     }
 
     function moveDown(menu) {
+        const categoryId = menu.querySelector('p').dataset.id;
         const nextMenu = menu.nextElementSibling;
         if (nextMenu !== null) {
+            const nextCategoryId = nextMenu.querySelector('p').dataset.id;
+            swapTurn(categoryId, nextCategoryId);
             menu.parentNode.insertBefore(nextMenu, menu);
         }
     }
+
+    function swapTurn(id1, id2) {
+        fetch("/category/swapTurn", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({id1, id2}),
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('네트워크 오류');
+            }
+            return response.json();
+        }).then(data => {
+            console.log('턴 변경 성공 : ', data);
+        }).catch(error => {
+            console.error('턴 변경 실패 : ', error);
+        });
+    }
 });
 
+// 카테고리 삭제 버튼
 document.addEventListener('DOMContentLoaded', function () {
     const deleteButtons = document.querySelectorAll('.menu_menu a i.fa-times');
-
     deleteButtons.forEach(button => {
         button.addEventListener('click', function () {
             const menuMenu = button.closest('.menu_menu');
