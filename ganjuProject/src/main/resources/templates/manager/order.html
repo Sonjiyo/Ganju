@@ -37,27 +37,15 @@
                 <li>승인</li>
             </ul>
             <ul class="order-list">
-                <li>
+                <li th:each="order : ${list}">
                     <div class="content-summary">
                         <div class="left">
                             <p class="order-title call">호출</p>
                             <p class="order-subtitle">와주세요</p>
-                            <span class="table-name">1번 테이블</span>
+                            <span class="table-name" th:text="${order.restaurantTableNo}+'번 테이블'">1번 테이블</span>
                         </div>
                         <div class="right">
-                            <span class="time">13:00</span>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="content-summary">
-                        <div class="left">
-                            <p class="order-title wait">주문</p>
-                            <span class="table-name">1번 테이블</span>
-                        </div>
-                        <div class="right">
-                            <span class="time">13:00</span>
-                            <button><i class="fas fa-chevron-down"></i></button>
+                            <span class="time" th:text="${#temporals.format(order.regDate, 'HH:mm')}">13:00</span>
                         </div>
                     </div>
                     <table class="info">

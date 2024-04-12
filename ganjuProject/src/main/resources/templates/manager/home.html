@@ -29,8 +29,8 @@
                 </div>
             </div>
             <div class="today-sales">
-                <p>오늘의 주문<span>36건</span></p>
-                <p>오늘의 매출<span>121,121,122원</span></p>
+                <p>오늘의 주문<span th:text="${orderCount}+'건'">36건</span></p>
+                <p>오늘의 매출<span th:text="${#numbers.formatInteger(orderPrice, 0, 'COMMA') + '원'}">121,121,122원</span></p>
             </div>
             <div class="order">
                 <p onclick="location.href='/orders'">주문 현황</p>
@@ -50,9 +50,9 @@
                 </ul>
             </div>
             <div class="direct-url">
-                <a href="/menu/main">메뉴 관리</a>
+                <a href="/category/main">메뉴 관리</a>
                 <a href="/review/main">리뷰 관리</a>
-                <a href="/static">공지 관리</a>
+                <a href="/">공지 관리</a>
             </div>
             <div class="qna">
                 <button>1 대 1 문의 남기기</button>
