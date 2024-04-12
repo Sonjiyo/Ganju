@@ -8,5 +8,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface OrdersRepository extends JpaRepository<Orders, Long> {
-    Optional<Orders> findByRestaurant(Restaurant restaurant);
+    List<Orders> findByRestaurant(Restaurant restaurant);
 }

@@ -39,8 +39,8 @@
                 </div>
             </div>
             <div class="total-sales">
-                <p>총 주문<span>36건</span></p>
-                <p>총 매출<span>121,121,122원</span></p>
+                <p>총 주문<span th:text="${orderCount}+'건'">36건</span></p>
+                <p>총 매출<span th:text="${#numbers.formatInteger(orderPrice, 0, 'COMMA') + '원'}">121,121,122원</span></p>
             </div>
             <ul class="sales-list">
                 <li>

@@ -43,6 +43,7 @@ public class ManagerController {
             model.addAttribute("orderCount", map.get("count"));
             model.addAttribute("orderPrice", map.get("price"));
             model.addAttribute("reportCount", boardService.getReortAcceptList(user.getRestaurant()));
+
         }
 
         return "manager/home";
