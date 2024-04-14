@@ -60,25 +60,7 @@
             <button class="button-etc buttons">회원탈퇴</button>
         </div>
     </div>
-    <footer>
-        <div class="footer">
-            <button class="footer_menu" onclick="homeReq()">
-                <i class="fas fa-home"></i>홈
-            </button>
-            <button class="footer_menu" onclick="orderInfoReq()">
-                <i class="far fa-clipboard"></i>주문관리
-            </button>
-            <button class="footer_menu" onclick="menuInfoReq()">
-                <i class="fas fa-drumstick-bite"></i>메뉴관리
-            </button>
-            <button class="footer_menu" onclick="reviewInfoReq()">
-                <i class="fas fa-pen-square"></i>리뷰관리
-            </button>
-            <button class="footer_menu on" onclick="myPageReq()">
-                <i class="fas fa-user"></i>마이페이지
-            </button>
-        </div>
-    </footer>
+    <footer th:replace="fragments/footer :: footer(mypage)"></footer>
 </div>
 </body>
 

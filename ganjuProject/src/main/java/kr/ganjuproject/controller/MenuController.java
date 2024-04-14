@@ -24,8 +24,8 @@ import java.util.*;
 @RequestMapping("/menu")
 @RequiredArgsConstructor
 public class MenuController {
-
     private final MenuService menuService;
+    private final RestaurantService restaurantService;
     private final MenuOptionService menuOptionService;
     private final MenuOptionValueService menuOptionValueService;
     private final CategoryService categoryService;
@@ -130,18 +130,21 @@ public class MenuController {
             Map<String, String> input = mapper.readValue(menuData, new TypeReference<Map<String, String>>() {});
             // 받아온 레스토랑 ID를 사용하여 해당 레스토랑에 속한 카테고리를 데이터베이스에서 조회
             Long restaurantId = Long.parseLong(input.get("restaurantId"));
-            List<Category> categories = categoryService.findByRestaurantId(restaurantId);
+            Long categoryId = Long.parseLong(input.get("categoryId"));
             // 여기서 적절한 카테고리 선택 로직이 필요합니다. 예를 들어 첫 번째 카테고리를 선택하거나, 특정 조건에 따라 선택할 수 있습니다.
-            Category category = categories.get(0); // 여기서는 첫 번째 카테고리를 선택하는 것으로 가정합니다.
+            Category category = categoryService.findById(categoryId)
+                    .orElseThrow(() -> new RuntimeException("해당 ID에 해당하는 카테고리를 찾을 수 없습니다"));
             Menu obj = new Menu();
             obj.setName(input.get("name"));
             obj.setPrice(Integer.parseInt(input.get("price")));
             obj.setCategory(category); // 조회된 카테고리를 메뉴 객체에 설정
+            obj.setRestaurant(restaurantService.findById(restaurantId)
+                    .orElseThrow(() -> new RuntimeException("해당 ID에 해당하는 레스토랑을 찾을 수 없습니다")));
             System.out.println("obj = " + obj);
             menuService.add(obj);
-            return ResponseEntity.ok().body("메뉴가 성공적으로 등록되었습니다.");
+            return ResponseEntity.ok().body("메뉴가 성공적으로 등록 되었습니다");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("메뉴 등록에 실패하였습니다.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("메뉴 등록에 실패하였습니다");
         }
     }
 
