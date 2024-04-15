@@ -26,10 +26,15 @@ import java.util.Map;
 public class ReviewController {
     private final ReviewService reviewService;
     @GetMapping("main")
-    public String review() {
+    public String review(Model model) {
+        List<Review> reviews = reviewService.findAll();
+        double starAvg = reviewService.getAverageRating(1L);
+        long reviewCount = reviewService.countReviews();
+        model.addAttribute("reviews", reviews);
+        model.addAttribute("starAvg", starAvg);
+        model.addAttribute("reviewCount", reviewCount);
         return "manager/review";
     }
-
 
     // 비동기로 데이터 보내기
     @GetMapping("/validateMenuReview")
