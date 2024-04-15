@@ -13,7 +13,7 @@
     <div class="innerBox">
         <header>
             <div>
-                <a href=""><i class="fas fa-home"></i></a>
+                <a href="/"><i class="fas fa-home"></i></a>
             </div>
             <p>총 매출 확인</p>
             <div>
@@ -22,7 +22,7 @@
         </header>
         <div class="container">
             <ul class="date-select">
-                <li>오늘</li>
+                <li class="on">오늘</li>
                 <li>일주일</li>
                 <li>한달</li>
             </ul>
@@ -39,46 +39,15 @@
                 </div>
             </div>
             <div class="total-sales">
-                <p>총 주문<span th:text="${orderCount}+'건'">36건</span></p>
-                <p>총 매출<span th:text="${#numbers.formatInteger(orderPrice, 0, 'COMMA') + '원'}">121,121,122원</span></p>
+                <p class="total-count">총 주문<span th:text="${orderCount}+'건'">36건</span></p>
+                <p class="total-price">총 매출<span th:text="${#numbers.formatInteger(orderPrice, 0, 'COMMA') + '원'}">121,121,122원</span></p>
             </div>
             <ul class="sales-list">
                 <li th:each="order : ${list}">
                     <div class="content-summary">
                         <span class="table-name" th:text="${order.restaurantTableNo}+'번 테이블'">1번 테이블</span>
                         <div class="right">
-                            <span class="time" th:text="${#temporals.format(order.regDate, 'YYYY-MM-dd HH:MM')}">2024-03-30</span>
-                            <button><i class="fas fa-chevron-down"></i></button>
-                        </div>
-                    </div>
-                    <table class="info">
-                        <tr>
-                            <th>상품이름</th>
-                            <th>수량</th>
-                            <th>금액</th>
-                        </tr>
-                        <tr>
-                            <td>짜파게티</td>
-                            <td>2</td>
-                            <td>3,000</td>
-                        </tr>
-                        <tr>
-                            <td>토마토 파스타</td>
-                            <td>23</td>
-                            <td>9,000</td>
-                        </tr>
-                        <tr>
-                            <td>총 합계</td>
-                            <td>25</td>
-                            <td>267,000</td>
-                        </tr>
-                    </table>
-                </li>
-                <li>
-                    <div class="content-summary">
-                        <span class="table-name">1번 테이블</span>
-                        <div class="right">
-                            <span class="time">2024-03-30</span>
+                            <span class="time" th:text="${#temporals.format(order.regDate, 'YYYY-MM-dd / HH:mm')}">2024-03-30</span>
                             <button><i class="fas fa-chevron-down"></i></button>
                         </div>
                     </div>

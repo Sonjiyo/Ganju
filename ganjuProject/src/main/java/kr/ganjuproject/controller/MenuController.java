@@ -3,14 +3,8 @@ package kr.ganjuproject.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
-import kr.ganjuproject.dto.CategoryDTO;
-import kr.ganjuproject.dto.MenuDTO;
-import kr.ganjuproject.dto.OrderDTO;
-import kr.ganjuproject.dto.OrderDetails;
-import kr.ganjuproject.entity.Category;
-import kr.ganjuproject.entity.Menu;
-import kr.ganjuproject.entity.MenuOption;
-import kr.ganjuproject.entity.MenuOptionValue;
+import kr.ganjuproject.dto.*;
+import kr.ganjuproject.entity.*;
 import kr.ganjuproject.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Controller
@@ -37,13 +32,17 @@ public class MenuController {
 
     // 메인 메뉴 첫 페이지
     @GetMapping("/main")
-    public String main(Model model) {
-        List<CategoryDTO> categories = categoryService.findCategoriesByRestaurantId(1L);
+    public String main(Model model, HttpSession session) {
+        Long restaurantId = 1L;
+        int restaurantTableNo = 1;
+        List<CategoryDTO> categories = categoryService.findCategoriesByRestaurantId(restaurantId);
         model.addAttribute("categories", categories);
-        List<MenuDTO> menus = menuService.findMenusByRestaurantId(1L);
+        List<MenuDTO> menus = menuService.findMenusByRestaurantId(restaurantId);
         model.addAttribute("menus", menus);
 //      리뷰 평균 점수
-        model.addAttribute("staAve", reviewService.getAverageRating(1L));
+        model.addAttribute("staAve", reviewService.getAverageRating(restaurantId));
+        session.setAttribute("restaurantId", restaurantId);
+        session.setAttribute("restaurantTableNo", restaurantTableNo);
         return "user/main";
     }
 
@@ -90,6 +89,7 @@ public class MenuController {
         }
     }
 
+    // 메뉴 상세 정보 창
     @PostMapping("/info")
     public ResponseEntity<?> info(@RequestBody OrderDTO orderDTO, HttpSession session) {
 
@@ -127,14 +127,112 @@ public class MenuController {
 
         return "user/cart"; // 장바구니 페이지로 이동
     }
+
+    // cart에서 수량 변경 시 비동기로 업데이트
+    @PostMapping("/updateValidQuantity")
+    public ResponseEntity<?> updateMenuQuantity(HttpSession session, @RequestBody OrderDTO orderDTO){
+
+        // 세션에서 주문 목록을 가져옴
+        List<OrderDTO> orders = (List<OrderDTO>) session.getAttribute("orders");
+        if (orders == null) {
+            return ResponseEntity.badRequest().body("장바구니가 비어 있습니다.");
+        }
+
+        // 메뉴 ID와 일치하는 주문 찾기 및 수량 업데이트
+        for (OrderDTO order : orders) {
+            System.out.println("order.getMenuId() = " + order.getMenuId());
+            System.out.println("MenuID = " + orderDTO.getMenuId());
+            System.out.println("Quantity = " + orderDTO.getMenuId());
+            if (order.getMenuId() == orderDTO.getMenuId()) {
+                order.setQuantity(orderDTO.getQuantity()); // 수량 업데이트
+                break; // 메뉴 ID가 일치하는 첫 번째 주문만 업데이트
+            }
+        }
+
+        // 업데이트된 주문 목록을 세션에 저장
+        session.setAttribute("orders", orders);
+        System.out.println(orders);
+        // 정상적인 처리 응답을 JSON 형태로 반환
+        Map<String, String> response = new HashMap<>();
+        response.put("data", "수량이 업데이트되었습니다.");
+        return ResponseEntity.ok(response);
+    }
     @PostMapping("/cart")
     public String cart() {
 
         return "user/order";
     }
 
-    @PostMapping("/order")
+    // uid를 감추고 싶어 만든 비동기 저장
+    @PostMapping("/validImpUid")
+    public ResponseEntity<?> order(@RequestBody PaymentValidationRequest validationRequest, HttpSession session) {
+        // 여기에서 imp_uid를 사용하여 결제 검증 로직을 구현하고,
+        // 검증 성공 시 세션에서 주문 정보를 조회한 후 데이터베이스에 저장합니다.
+        Long restaurantId = (Long)session.getAttribute("restaurantId");
+        int restaurantTableNo = (int)session.getAttribute("restaurantTableNo");
+
+        System.out.println("결재 성공시 들어오는 곳");
+        System.out.println("validationRequest" + validationRequest);
+
+        // 세션에서 주문 정보 가져오기 (이 예제에서는 session.getAttribute를 사용하여 구현)
+        List<OrderDTO> orders = (List<OrderDTO>) session.getAttribute("orders");
+
+        if (orders == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("주문 정보가 없습니다.");
+        }
+
+        // 주문 정보를 데이터베이스에 저장하는 로직 구현 (생략)
+        Orders order = new Orders();
+        order.setRestaurantTableNo(restaurantTableNo);
+        List<OrderMenu> orderMenuList = new ArrayList<>();
+        for(OrderDTO o : orders){
+            OrderMenu orderMenu = new OrderMenu();
+            Menu menu = menuService.findById(o.getMenuId()).orElseThrow(() -> new RuntimeException("Menu not found"));
+            int menuTotalPrice = menu.getPrice();
+            StringBuilder menuString = new StringBuilder();
+            menuString.append(menu.getName()).append(o.getQuantity()).append("개; ");
+            menuString.append("가격:").append(menu.getPrice()).append("원; ");
+
+            // 옵션 정보를 추가하는 부분
+            menuString.append("options: ");
+            for (OrderDTO.OptionSelection selectedOption : o.getSelectedOptions()) {
+                MenuOption option = menuOptionService.findById(selectedOption.getOptionId());
+                MenuOptionValue value = menuOptionValueService.findById(selectedOption.getValueId());
+
+                menuString.append(option.getContent()).append(": ").append(value.getContent()).append(", ");
+                menuTotalPrice += value.getPrice();
+            }
+
+            // 마지막 콤마 제거
+            if (!o.getSelectedOptions().isEmpty()) {
+                int lastCommaIndex = menuString.lastIndexOf(", ");
+                menuString.delete(lastCommaIndex, menuString.length());
+            }
+
+            menuString.append("; total: ").append(menuTotalPrice * o.getQuantity()); // 옵션 가격을 포함한 총 가격 계산 필요
+            orderMenu.setOrderMenu(menuString.toString());
+            orderMenu.setQuantity(o.getQuantity());
+            System.out.println(menuString);
+            orderMenuList.add(orderMenu);
+        }
+
+        order.setOrderMenus(orderMenuList);
+        order.setRestaurant(restaurantService.findById(restaurantId).get());
+        order.setPrice(validationRequest.getTotalPrice());
+        order.setRegDate(LocalDateTime.now());
+        order.setContent(validationRequest.getContents());
+        order.setUid(validationRequest.getImpUid());
+        order.setDivision(RoleOrders.WAIT);
+
+        ordersService.add(order);
+        System.out.println(order);
+        System.out.println("여기까지");
+        return ResponseEntity.ok("결제 검증 및 주문 정보 저장 성공");
+    }
+
+    @GetMapping("/order")
     public String order() {
+
         return "user/order";
     }
 

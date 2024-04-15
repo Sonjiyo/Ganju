@@ -46,7 +46,10 @@
                             <span class="table-name" th:text="${order.restaurantTableNo}+'번 테이블'">1번 테이블</span>
                         </div>
                         <div class="right">
-                            <span class="time" th:text="${#temporals.format(order.regDate, 'HH:mm')}">13:00</span>
+                            <span class="time" th:if="${#temporals.format(order.regDate, 'yyyyMMdd') == #temporals.format(#temporals.createNow(), 'yyyyMMdd')}"
+                                  th:text="${#temporals.format(order.regDate, 'HH:mm')}">13:00</span>
+                            <span class="time" th:unless="${#temporals.format(order.regDate, 'yyyyMMdd') == #temporals.format(#temporals.createNow(), 'yyyyMMdd')}"
+                                  th:text="${#temporals.format(order.regDate, 'YYYY-MM-dd / HH:mm')}">2024-03-30</span>
                             <button th:if="${order.division.role ne 'call'}"><i class="fas fa-chevron-down"></i></button>
                         </div>
                     </div>
@@ -71,10 +74,10 @@
                             <td>25</td>
                             <td>267,000</td>
                         </tr>
-                        <tr>
+                        <tr class="button-group" th:if="${order.division.role eq 'wait'}">
                             <td colspan="3">
-                                <button class="button">거부</button>
-                                <button class="button">승인</button>
+                                <button class="button delete" th:onclick="'deleteOrder(\'' + ${order.id} + '\', this)'">거부</button>
+                                <button class="button recognize" th:onclick="'recognizeOrder(\'' + ${order.id} + '\', this)'">승인</button>
                             </td>
                         </tr>
                     </table>

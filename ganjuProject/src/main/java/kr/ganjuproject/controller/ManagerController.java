@@ -2,14 +2,12 @@ package kr.ganjuproject.controller;
 
 import jakarta.servlet.http.HttpSession;
 import kr.ganjuproject.auth.PrincipalDetails;
-import kr.ganjuproject.entity.Orders;
-import kr.ganjuproject.entity.RoleOrders;
-import kr.ganjuproject.entity.RoleUsers;
-import kr.ganjuproject.entity.Users;
+import kr.ganjuproject.entity.*;
 import kr.ganjuproject.dto.UserDTO;
 import kr.ganjuproject.service.BoardService;
 import kr.ganjuproject.service.ManagerService;
 import kr.ganjuproject.service.OrdersService;
+import kr.ganjuproject.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +27,7 @@ import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @Slf4j
@@ -41,6 +40,7 @@ public class ManagerController {
     private final ManagerService managerService;
     private final BoardService boardService;
     private final OrdersService ordersService;
+    private final ReviewService reviewService;
 
     @GetMapping("")
     public String main(Authentication authentication, Model model) {
@@ -52,6 +52,7 @@ public class ManagerController {
             Users user = principalDetails.getUser();
             if (user.getLoginId().equals("admin")) return "redirect:/";
 
+            double starAvg = reviewService.getAverageRating(user.getRestaurant().getId());
             LocalDateTime currentTime = LocalDateTime.now();
             LocalDateTime startTime = LocalDateTime.of(currentTime.toLocalDate(), LocalTime.MIN); // 오늘 날짜의 시작
             LocalDateTime endTime = LocalDateTime.of(currentTime.toLocalDate(), LocalTime.MAX); // 오늘 날짜의 끝
@@ -66,6 +67,7 @@ public class ManagerController {
             model.addAttribute("call", ordersService.getRestaurantOrdersDivision(user.getRestaurant(), RoleOrders.CALL).size());
             model.addAttribute("wait", ordersService.getRestaurantOrdersDivision(user.getRestaurant(), RoleOrders.WAIT).size());
             model.addAttribute("okay", ordersService.getRestaurantOrdersDivision(user.getRestaurant(), RoleOrders.OKAY).size());
+            model.addAttribute("starAvg", starAvg);
         }
 
         return "manager/home";
@@ -138,5 +140,11 @@ public class ManagerController {
             }
         }
         throw new IllegalArgumentException("비밀번호가 일치하지 않습니다");
+
+    @DeleteMapping("/{keyId}")
+    public @ResponseBody String DeleteManager(@PathVariable Long keyId){
+        managerService.deleteUser(keyId);
+        return "ok";
+
     }
 }

@@ -16,7 +16,7 @@ public class Users {
     private String password;
     private String email;
     private String phone;
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
     @ToString.Exclude
     @JsonManagedReference
     private Restaurant restaurant;

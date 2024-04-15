@@ -11,15 +11,16 @@
 }
 .logo-image{width: 70px;height: 70px;overflow: hidden;border-radius: 50%;margin-right: 20px;}
 .logo-image img{width: 100%;object-fit: cover;height: 100%;}
-.review-all{
+.ratings{
     font-size: var(--font-small);
     display: flex;
     margin-top:10px;
     color:var(--light-gray);
-    
 }
-.review-all i{margin-right: 2px;}
-.review-all p{margin-left: 10px;color: var(--black);}
+.ratings span{margin-left:-3px;}
+.ratings span:first-child{margin-left:0;}
+.stars{margin-right: 10px;}
+.ratings label{font-size: var(--font-content);color:var(--black);}
 
 /* sales */
 .today-sales{width: 100%;padding:var(--padding);}
