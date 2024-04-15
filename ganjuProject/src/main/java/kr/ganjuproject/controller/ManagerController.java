@@ -140,6 +140,7 @@ public class ManagerController {
             }
         }
         throw new IllegalArgumentException("비밀번호가 일치하지 않습니다");
+    }
 
     @DeleteMapping("/{keyId}")
     public @ResponseBody String DeleteManager(@PathVariable Long keyId){
@@ -147,4 +148,5 @@ public class ManagerController {
         return "ok";
 
     }
+
 }
