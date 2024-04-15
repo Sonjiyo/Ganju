@@ -77,35 +77,3 @@ p {
     border: none;
     font-size: var(--font-small);
 }
-
-footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-}
-
-.footer {
-    display: flex;
-    justify-content: space-between;
-}
-
-.footer_menu {
-    display: flex;
-    width: 86px;
-    height: 72px;
-    font-size: var(--font-icon);
-    text-align: center;
-    background: var(--white);
-    border: var(--white);
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.footer_menu.on {
-    width: 86px;
-    height: 72px;
-    font-size: var(--font-icon);
-    background-color: var(--orange);
-    text-align: center;
-}
