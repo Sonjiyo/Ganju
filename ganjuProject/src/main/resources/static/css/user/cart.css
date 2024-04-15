@@ -1,78 +1,78 @@
 @charset "UTF-8";
 
-.container form{
+.container  {
     margin: 0;
     width: 100%;
     padding: 0;
 }
 
-form>div{
+ >div{
     margin: 0;
     padding: 20px;
 }
 
 /* 식당 이름 */
-.container form .restaurant-name{
+.container .restaurant-name{
     font-size: var(--font-middle);
     font-weight: bold;
     border-top: 1px solid var(--light-gray);
 }
 
 /* 주문 리스트 */
-.container form .orders{
+.container .orders{
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     border-top: 1px solid var(--light-gray);
 }
-.container form .orders .menu{}
+.container .orders .menu{}
 
-.container form .orders .menu .text{
+.container .orders .menu .text{
 }
-.container form .orders .menu .text .title,
-.container form .orders .menu .text .total-price{
+.container .orders .menu .text .title,
+.container .orders .menu .text .total-price{
     font-size: var(--font-content);
     color: var(--black);
     padding-bottom: 10px;
 }
 
-.container form .orders .menu .text .menu-price,
-.container form .orders .menu .text .option
+.container .orders .menu .text .menu-price,
+.container .orders .menu .text .option
 {
     font-size: var(--font-small);
     color: var(--gray);
     padding-bottom: 10px;
 }
 
-.container form .orders .menu .text .total-price{
+.container .orders .menu .text .total-price{
     padding-top: 10px;
 }
 
-.container form .orders .etc{
+.container .orders .etc{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
-.container form .orders .etc .image{
+.container .orders .etc .image{
     margin-left: auto; /* 오른쪽 정렬 */
     width: 90px;
     height: 90px;
     overflow: hidden;
 }
 
-.container form .orders .etc .image img{
+.container .orders .etc .image img{
     width: 100%;
     height: auto;
 }
 
-.container form .orders .etc .num{
+.container .orders .etc .num{
     padding: 5px;
     display: flex;
     border: 1px solid var(--light-gray);
 }
-.container form .orders .etc .num .minus,
-.container form .orders .etc .num .plus{
+.container .orders .etc .num .minus,
+.container .orders .etc .num .plus{
     padding: 0 15px;
     display: flex;
     justify-content: center;
@@ -82,7 +82,7 @@ form>div{
     font-size: var(--font-content); /* 버튼 내 텍스트 크기 */
     cursor: pointer; /* 마우스 커서 변경 */
 }
-.container form .orders .etc .num .text{
+.container .orders .etc .num .text{
     width: 40px;
     display: flex;
     justify-content: center;
@@ -91,22 +91,22 @@ form>div{
 }
 
 /* 새로운 매뉴 추가 */
-.container form .menu-plus{
+.container .menu-plus{
     background-color: var(--extra-light-gray);
     text-align: center;
     color: var(--gray);
 }
 
 /* 요청사항 */
-.container form .request{
+.container .request{
     
     padding-top: 40px;
 }
-.container form .request .title{
+.container .request .title{
     font-weight: bold;
 }
-.container form .request .contents{
+.container .request .contents{
     border: 1px solid var(--light-gray);
 }
-.container form .request .submit{}
+.container .request .submit{}
 

@@ -2,8 +2,11 @@ package kr.ganjuproject.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpSession;
 import kr.ganjuproject.dto.CategoryDTO;
 import kr.ganjuproject.dto.MenuDTO;
+import kr.ganjuproject.dto.OrderDTO;
+import kr.ganjuproject.dto.OrderDetails;
 import kr.ganjuproject.entity.Category;
 import kr.ganjuproject.entity.Menu;
 import kr.ganjuproject.entity.MenuOption;
@@ -30,6 +33,7 @@ public class MenuController {
     private final MenuOptionValueService menuOptionValueService;
     private final CategoryService categoryService;
     private final ReviewService reviewService;
+    private final OrdersService ordersService;
 
     // 메인 메뉴 첫 페이지
     @GetMapping("/main")
@@ -87,11 +91,42 @@ public class MenuController {
     }
 
     @PostMapping("/info")
-    public String info() {
+    public ResponseEntity<?> info(@RequestBody OrderDTO orderDTO, HttpSession session) {
 
-        return "user/cart";
+        System.out.println(orderDTO);
+        // 세션에서 주문 리스트를 가져옴. 없으면 새 리스트를 생성.
+        List<OrderDTO> orders = (List<OrderDTO>) session.getAttribute("orders");
+        if (orders == null) {
+            orders = new ArrayList<>();
+        }
+
+        // 현재 주문을 리스트에 추가
+        orders.add(orderDTO);
+
+        // 주문 리스트를 세션에 다시 저장
+        session.setAttribute("orders", orders);
+
+        // 정상적인 처리 응답을 JSON 형태로 반환
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "주문이 성공적으로 처리되었습니다.");
+        return ResponseEntity.ok(response);
     }
 
+    // 장바구니 페이지 이동 시 session에 값이 있다면 가지고 감
+    @GetMapping("/cart")
+    public String cart(HttpSession session, Model model) {
+        List<OrderDTO> orders = (List<OrderDTO>) session.getAttribute("orders");
+        List<OrderDetails> orderDetailsList = new ArrayList<>();
+
+        for (OrderDTO order : orders) {
+            OrderDetails orderDetails = ordersService.getOrderDetails(order);
+            orderDetailsList.add(orderDetails);
+        }
+
+        model.addAttribute("orderDetailsList", orderDetailsList);
+
+        return "user/cart"; // 장바구니 페이지로 이동
+    }
     @PostMapping("/cart")
     public String cart() {
 

@@ -1,5 +1,6 @@
 package kr.ganjuproject.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import kr.ganjuproject.entity.MenuOption;
 import kr.ganjuproject.repository.MenuOptionRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,4 +20,6 @@ public class MenuOptionService {
     public List<MenuOption> findByMenuId(Long menuId){
         return menuOptionRepository.findByMenuId(menuId);
     }
+
+    public MenuOption findById(Long id){ return menuOptionRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("MenuOption not found for id " + id));}
 }
