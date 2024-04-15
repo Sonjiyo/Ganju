@@ -9,7 +9,7 @@
     <div class="innerBox">
         <header>
             <div>
-                <a href=""><i class="fas fa-home"></i></a>
+                <a href="/"><i class="fas fa-home"></i></a>
             </div>
             <p>주문관리</p>
             <div></div>
@@ -18,37 +18,39 @@
             <ul class="order-state-summary">
                 <li class="call">
                     <p class="state-name">호출</p>
-                    <p class="state-content"><span>9</span>건</p>
+                    <p class="state-content"><span th:text="${callCount}">9</span>건</p>
                 </li>
                 <li class="wait">
                     <p class="state-name">주문</p>
-                    <p class="state-content"><span>3</span>건</p>
+                    <p class="state-content"><span th:text="${waitCount}">>3</span>건</p>
                 </li>
                 <li class="okay">
                     <p class="state-name">승인</p>
-                    <p class="state-content"><span>1</span>건</p>
+                    <p class="state-content"><span th:text="${okayCount}">>1</span>건</p>
                 </li>
             </ul>
-            <button onclick="location.href='/orders/sales'">총 매출 확인하기 ></button>
+            <button onclick="location.href='/sales'">총 매출 확인하기 ></button>
             <ul class="list-select">
-                <li class="on">전체</li>
-                <li>호출</li>
-                <li>대기</li>
-                <li>승인</li>
+                <li class="on" onclick="filterList('all', this)">전체</li>
+                <li onclick="filterList('call', this)">호출</li>
+                <li onclick="filterList('wait', this)">대기</li>
+                <li onclick="filterList('okay', this)">승인</li>
             </ul>
             <ul class="order-list">
                 <li th:each="order : ${list}">
                     <div class="content-summary">
                         <div class="left">
-                            <p class="order-title call">호출</p>
-                            <p class="order-subtitle">와주세요</p>
+                            <p class="order-title" th:classappend="${order.division.role eq 'call'} ? 'call' : (${order.division.role eq 'wait'} ? 'wait' : 'okay')"
+                               th:text="${order.division.role eq 'call'} ? '호출' : (${order.division.role eq 'wait'} ? '주문' : '승인')">호출</p>
+                            <p class="order-subtitle" th:if="${order.division.role eq 'call'}" th:text="${order.content}">와주세요</p>
                             <span class="table-name" th:text="${order.restaurantTableNo}+'번 테이블'">1번 테이블</span>
                         </div>
                         <div class="right">
                             <span class="time" th:text="${#temporals.format(order.regDate, 'HH:mm')}">13:00</span>
+                            <button th:if="${order.division.role ne 'call'}"><i class="fas fa-chevron-down"></i></button>
                         </div>
                     </div>
-                    <table class="info">
+                    <table class="info" th:if="${order.division.role ne 'call'}">
                         <tr>
                             <th>상품이름</th>
                             <th>수량</th>
@@ -64,7 +66,7 @@
                             <td>23</td>
                             <td>9,000</td>
                         </tr>
-                        <tr>
+                        <tr class="last">
                             <td>총 합계</td>
                             <td>25</td>
                             <td>267,000</td>

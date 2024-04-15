@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import org.aspectj.weaver.ast.Or;
+import java.time.LocalDateTime;
+
 
 @Service
 @Transactional(readOnly = true)
@@ -21,8 +24,7 @@ public class OrdersService {
     private final MenuOptionService menuOptionService;
     private final MenuOptionValueService menuOptionValueService;
 
-    public Map<String, Object> getRestaurantOrderData(Restaurant restaurant){
-        List<Orders> list = ordersRepository.findByRestaurant(restaurant);
+    public Map<String, Object> getRestaurantOrderData(List<Orders> list){
         Map<String, Object> values = new HashMap<>();
 
         Long total = 0L;
@@ -36,7 +38,29 @@ public class OrdersService {
     }
 
     public List<Orders> getRestaurantOrders(Restaurant restaurant){
-        return ordersRepository.findByRestaurant(restaurant);
+        List<Orders> list = ordersRepository.findByRestaurant(restaurant);
+        Collections.reverse(list);
+        return list;
+    }
+
+    public List<Orders> getRestaurantOrdersWithinTimeWithoutCall(Restaurant restaurant, LocalDateTime startTime, LocalDateTime endTime) {
+        List<Orders> list = ordersRepository.findByRestaurantAndDivisionNotAndRegDateBetween(restaurant, RoleOrders.CALL, startTime, endTime);
+        Collections.reverse(list);
+        return list;
+    }
+
+    public List<Orders> getRestaurantOrdersWithinTime(Restaurant restaurant, LocalDateTime startTime, LocalDateTime endTime) {
+        List<Orders> list = ordersRepository.findByRestaurantAndRegDateBetween(restaurant, startTime, endTime);
+        Collections.reverse(list);
+        return list;
+    }
+
+    public List<Orders> getRestaurantOrdersDivision(Restaurant restaurant, RoleOrders role){
+        LocalDateTime currentTime = LocalDateTime.now();
+        LocalDateTime startTime = currentTime.minusHours(24); // 현재시간으로부터 24시간 전까지
+        List<Orders> list = ordersRepository.findByRestaurantAndDivisionAndRegDateBetween(restaurant, role, startTime, currentTime);
+        Collections.reverse(list);
+        return list;
     }
 
     // 주문 리스트를 OrderDetails의 객체로 받아오는

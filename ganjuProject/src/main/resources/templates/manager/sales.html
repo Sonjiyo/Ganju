@@ -43,11 +43,11 @@
                 <p>총 매출<span th:text="${#numbers.formatInteger(orderPrice, 0, 'COMMA') + '원'}">121,121,122원</span></p>
             </div>
             <ul class="sales-list">
-                <li>
+                <li th:each="order : ${list}">
                     <div class="content-summary">
-                        <span class="table-name">1번 테이블</span>
+                        <span class="table-name" th:text="${order.restaurantTableNo}+'번 테이블'">1번 테이블</span>
                         <div class="right">
-                            <span class="time">2024-03-30</span>
+                            <span class="time" th:text="${#temporals.format(order.regDate, 'YYYY-MM-dd HH:MM')}">2024-03-30</span>
                             <button><i class="fas fa-chevron-down"></i></button>
                         </div>
                     </div>
