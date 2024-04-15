@@ -54,8 +54,8 @@ function recognizeRestaurant(keyId, btn){
     });
 }
 
-function deleteRestaurant(keyId, btn){
-    fetch(`/restaurant/${keyId}`, {
+function deleteUser(keyId, btn){
+    fetch(`/manager/${keyId}`, {
         method: 'DELETE',
     }).then(response=>{
         return response.text();

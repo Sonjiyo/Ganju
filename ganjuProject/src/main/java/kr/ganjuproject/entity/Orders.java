@@ -30,7 +30,7 @@ public class Orders {
     private int price;
     private LocalDateTime regDate;
     private String content;
-    @OneToOne(mappedBy = "order")
+    @OneToOne(mappedBy = "order", orphanRemoval = true, cascade = CascadeType.ALL)
     @ToString.Exclude
     private Review review;
     private String uid;

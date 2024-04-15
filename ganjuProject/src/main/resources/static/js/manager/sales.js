@@ -49,6 +49,7 @@ startValue.addEventListener('click', ()=>{
     $('#start-date').on('apply.daterangepicker', function(ev, picker) {
         start = picker.startDate;
         startSpan(start);
+        changeOrderData(start, end);
     })
 });
 
@@ -103,6 +104,7 @@ endValue.addEventListener('click', ()=>{
             end = start;
         }
         endSpan(end);
+        changeOrderData(start, end);
     })
 });
 
@@ -115,12 +117,8 @@ endSpan(end);
 /* on을 지우고 넣음 */
 dateSelect.forEach(e=>{
     e.addEventListener('click', ()=>{
-        if(e.classList.contains('on')){
-            e.classList.remove('on');
-        }else{
-            removeOn();
-            e.classList.add('on');
-        }
+        removeOn();
+        e.classList.add('on');
     })
 })
 /* 전체 on 지우기*/
@@ -136,6 +134,7 @@ dateSelect[0].addEventListener('click', ()=>{
     end = start;
     startSpan(start);
     endSpan(end);
+    changeOrderData(start, end);
 })
 
 /* 일주일 날짜 선택 */
@@ -144,6 +143,7 @@ dateSelect[1].addEventListener('click', ()=>{
     end = moment();
     startSpan(start);
     endSpan(end);
+    changeOrderData(start, end);
 })
 
 /* 한달 날짜 선택 */
@@ -152,6 +152,7 @@ dateSelect[2].addEventListener('click', ()=>{
     end = moment();
     startSpan(start);
     endSpan(end);
+    changeOrderData(start, end);
 })
 
 function startSpan(start) {
@@ -181,3 +182,32 @@ buttons.forEach(e=>{
         }
     })
 })
+
+function changeOrderData(startDate, endDate){
+    fetch('/sales', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "start" : startDate.format('YYYY-MM-DDTHH:mm:ss.SSS'),
+            "end" : endDate.format('YYYY-MM-DDTHH:mm:ss.SSS')
+        })
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to send date range');
+            }
+            console.log(response.json());
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            document.querySelector('.total-count span').textContent = data.orderCount +"건";
+            document.querySelector('.total-price span').textContent = parseInt(data.orderPrice).toLocaleString() +"원";
+
+        })
+        .catch(error => {
+            console.error('실패', error);
+        });
+}

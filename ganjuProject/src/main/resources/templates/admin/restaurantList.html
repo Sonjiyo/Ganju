@@ -61,7 +61,7 @@
                             <td colspan="2">
                                 <div class="flex">
                                     <a th:onclick="'recognizeRestaurant(\'' + ${manager.restaurant.id} + '\', this)'" class="recognize" th:if="${manager.restaurant.recognize ne 1}">승인하기</a>
-                                    <a th:onclick="'deleteRestaurant(\'' + ${manager.restaurant.id} + '\', this)'" class="refuse" >탈퇴하기</a>
+                                    <a th:onclick="'deleteUser(\'' + ${manager.id} + '\', this)'" class="refuse" >탈퇴하기</a>
                                 </div>
                             </td>
                         </tr>
