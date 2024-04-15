@@ -3,65 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <title>장바구니</title>
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <link href="/css/style.css" rel="stylesheet">
     <link href="/css/user/cart.css" rel="stylesheet" type="text/css">
     <script src="/js/user/cart.js" type="text/javascript" defer></script>
+    <script src="/js/user/validate/iamport.js" type="text/javascript" defer></script>
 </head>
 <body>
 <div class="innerBox">
     <header></header>
     <div class="container">
-        <form action="/user/order" method="post">
-            <div class="restaurant-name">더조은 식당</div>
-            <div class="orders">
-                <div class="menu">
-                    <div class="text">
-                        <div class="title">짜파게티</div>
-                        <div class="menu-price">가격 : 5,000원</div>
-                        <div class="option">옵션 : 안맵게 해주세요(-3000원)</div>
-                        <div class="total-price">3000원</div>
+        <div class="restaurant-name">더조은 식당</div>
+        <div th:each="orderDetails : ${orderDetailsList}" class="orders"
+             th:data-menu-price="${orderDetails.menu.price}"
+             th:data-option-price="${orderDetails.getOptionsPriceSum()}">
+            <div class="menu">
+                <div class="text">
+                    <!-- 메뉴 제목 -->
+                    <div class="title" th:text="${orderDetails.menu.name}">짜파게티</div>
+                    <!-- 메뉴 가격 -->
+                    <div class="menu-price" th:text="'가격 : ' + ${orderDetails.menu.price} + '원'">가격 : 5,000원</div>
+                    <!-- 옵션 목록 -->
+                    <div th:each="optionDetail : ${orderDetails.optionDetailsList}" class="option">
+                <span th:text="${optionDetail.menuOption.content} + ' : ' + ${optionDetail.menuOptionValue.content}
+                          + ' (' + ${optionDetail.menuOptionValue.price} + '원)'">옵션 : 안맵게 해주세요(-3000원)</span>
                     </div>
-                </div>
-                <div class="etc">
-                    <div class="image">
-                        <img src="/images/sample.png" alt="음식 이미지" class="img">
-                    </div>
-                    <div class="num">
-                        <input type="button" class="minus" value="-">
-                        <div class="text">2</div>
-                        <input type="button"  class="plus" value="+">
-                    </div>
+                    <!-- 총 가격은 서버 사이드에서 계산하거나 클라이언트 사이드에서 자바스크립트로 계산할 수 있습니다 -->
+                    <div class="total-price" th:text="'총 가격: ' + ${orderDetails.totalPrice} + '원'">총 가격: ???원</div>
                 </div>
             </div>
-            <div class="orders">
-                <div class="menu">
-                    <div class="text">
-                        <div class="title">짜파게티2</div>
-                        <div class="menu-price">가격 : 4,000원</div>
-                        <div class="option">옵션 : 맵게 해주세요(3000원)</div>
-                        <div class="total-price">10000원</div>
-                    </div>
+            <div class="etc">
+                <div class="image">
+                    <!-- 이미지 경로는 예시입니다. 실제 경로로 변경해야 합니다. -->
+                    <img th:src="@{/images/sample.png}" alt="음식 이미지" class="img">
                 </div>
-                <div class="etc">
-                    <div class="image">
-                        <img src="/images/sample.png" alt="음식 이미지" class="img">
-                    </div>
-                    <div class="num">
-                        <input type="button" class="minus" value="-">
-                        <div class="text">3</div>
-                        <input type="button"  class="plus" value="+">
-                    </div>
+                <div class="num">
+                    <!-- 수량 조절은 자바스크립트 함수로 구현할 수 있습니다 -->
+                    <input type="button" class="minus" value="-">
+                    <div class="text" th:text="${orderDetails.quantity}">2</div>
+                    <input type="button" class="plus" value="+">
                 </div>
             </div>
-            <div class="menu-plus">
-                +메뉴추가
-            </div>
-            <div class="request">
-                <label for="contents" class="title">요청사항</label>
-                <textarea class="contents" id="contents" name="contents" placeholder="내용을 입력하세요" rows="4"></textarea>
-                <input type="button" class="submit button" onclick="cartsubmit(form)" value="3000원 주문하기">
-            </div>
-        </form>
+        </div>
+        <div class="menu-plus">
+            +메뉴추가
+        </div>
+        <div class="request">
+            <label for="contents" class="title">요청사항</label>
+            <textarea class="contents" id="contents" name="contents" placeholder="내용을 입력하세요" rows="4"></textarea>
+            <input type="button" class="submit button" onclick="requestPay()" value="주문하기">
+        </div>
     </div>
 </div>
 </body>
