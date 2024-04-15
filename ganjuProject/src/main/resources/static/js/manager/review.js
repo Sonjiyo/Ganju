@@ -34,3 +34,15 @@ rowR.addEventListener('click', () => {
         highR.style.color = '#222';
     }
 })
+
+// 몇 시간 전
+document.addEventListener("DOMContentLoaded", function() {
+    const currentTime = new Date();
+    const reviewDates = document.querySelectorAll(".review-content .line .regDate");
+    reviewDates.forEach(function(reviewDateElement) {
+        const reviewTime = new Date(reviewDateElement.textContent);
+        const timeDiff = currentTime - reviewTime;
+        const hoursAgo = Math.floor(timeDiff / (1000 * 60 * 60));
+        reviewDateElement.textContent = hoursAgo + " hours ago";
+    });
+});

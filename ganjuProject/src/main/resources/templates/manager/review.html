@@ -25,16 +25,13 @@
         <div class="review">
             <div class="review-all">
                 <p>평균</p>
-                <p class="big">0.0</p>
-                <i class="far fa-star"></i>
-                <i class="far fa-star"></i>
-                <i class="far fa-star"></i>
-                <i class="far fa-star"></i>
-                <i class="far fa-star"></i>
+                <p class="big" th:text="${starAvg}"></p>
+                <i th:each="starNum : ${#numbers.sequence(1, 5)}"
+                   th:class="${starAvg >= starNum} ? 'fas fa-star fonticon on' : 'far fa-star fonticon on'"></i>
             </div>
             <div class="review-count">
                 <p class="big">리뷰 수</p>
-                <p class="big">15개</p>
+                <p class="big" th:text="${reviewCount} + 개"></p>
             </div>
         </div>
         <div class="underline"></div>
@@ -46,41 +43,14 @@
             </div>
         </div>
         <div class="review-content">
-            <div class="line">
-                <p class="small left">더조은</p>
+            <div class="line" th:each="review:${reviews}">
+                <p class="small left" th:text="${review.name}"></p>
                 <div class="star margin">
-                    <i class="fas fa-star fonticon on"></i>
-                    <i class="far fa-star fonticon"></i>
-                    <i class="far fa-star fonticon"></i>
-                    <i class="far fa-star fonticon"></i>
-                    <i class="far fa-star fonticon"></i>
-                    <p class="fonticon margin">1시간 전</p>
+                    <i th:each="starNum : ${#numbers.sequence(1, 5)}"
+                       th:class="${review.star >= starNum} ? 'fas fa-star fonticon on' : 'far fa-star fonticon on'"></i>
+                    <p class="fonticon margin regDate" th:text="${review.regDate}"></p>
                 </div>
-                <p class="small left">진짜 맛없어요.</p>
-            </div>
-            <div class="line">
-                <p class="small left">더조은</p>
-                <div class="star margin">
-                    <i class="fas fa-star fonticon on"></i>
-                    <i class="fas fa-star fonticon on"></i>
-                    <i class="fas fa-star fonticon on"></i>
-                    <i class="fas fa-star fonticon on"></i>
-                    <i class="fas fa-star fonticon on"></i>
-                    <p class="fonticon margin">1시간 전</p>
-                </div>
-                <p class="small left">사장님이 싱싱하고 재료가 신선해요.</p>
-            </div>
-            <div class="line">
-                <p class="small left">더조은</p>
-                <div class="star margin">
-                    <i class="far fa-star fonticon"></i>
-                    <i class="far fa-star fonticon"></i>
-                    <i class="far fa-star fonticon"></i>
-                    <i class="far fa-star fonticon"></i>
-                    <i class="far fa-star fonticon"></i>
-                    <p class="fonticon margin">1시간 전</p>
-                </div>
-                <p class="small left">진짜 맛없어요. 다시는 안올 거 같아요.</p>
+                <p class="small left" th:text="${review.content}"></p>
             </div>
         </div>
     </div>
