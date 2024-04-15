@@ -2,6 +2,8 @@ package kr.ganjuproject.controller;
 
 import jakarta.servlet.http.HttpSession;
 import kr.ganjuproject.auth.PrincipalDetails;
+import kr.ganjuproject.entity.Orders;
+import kr.ganjuproject.entity.RoleOrders;
 import kr.ganjuproject.entity.RoleUsers;
 import kr.ganjuproject.entity.Users;
 import kr.ganjuproject.dto.UserDTO;
@@ -16,6 +18,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -38,12 +43,20 @@ public class ManagerController {
             Users user = principalDetails.getUser();
             if(user.getLoginId().equals("admin")) return "redirect:/";
 
-            Map<String, Object> map = ordersService.getRestaurantOrderData(user.getRestaurant());
+            LocalDateTime currentTime = LocalDateTime.now();
+            LocalDateTime startTime = LocalDateTime.of(currentTime.toLocalDate(), LocalTime.MIN); // 오늘 날짜의 시작
+            LocalDateTime endTime = LocalDateTime.of(currentTime.toLocalDate(), LocalTime.MAX); // 오늘 날짜의 끝
+
+            List<Orders> list = ordersService.getRestaurantOrdersWithinTimeWithoutCall(user.getRestaurant(), startTime, endTime);
+
+            Map<String, Object> map = ordersService.getRestaurantOrderData(list);
             model.addAttribute("user", user);
             model.addAttribute("orderCount", map.get("count"));
             model.addAttribute("orderPrice", map.get("price"));
             model.addAttribute("reportCount", boardService.getReortAcceptList(user.getRestaurant()));
-
+            model.addAttribute("call", ordersService.getRestaurantOrdersDivision(user.getRestaurant(), RoleOrders.CALL).size());
+            model.addAttribute("wait", ordersService.getRestaurantOrdersDivision(user.getRestaurant(), RoleOrders.WAIT).size());
+            model.addAttribute("okay", ordersService.getRestaurantOrdersDivision(user.getRestaurant(), RoleOrders.OKAY).size());
         }
 
         return "manager/home";

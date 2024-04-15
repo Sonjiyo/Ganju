@@ -11,7 +11,7 @@
 <div class="innerBox">
     <header></header>
     <div class="container">
-        <form action="/user/info" method="post" class="info-form">
+        <form action="/menu/info" name="OrderDTO" method="post" class="info-form">
             <input class="menuId" name="menuId" type="hidden" th:value="${menu.id}">
             <div class="menu-image">
                 <!-- th:src="@{'/images/' + ${menu.menuImage}}" -->
@@ -26,6 +26,7 @@
             <div th:each="menuOption : ${menuOptions}">
                 <div class="option" th:if="${menuOption.menuOptionId == T(kr.ganjuproject.entity.RoleMenuOption).REQUIRED}">
                     <div class="title">
+                        <input type="hidden" class="menuOptionId" th:value="${menuOption.id}">
                         <div class="text" th:text="${menuOption.content}"></div>
                         <div class="select">필수</div>
                     </div>
@@ -45,8 +46,9 @@
             <div th:each="menuOption : ${menuOptions}">
                 <div class="option" th:if="${menuOption.menuOptionId == T(kr.ganjuproject.entity.RoleMenuOption).OPTIONAL}">
                     <div class="title">
+                        <input type="hidden" class="menuOptionId" th:value="${menuOption.id}">
                         <div class="text" th:text="${menuOption.content}"></div>
-                        <div class="select">필수</div>
+                        <div class="select">선택</div>
                     </div>
                     <!-- 해당 메뉴 옵션 ID에 대한 옵션 값들 반복 -->
                     <div class="contents" th:each="value : ${menuOptionValues[menuOption.id.toString()]}">
@@ -65,7 +67,7 @@
                     <div class="text">수량</div>
                     <div class="num">
                         <input type="button" class="minus" value="-">
-                        <div class="text">1</div>
+                        <div class="text" id="order-num">1</div>
                         <input type="button" class="plus" value="+">
                     </div>
                 </div>

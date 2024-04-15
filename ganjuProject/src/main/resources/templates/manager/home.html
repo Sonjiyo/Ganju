@@ -37,15 +37,15 @@
                 <ul class="order-list">
                     <li>
                         <p>호출</p>
-                        <h2>9<span>건</span></h2>
+                        <h2><span th:text="${call}">9</span>건</h2>
                     </li>
                     <li>
-                        <p>대기</p>
-                        <h2>3<span>건</span></h2>
+                        <p>주문</p>
+                        <h2><span th:text="${wait}">3</span>건</h2>
                     </li>
                     <li>
                         <p>승인</p>
-                        <h2>1<span>건</span></h2>
+                        <h2><span th:text="${okay}">1</span>건</h2>
                     </li>
                 </ul>
             </div>

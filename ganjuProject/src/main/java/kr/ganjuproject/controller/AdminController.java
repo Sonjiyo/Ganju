@@ -25,10 +25,8 @@ public class AdminController {
     private final BoardService boardService;
 
     @GetMapping("")
-    public String home(Model model){
-        List<Users> list = managerService.getManagerList();
-        model.addAttribute("list", list);
-        return "admin/restaurantList";
+    public String home(){
+        return "redirect:/admin/restaurantList";
     }
 
     @GetMapping("/restaurantList")
