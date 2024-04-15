@@ -28,9 +28,8 @@ function orderContent(){
 }
 
 function requestPay() {
+    const contents = document.getElementById('contents');
     orderContent();
-    console.log(menuName); // 메뉴 이름 출력
-    console.log(totalPayMoney); // 총 가격 출력
     // 결제 정보 준비
     IMP.request_pay({
         pg: "html5_inicis", // PG사
@@ -47,8 +46,28 @@ function requestPay() {
     }, function (rsp) {
         console.log(rsp);
         if (rsp.success) {
-            // 결제 성공 시 로직,
-            location.href = "/menu/order?imp_uid=" + rsp.imp_uid; // 성공시 리디렉션할 URL
+            // 결제 성공 시 로직
+            fetch("/menu/validImpUid", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    "impUid": rsp.imp_uid, // Iamport 결제 고유 번호
+                    "contents": contents.textContent, // 요청사항
+                    "totalPrice": totalPayMoney
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    // 서버에서 결제 검증 성공 후 리디렉션할 페이지로 이동
+                    location.href = "/menu/order";
+                })
+                .catch(error => {
+                    // 오류 처리 로직
+                    alert("결제 검증에 실패했습니다. 다시 시도해주세요.");
+                });
         } else {
             // 결제 실패 시 로직,
             alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);

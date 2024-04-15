@@ -3,8 +3,31 @@
 const minus = document.querySelectorAll('.minus');
 const plus = document.querySelectorAll('.plus');
 
+// 수량 변경 시 session값을 업데이트
+function updateValidSessionQuantity(menuId, newQuantity){
+    console.log(menuId);
+    console.log(newQuantity);
+    // 서버에 수량 변경 요청 보내기
+    fetch('/menu/updateValidQuantity',{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            menuId: menuId,
+            quantity: newQuantity,
+        }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch((error) => {
+            console.error('수량 변경 실패:', error);
+        });
+}
 // 수량 변경 함수
-function updateQuantityAndPrice(textElement, change) {
+function updateQuantityAndPrice(menuId, textElement, change) {
     const ordersDiv = textElement.closest('.orders');
     const menuPrice = parseInt(ordersDiv.dataset.menuPrice, 10);
     const optionPrice = parseInt(ordersDiv.dataset.optionPrice, 10);
@@ -14,6 +37,8 @@ function updateQuantityAndPrice(textElement, change) {
     let quantity = parseInt(textElement.textContent, 10) + change;
     quantity = Math.max(1, Math.min(quantity, 100)); // 수량은 1 이상 100 이하로 제한
     textElement.textContent = quantity;
+
+    updateValidSessionQuantity(menuId, quantity);
 
     // 새로운 총 가격 계산
     let newTotalPrice = (menuPrice + optionPrice) * quantity;
@@ -44,14 +69,16 @@ function updateTotalOrderPrice() {
 minus.forEach(button => {
     button.addEventListener('click', () => {
         const text = button.closest('.num').querySelector('.text');
-        updateQuantityAndPrice(text, -1); // 수량 감소
+        const menuId = button.closest('.orders').dataset.menuId;
+        updateQuantityAndPrice(menuId, text, -1); // 수량 감소
     });
 });
 
 plus.forEach(button => {
     button.addEventListener('click', () => {
         const text = button.closest('.num').querySelector('.text');
-        updateQuantityAndPrice(text, 1); // 수량 증가
+        const menuId = button.closest('.orders').dataset.menuId;
+        updateQuantityAndPrice(menuId, text, 1); // 수량 증가
     });
 });
 

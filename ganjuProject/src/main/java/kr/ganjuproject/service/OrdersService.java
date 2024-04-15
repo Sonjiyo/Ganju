@@ -81,6 +81,11 @@ public class OrdersService {
         return new OrderDetails(menu.get(), optionDetailsList, orderDTO.getQuantity());
     }
 
+    // 주문 완료 시 저장
+    @Transactional
+    public void add(Orders order){
+        ordersRepository.save(order);
+
     //주문 거부(삭제)
     @Transactional
     public void deleteOrder(Long id){
