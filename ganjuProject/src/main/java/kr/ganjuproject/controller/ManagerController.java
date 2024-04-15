@@ -12,14 +12,21 @@ import kr.ganjuproject.service.ManagerService;
 import kr.ganjuproject.service.OrdersService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,20 +35,22 @@ import java.util.Map;
 @RequestMapping("/manager")
 @RequiredArgsConstructor
 public class ManagerController {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private final ManagerService managerService;
     private final BoardService boardService;
     private final OrdersService ordersService;
 
     @GetMapping("")
-    public String main(Authentication authentication, Model model){
-        if(authentication == null) return "redirect:/";
+    public String main(Authentication authentication, Model model) {
+        if (authentication == null) return "redirect:/";
         Object principal = authentication.getPrincipal();
 
-        if(principal instanceof PrincipalDetails) {
+        if (principal instanceof PrincipalDetails) {
             PrincipalDetails principalDetails = (PrincipalDetails) principal;
             Users user = principalDetails.getUser();
-            if(user.getLoginId().equals("admin")) return "redirect:/";
+            if (user.getLoginId().equals("admin")) return "redirect:/";
 
             LocalDateTime currentTime = LocalDateTime.now();
             LocalDateTime startTime = LocalDateTime.of(currentTime.toLocalDate(), LocalTime.MIN); // 오늘 날짜의 시작
@@ -63,7 +72,9 @@ public class ManagerController {
     }
 
     @GetMapping("join")
-    public String join(){return "manager/join";}
+    public String join() {
+        return "manager/join";
+    }
 
     @PostMapping("join")
     public @ResponseBody String insertUser(@RequestBody UserDTO userDTO) {
@@ -79,7 +90,53 @@ public class ManagerController {
     }
 
     @GetMapping("join/{loginId}")
-    public @ResponseBody String validUsernameCheck(@PathVariable(value = "loginId") String loginId){
+    public @ResponseBody String validUsernameCheck(@PathVariable(value = "loginId") String loginId) {
         return managerService.isVaildLoginId(loginId) ? "ok" : "no";
+    }
+
+    @GetMapping("myPage")
+    public String myPage(Model model, Authentication authentication) {
+        if (authentication == null) return "redirect:/";
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof PrincipalDetails) {
+            PrincipalDetails principalDetails = (PrincipalDetails) principal;
+            Users user = principalDetails.getUser();
+            if (user.getLoginId().equals("admin")) return "redirect:/";
+            model.addAttribute("user", user);
+        }
+        return "/manager/myPage";
+    }
+
+    @GetMapping("myPageEdit")
+    public String myPageEdit(Model model, Authentication authentication) {
+        if (authentication == null) return "redirect:/";
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof PrincipalDetails) {
+            PrincipalDetails principalDetails = (PrincipalDetails) principal;
+            Users user = principalDetails.getUser();
+            if (user.getLoginId().equals("admin")) return "redirect:/";
+            model.addAttribute("user", user);
+        }
+        return "/manager/myPageEdit";
+    }
+
+    @PostMapping("/update")
+    public String update(@RequestBody Map<String, String> requestBody, HttpSession session) {
+        String inputPassword = requestBody.get("password");
+        Users user = (Users) session.getAttribute("user");
+        // 여기서 사용자 비밀번호가 맞는지 확인
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.isAuthenticated()) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            if (passwordEncoder.matches(inputPassword, userDetails.getPassword())) {
+                // 비밀번호가 일치할 경우에만 전화번호 수정
+                String phone = requestBody.get("phone");
+                if (phone != null && !phone.isEmpty()) {
+                    user.setPhone(phone);
+                }
+                return "/manager/myPage";
+            }
+        }
+        throw new IllegalArgumentException("비밀번호가 일치하지 않습니다");
     }
 }

@@ -10,6 +10,7 @@ newR.addEventListener('click', () => {
         rowR.classList.remove('on');
         highR.style.color = '#222';
         rowR.style.color = '#222';
+        sortReviews('new');
     }
 })
 
@@ -21,6 +22,7 @@ highR.addEventListener('click', () => {
         rowR.classList.remove('on');
         newR.style.color = '#222';
         rowR.style.color = '#222';
+        sortReviews('high')
     }
 })
 
@@ -32,8 +34,54 @@ rowR.addEventListener('click', () => {
         highR.classList.remove('on');
         newR.style.color = '#222';
         highR.style.color = '#222';
+        sortReviews('low')
     }
 })
+
+document.addEventListener('DOMContentLoaded', function () {
+    const reviews = document.querySelector('.review-content');
+    // 페이지가 로드될 때 최신순으로 정렬
+    sortReviews('new');
+});
+
+// 각 버튼에 대한 이벤트 리스너 추가
+document.querySelector('.newR').addEventListener('click', function () {
+    sortReviews('new');
+});
+document.querySelector('.highR').addEventListener('click', function () {
+    sortReviews('high');
+});
+document.querySelector('.rowR').addEventListener('click', function () {
+    sortReviews('low');
+});
+
+function sortReviews(order) {
+    const reviews = document.querySelector('.review-content');
+    const lines = Array.from(reviews.querySelectorAll('.line'));
+    lines.sort(function (a, b) {
+        if (order === 'new') {
+            const dateA = new Date(getFormattedDate(a.querySelector('.regDate').textContent.split(" ")[0]));
+            const dateB = new Date(getFormattedDate(b.querySelector('.regDate').textContent.split(" ")[0]));
+            return dateA - dateB; // 최신순으로 정렬
+        } else if (order === 'high') {
+            return b.querySelector('.star').querySelectorAll('.fas').length - a.querySelector('.star').querySelectorAll('.fas').length;
+        } else if (order === 'low') {
+            return a.querySelector('.star').querySelectorAll('.fas').length - b.querySelector('.star').querySelectorAll('.fas').length;
+        }
+    });
+    // 정렬된 리뷰를 다시 화면에 추가
+    reviews.innerHTML = '';
+    lines.forEach(function (line) {
+        reviews.appendChild(line);
+    });
+}
+
+// 날짜 포맷 변경
+function getFormattedDate(dateString) {
+    // Assuming dateString is in format "YYYY-MM-DD"
+    const parts = dateString.split('-');
+    return parts[1] + '/' + parts[2] + '/' + parts[0]; // Change to MM/DD/YYYY format
+}
 
 // 몇 시간 전
 document.addEventListener("DOMContentLoaded", function() {

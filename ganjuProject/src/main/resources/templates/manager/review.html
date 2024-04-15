@@ -27,7 +27,7 @@
                 <p>평균</p>
                 <p class="big" th:text="${starAvg}"></p>
                 <i th:each="starNum : ${#numbers.sequence(1, 5)}"
-                   th:class="${starAvg >= starNum} ? 'fas fa-star fonticon on' : 'far fa-star fonticon on'"></i>
+                   th:class="${starAvg >= starNum} ? 'fas fa-star fonticon on' : (${starAvg > starNum - 0.5} ? 'fas fa-star-half-alt fonticon on' : 'far fa-star fonticon on')"></i>
             </div>
             <div class="review-count">
                 <p class="big">리뷰 수</p>
