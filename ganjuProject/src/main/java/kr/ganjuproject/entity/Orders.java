@@ -32,4 +32,6 @@ public class Orders {
     @ToString.Exclude
     private Review review;
     private String uid;
+    @Enumerated(EnumType.STRING)
+    private RoleOrders division;
 }
