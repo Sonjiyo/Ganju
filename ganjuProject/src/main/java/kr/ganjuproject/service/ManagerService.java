@@ -30,4 +30,7 @@ public class ManagerService {
     public Users getOneUser(Long id){
         return managerRepository.findById(id).orElse(null);
     }
+
+    @Transactional
+    public void deleteUser(Long id){managerRepository.deleteById(id);}
 }
