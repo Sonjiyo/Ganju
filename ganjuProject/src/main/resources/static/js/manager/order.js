@@ -41,3 +41,59 @@ function filterList(type, button) {
         }
     });
 }
+
+//주문 승인 및 거부(삭제)
+function deleteOrder(id, btn){
+    let list = document.querySelectorAll(".order-list li:has(.wait)");
+
+    fetch(`/order/${id}`, {
+        method: 'DELETE',
+    }).then(response=>{
+        return response.text();
+    }).then(data => {
+        if(data === 'ok'){
+            console.log('삭제 성공');
+            let btns = [...document.querySelectorAll('.delete')];
+            let btnIndex = btns.indexOf(btn);
+            list[btnIndex].remove();
+            let waitCount = document.querySelector('.order-state-summary li.wait .state-content span');
+            waitCount.textContent = parseInt(waitCount.textContent)-1;
+        }else{
+            console.log('삭제 실패');
+        }
+    }).catch(error => {
+        console.error('확인 실패', error);
+    });
+
+}
+
+function recognizeOrder(id, btn){
+    fetch(`/order/${id}`, {
+        method: 'PUT',
+    }).then(response=>{
+        return response.text();
+    }).then(data => {
+        if(data === 'ok'){
+            console.log('승인 성공');
+            let btns = [...document.querySelectorAll('.recognize')];
+            let btnIndex = btns.indexOf(btn);
+            let buttonGroup = document.querySelectorAll(".button-group");
+            buttonGroup[btnIndex].remove();
+            let titleGroup = [...document.querySelectorAll('.order-title.wait')];
+            titleGroup[btnIndex].classList.add('okay');
+            titleGroup[btnIndex].classList.remove('wait');
+            titleGroup[btnIndex].textContent='승인';
+
+            let waitCount = document.querySelector('.order-state-summary li.wait .state-content span');
+            waitCount.textContent = (parseInt(waitCount.textContent)-1)+"";
+            let okayCount = document.querySelector('.order-state-summary li.okay .state-content span');
+            okayCount.textContent = (parseInt(waitCount.textContent)+1)+"";
+
+        }else{
+            console.log('승인 실패');
+        }
+    }).catch(error => {
+        console.error('확인 실패', error);
+    });
+
+}
