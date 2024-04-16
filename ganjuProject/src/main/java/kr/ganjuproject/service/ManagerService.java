@@ -18,19 +18,31 @@ public class ManagerService {
     private final ManagerRepository managerRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public List<Users> getManagerList(){return managerRepository.findByRole(ROLE_MANAGER);}
-    public boolean isVaildLoginId(String loginId){
+    public List<Users> getManagerList() {
+        return managerRepository.findByRole(ROLE_MANAGER);
+    }
+
+    public boolean isVaildLoginId(String loginId) {
         return managerRepository.findByLoginId(loginId).isEmpty();
     }
+
     @Transactional
-    public Users insertUser(Users user){
+    public Users insertUser(Users user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return managerRepository.save(user);
     }
-    public Users getOneUser(Long id){
+
+    public Users getOneUser(Long id) {
         return managerRepository.findById(id).orElse(null);
     }
 
     @Transactional
-    public void deleteUser(Long id){managerRepository.deleteById(id);}
+    public void deleteUser(Long id) {
+        managerRepository.deleteById(id);
+    }
+
+    @Transactional
+    public Users updateUser(Users user) {
+        return managerRepository.save(user);
+    }
 }

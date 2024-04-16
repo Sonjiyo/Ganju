@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/manager/common.css">
+    <link rel="stylesheet" href="/css/manager/addNotice.css">
+    <title>Title</title>
+</head>
+<body>
+<div class="innerBox">
+    <header>
+        <div>
+            <a href=""><i class="fas fa-home"></i></a>
+        </div>
+        <p>공지 사항 추가</p>
+        <div>
+            <a href="#"></a>
+        </div>
+    </header>
+    <div class="container">
+        <div class="notice-day">
+            <div class="notice-menu">
+                <p>날짜</p>
+                <div class="line">
+                    <p>2024.03.29</p>
+                </div>
+            </div>
+        </div>
+        <div class="notice-title">
+            <div class="notice-menu">
+                <p>제목</p>
+                <textarea name="name" id="title" class="notice-name"></textarea>
+            </div>
+        </div>
+        <div class="notice-contents">
+            <div class="notice-menu">
+                <p>내용</p>
+                <textarea name="name" id="contents" class="notice-contents"></textarea>
+            </div>
+            <button class="button add">등록하기</button>
+        </div>
+    </div>
+    <footer th:replace="fragments/footer :: footer(myPage)"></footer>
+</div>
+</body>
+</html>

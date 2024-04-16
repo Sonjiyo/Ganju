@@ -1,5 +1,7 @@
 package kr.ganjuproject.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import kr.ganjuproject.auth.PrincipalDetails;
 import kr.ganjuproject.entity.*;
@@ -28,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Controller
 @Slf4j
@@ -35,12 +38,14 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ManagerController {
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
+    private final PasswordEncoder passwordEncoder;
     private final ManagerService managerService;
     private final BoardService boardService;
     private final OrdersService ordersService;
     private final ReviewService reviewService;
+
+    private static final String PHONE_REGEX = "^\\d{3}-\\d{4}-\\d{4}$";
+    private static final Pattern PHONE_PATTERN = Pattern.compile(PHONE_REGEX);
 
     @GetMapping("")
     public String main(Authentication authentication, Model model) {
@@ -123,27 +128,40 @@ public class ManagerController {
     }
 
     @PostMapping("/update")
-    public String update(@RequestBody Map<String, String> requestBody, HttpSession session) {
+    public String update(@RequestBody Map<String, String> requestBody, Authentication authentication) {
         String inputPassword = requestBody.get("password");
-        Users user = (Users) session.getAttribute("user");
-        // 여기서 사용자 비밀번호가 맞는지 확인
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication.isAuthenticated()) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            if (passwordEncoder.matches(inputPassword, userDetails.getPassword())) {
-                // 비밀번호가 일치할 경우에만 전화번호 수정
-                String phone = requestBody.get("phone");
-                if (phone != null && !phone.isEmpty()) {
-                    user.setPhone(phone);
-                }
-                return "/manager/myPage";
+        String inputPhone = requestBody.get("phone");
+        if (authentication == null) return "redirect:/";
+        Object principal = authentication.getPrincipal();
+        PrincipalDetails principalDetails = (PrincipalDetails) principal;
+        Users user = principalDetails.getUser();
+        // 입력된 비밀번호와 시큐리티로 해싱된 비밀번호를 비교
+        if (passwordEncoder.matches(inputPassword, user.getPassword())) {
+            // 비밀번호가 일치할 경우에만 전화번호 수정
+            if (inputPhone != null && PHONE_PATTERN.matcher(inputPhone).matches()) {
+                user.setPhone(inputPhone);
+                managerService.updateUser(user);
+                System.out.println("user = " + user);
+                return "redirect:/manager/myPage";
+            } else {
+                throw new IllegalArgumentException("올바른 전화번호 형식이 아닙니다.");
             }
+        } else {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다");
         }
-        throw new IllegalArgumentException("비밀번호가 일치하지 않습니다");
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        return "redirect:/";
     }
 
     @DeleteMapping("/{keyId}")
-    public @ResponseBody String DeleteManager(@PathVariable Long keyId){
+    public @ResponseBody String DeleteManager(@PathVariable Long keyId) {
         managerService.deleteUser(keyId);
         return "ok";
 

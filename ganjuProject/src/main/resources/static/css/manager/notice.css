@@ -1,0 +1,26 @@
+.button {
+    border: var(--orange);
+    text-align: center;
+}
+
+.notice_menu {
+    width: 430px;
+    height: 73px;
+    display: flex;
+    justify-content: space-between;
+    padding: var(--padding);
+}
+
+.extrasmall {
+    font-size: var(--font-extra-small);
+    color: var(--light-gray);
+}
+
+.small {
+    font-size: var(--font-small);
+    color: var(--gray);
+}
+
+.center {
+    align-self: center;
+}
