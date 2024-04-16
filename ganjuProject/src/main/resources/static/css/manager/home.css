@@ -85,7 +85,7 @@
     margin-bottom:10px;
 }
 .direct-url a:nth-child(1)::before{content: '\f6d7';}
-.direct-url a:nth-child(2)::before{content: '\f328';font-weight: 500;}
+.direct-url a:nth-child(2)::before{content: '\f14b';}
 .direct-url a:nth-child(3)::before{content: '\f06a';}
 
 /* qna */

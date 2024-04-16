@@ -46,7 +46,7 @@ public class BoardService {
         return boardRepository.findAll();
     }
     public List<Board> getReortList(){
-        List<Board> reportList = boardRepository.findByBoardCategory(REPORT);
+        List<Board> reportList = boardRepository.findByBoardCategoryAndTitleNot(REPORT, "accept");
         Collections.reverse(reportList); // 리스트를 역순으로 정렬
         return reportList;
     }

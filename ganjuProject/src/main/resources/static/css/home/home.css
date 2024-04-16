@@ -11,7 +11,10 @@ input[type=button]{font-size: var(--font-middle); margin-top: 50px;}
     border: 1px solid var(--light-gray);
     padding: 10px;
     margin-top:10px;
-    padding-left:50px;
     border-radius: 5px;
+    background: var(--white);
 }
-.btn-group>div:hover{border: 1px solid var(--gray);}
+.btn-group>div:hover{filter: brightness(0.9);}
+.btn-group>div.naver-login{background: #1EC800;color:var(--white);border:none;}
+.btn-group>div.kakao-login{background: #FFEB00;border:none;}
+.goole-login i{margin-right: 10px;color: #4285F4;}

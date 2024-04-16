@@ -5,7 +5,7 @@ function loginCheck(form){
     msg.textContent='';
     if(!form.username.value.trim()){
         msg.textContent='아이디를 입력해주세요';
-        document.querySelector('.username').appendChild(msg);
+        document.querySelector('.login-id').appendChild(msg);
         return false;
     }
 

@@ -30,4 +30,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     List<Board> findByBoardCategory(RoleCategory category);
 
     List<Board> findByBoardCategoryAndTitleAndRestaurant(RoleCategory category, String title, Restaurant restaurant);
+
+    List<Board> findByBoardCategoryAndTitleNot(RoleCategory category, String title);
 }

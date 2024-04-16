@@ -10,7 +10,7 @@ let checkButton = document.querySelector('.check-button');
 function validLoginId(form){
     if(!form.loginId.value.trim()){
         msg.textContent='아이디를 입력해주세요';
-        document.querySelector('.loginId').appendChild(msg);
+        document.querySelector('.login-id').appendChild(msg);
         return false;
     }
 

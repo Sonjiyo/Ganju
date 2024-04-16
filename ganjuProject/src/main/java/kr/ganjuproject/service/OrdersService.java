@@ -44,6 +44,10 @@ public class OrdersService {
     public List<Orders> getRestaurantOrdersWithinTimeWithoutCall(Restaurant restaurant, LocalDateTime startTime, LocalDateTime endTime) {
         List<Orders> list = ordersRepository.findByRestaurantAndDivisionNotAndRegDateBetween(restaurant, RoleOrders.CALL, startTime, endTime);
         Collections.reverse(list);
+        for(Orders order : list) {
+            order.setReview(null);
+            order.setRestaurant(null);
+        }
         return list;
     }
 

@@ -114,3 +114,4 @@ if (window.handleReceivedCall) {
         // 예: 화면에 메시지를 표시하는 로직
     }
 }
+

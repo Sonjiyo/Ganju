@@ -51,6 +51,6 @@ public class HomeController {
     @GetMapping("/auth/login")
     public @ResponseBody String login(String error, String exception){
         log.error("error ={} , excepiton={}", error, exception);
-        return exception.toString();
+        return "<script>alert('"+exception.toString()+"');location.href='/';</script>";
     }
 }

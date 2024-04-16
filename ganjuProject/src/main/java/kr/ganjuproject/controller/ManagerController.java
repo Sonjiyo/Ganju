@@ -59,10 +59,10 @@ public class ManagerController {
 
             List<Orders> list = ordersService.getRestaurantOrdersWithinTimeWithoutCall(user.getRestaurant(), startTime, endTime);
 
-            Map<String, Object> map = ordersService.getRestaurantOrderData(list);
+            Map<String, Object> total = ordersService.getRestaurantOrderData(list);
             model.addAttribute("user", user);
-            model.addAttribute("orderCount", map.get("count"));
-            model.addAttribute("orderPrice", map.get("price"));
+            model.addAttribute("orderCount", total.get("count"));
+            model.addAttribute("orderPrice", total.get("price"));
             model.addAttribute("reportCount", boardService.getReortAcceptList(user.getRestaurant()));
             model.addAttribute("call", ordersService.getRestaurantOrdersDivision(user.getRestaurant(), RoleOrders.CALL).size());
             model.addAttribute("wait", ordersService.getRestaurantOrdersDivision(user.getRestaurant(), RoleOrders.WAIT).size());
