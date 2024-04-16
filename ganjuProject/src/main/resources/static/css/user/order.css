@@ -1,6 +1,7 @@
 @charset "UTF-8";
 
 .container>div{
+    width: 100%;
     margin: 0;
     padding: 20px;
     border-bottom: 1px solid var(--light-gray);

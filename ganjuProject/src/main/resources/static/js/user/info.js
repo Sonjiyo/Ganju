@@ -78,9 +78,39 @@ function minusNum() {
 // 마이너스 버튼 눌렀을 때
 minus.addEventListener('mousedown', e => {
     minusNum(); // 수량 감소
+    updateTotalPrice();
 });
 
 // 플러스 버튼 눌렀을 때
 plus.addEventListener('mousedown', e => {
     plusNum(); // 수량 증가
+    updateTotalPrice();
 });
+
+function updateTotalPrice() {
+    let totalPrice = parseInt(document.querySelector('.price').innerText); // 메뉴 기본 가격
+    const quantity = parseInt(document.getElementById('order-num').innerText); // 선택된 수량
+
+    // 선택된 옵션의 추가 가격 계산
+    document.querySelectorAll('.option input:checked').forEach(input => {
+        const priceElement = input.closest('.select').querySelector('.price');
+        if (priceElement) {
+            const optionPrice = parseInt(priceElement.innerText.replace('원', '').replace('+', ''));
+            totalPrice += optionPrice;
+        }
+    });
+
+    // 총 가격 = (기본 가격 + 옵션 가격) * 수량
+    totalPrice *= quantity;
+
+    // "담기" 버튼에 가격 업데이트
+    document.querySelector('.submit.button').value = `${totalPrice}원 담기`;
+}
+
+// 옵션 선택 시 가격 업데이트
+document.querySelectorAll('.option input').forEach(input => {
+    input.addEventListener('change', updateTotalPrice);
+});
+
+// 초기 페이지 로드 시 총 가격 업데이트
+document.addEventListener('DOMContentLoaded', updateTotalPrice);

@@ -26,6 +26,7 @@ document.querySelector('.modal-submit').addEventListener('click', () => {
         });
 
     document.getElementById('reportModal').style.display = 'none';
+    document.getElementById('reportReason').value = '';
     document.body.style.overflow = ''; // 스크롤 활성화
 });
 
@@ -63,7 +64,7 @@ document.getElementById('submitCall').addEventListener('click', () => {
                 };
 
                 console.log(orderInfo);
-                stompClient.send("/app/call", {}, JSON.stringify(orderInfo));
+                stompClient.send("/app/calls", {}, JSON.stringify(orderInfo));
             }
             console.log("성공");
         })

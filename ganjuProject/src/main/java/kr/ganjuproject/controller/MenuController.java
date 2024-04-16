@@ -29,6 +29,7 @@ public class MenuController {
     private final CategoryService categoryService;
     private final ReviewService reviewService;
     private final OrdersService ordersService;
+    private final RefundService refundService;
 
     // 메인 메뉴 첫 페이지
     @GetMapping("/main")
@@ -209,9 +210,9 @@ public class MenuController {
         Orders savedOrder = ordersService.save(newOrder); // 주문 저장
 
         // 정상적인 처리 응답을 JSON 형태로 반환
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "결제 검증 및 주문 정보 저장 성공.");
-        response.put("orderId", savedOrder.getId().toString());
+        Map<String, Object> response = new HashMap<>();
+        response.put("order", savedOrder);
+        System.out.println(savedOrder);
         return ResponseEntity.ok(response);
     }
 
@@ -225,6 +226,7 @@ public class MenuController {
         }
         System.out.println(order);
         session.removeAttribute("orders");
+        session.removeAttribute("orderDetailsList");
         return "user/order";
     }
 
@@ -296,6 +298,24 @@ public class MenuController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ID에 해당하는 메뉴를 찾을 수 없습니다");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("메뉴 삭제 중 오류가 발생했습니다 : " + e.getMessage());
+        }
+    }
+
+    // 비동기 환불처리
+    @PostMapping("/refund")
+    public ResponseEntity<?> refundOrder(@RequestBody Map<String, Object> payload) {
+        String reason = "테스트용"; // 환불 사유
+        Long orderId = Long.valueOf((String) payload.get("orderId"));
+
+        Orders order = ordersService.findById(orderId).get();
+
+        String accessToken = refundService.getAccessToken();
+        Map<String, Object> refundResult = refundService.requestRefund(order.getUid(), reason, accessToken);
+
+        if (refundResult != null && "true".equals(refundResult.get("success").toString())) {
+            return ResponseEntity.ok().body(Map.of("success", true, "message", "환불 처리가 완료되었습니다."));
+        } else {
+            return ResponseEntity.badRequest().body(Map.of("success", false, "message", "환불 처리에 실패했습니다."));
         }
     }
 }

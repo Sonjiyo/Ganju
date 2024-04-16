@@ -1,0 +1,10 @@
+package kr.ganjuproject.dto;
+
+import lombok.Data;
+
+
+@Data
+public class IamportDTO {
+    private String key;
+    private String secret;
+}
