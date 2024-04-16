@@ -1,3 +1,7 @@
+.container {
+    margin-bottom: 80px;
+}
+
 .button {
     border: var(--orange);
     text-align: center;
@@ -5,7 +9,6 @@
 
 .notice_menu {
     width: 430px;
-    height: 73px;
     display: flex;
     justify-content: space-between;
     padding: var(--padding);
@@ -23,4 +26,65 @@
 
 .center {
     align-self: center;
+}
+
+.content-center {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: flex-end;
+    padding: var(--padding);
+}
+
+.navbar {
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.dropdown {
+    float: left;
+    overflow: hidden;
+}
+
+.dropdown .dropbtn {
+    cursor: pointer;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    color: var(--black);
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 100px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    right: 0;
+}
+
+.dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+}
+
+.delete-button {
+    color: var(--red);
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.show {
+    display: block;
 }

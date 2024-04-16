@@ -6,13 +6,11 @@ import jakarta.servlet.http.HttpSession;
 import kr.ganjuproject.auth.PrincipalDetails;
 import kr.ganjuproject.entity.*;
 import kr.ganjuproject.dto.UserDTO;
-import kr.ganjuproject.service.BoardService;
-import kr.ganjuproject.service.ManagerService;
-import kr.ganjuproject.service.OrdersService;
-import kr.ganjuproject.service.ReviewService;
+import kr.ganjuproject.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,10 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Pattern;
 
 @Controller
@@ -43,6 +38,7 @@ public class ManagerController {
     private final BoardService boardService;
     private final OrdersService ordersService;
     private final ReviewService reviewService;
+    private final RestaurantService restaurantService;
 
     private static final String PHONE_REGEX = "^\\d{3}-\\d{4}-\\d{4}$";
     private static final Pattern PHONE_PATTERN = Pattern.compile(PHONE_REGEX);
@@ -164,7 +160,57 @@ public class ManagerController {
     public @ResponseBody String DeleteManager(@PathVariable Long keyId) {
         managerService.deleteUser(keyId);
         return "ok";
-
     }
 
+    @GetMapping("/notice")
+    public String noticeMain(Model model) {
+        List<Board> boards = boardService.findAll();
+        model.addAttribute("boards", boards);
+        return "manager/notice";
+    }
+
+    @GetMapping("/addNotice")
+    public String addNotice(Model model) {
+        List<Board> boards = boardService.findAll();
+        model.addAttribute("boards", boards);
+        return "manager/addNotice";
+    }
+
+    @PostMapping("/addNotice")
+    public ResponseEntity<String> addNotice(@RequestBody Map<String, String> noticeData, Authentication authentication) {
+        try {
+            System.out.println("notice = " + noticeData);
+            String loggedInUsername = authentication.getName();
+            Board board = new Board();
+            board.setTitle(noticeData.get("title"));
+            board.setContent(noticeData.get("contents"));
+            Optional<Restaurant> restaurantOptional = restaurantService.findById(1L);
+            if (restaurantOptional.isPresent()) {
+                board.setRestaurant(restaurantOptional.get());
+            } else {
+                // Handle case when restaurant with ID 1 is not found
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("레스토랑을 찾을 수 없습니다");
+            }
+            board.setName(loggedInUsername);
+            board.setBoardCategory(RoleCategory.NOTICE);
+            boardService.save(board);
+            // 성공적으로 등록된 경우
+            return ResponseEntity.ok("공지사항 등록 성공");
+        } catch (Exception e) {
+            // 등록에 실패한 경우
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("공지사항 등록 실패");
+        }
+    }
+
+    @DeleteMapping("/notice/{id}")
+    public ResponseEntity<String> deleteNotice(@PathVariable Long id) {
+        try {
+            boardService.deleteBoard(id);
+            return ResponseEntity.ok().body("공지사항(ID : " + id + ")가 삭제 되었습니다");
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ID 에 해당하는 게시글이 없습니다");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("게시글 삭제 중 오류가 발생했습니다 : " + e.getMessage());
+        }
+    }
 }

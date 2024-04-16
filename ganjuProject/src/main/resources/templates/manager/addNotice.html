@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/manager/common.css">
     <link rel="stylesheet" href="/css/manager/addNotice.css">
+    <script defer src="/js/manager/addNotice.js"></script>
     <title>Title</title>
 </head>
 <body>
@@ -30,15 +31,15 @@
         <div class="notice-title">
             <div class="notice-menu">
                 <p>제목</p>
-                <textarea name="name" id="title" class="notice-name"></textarea>
+                <textarea name="title" id="title" class="notice-name"></textarea>
             </div>
         </div>
         <div class="notice-contents">
             <div class="notice-menu">
                 <p>내용</p>
-                <textarea name="name" id="contents" class="notice-contents"></textarea>
+                <textarea name="contents" id="contents" class="notice-contents"></textarea>
             </div>
-            <button class="button add">등록하기</button>
+            <button id="addNoticeButton" class="button add">등록하기</button>
         </div>
     </div>
     <footer th:replace="fragments/footer :: footer(myPage)"></footer>
