@@ -97,3 +97,20 @@ function recognizeOrder(id, btn){
     });
 
 }
+
+
+// order.js에서는 home.js에서 선언한 함수를 활용하여 메시지를 처리
+if (window.handleReceivedCall) {
+    // 기존의 handleReceivedCall 함수를 백업
+    const originalHandleReceivedCall = window.handleReceivedCall;
+
+    // handleReceivedCall 함수 확장
+    window.handleReceivedCall = function(callInfo) {
+        // 기존 로직 호출
+        originalHandleReceivedCall(callInfo);
+
+        // order.js에서 추가 로직 구현
+        console.log("order.js:", callInfo);
+        // 예: 화면에 메시지를 표시하는 로직
+    }
+}

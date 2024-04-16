@@ -206,7 +206,7 @@ public class MenuController {
         }
 
         newOrder.setOrderMenus(orderMenus); // 주문에 주문 메뉴 목록 설정
-        Orders savedOrder = ordersService.add(newOrder); // 주문 저장
+        Orders savedOrder = ordersService.save(newOrder); // 주문 저장
 
         // 정상적인 처리 응답을 JSON 형태로 반환
         Map<String, String> response = new HashMap<>();
@@ -217,13 +217,14 @@ public class MenuController {
 
     // 주문완료하고 시킨메뉴 보여주는 곳
     @GetMapping("/order/{orderId}")
-    public String order(@PathVariable("orderId") Long orderId, Model model) {
+    public String order(@PathVariable("orderId") Long orderId, Model model, HttpSession session) {
         Optional<Orders> order = ordersService.findById(orderId);
 
         if(order.isPresent()){
             model.addAttribute("order", order.get());
         }
         System.out.println(order);
+        session.removeAttribute("orders");
         return "user/order";
     }
 
