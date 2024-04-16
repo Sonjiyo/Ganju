@@ -243,7 +243,8 @@ function changeOrderData(startDate, endDate){
                     '    <div class="content-summary">\n' +
                     '         <span class="table-name">' + e.restaurantTableNo + '번 테이블</span>\n' +
                     '               <div class="right">\n' +
-                    '                     <span class="time">' + new Date(e.regDate).toLocaleString() + '</span>\n' +
+
+                    '<span class="time">' + new Date(e.regDate).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\./g, '-').replaceAll(' ', '').substring(0, 10) + ' / ' + new Date(e.regDate).toLocaleTimeString('ko-KR', { hour12: false, hour: '2-digit', minute: '2-digit' }) + '</span>\n'+
                     '                     <button><i class="fas fa-chevron-down"></i></button>\n' +
                     '               </div>\n' +
                     '    </div>\n' +
@@ -269,6 +270,5 @@ function changeOrderData(startDate, endDate){
         });
 }
 document.addEventListener('DOMContentLoaded', () => {
-    // 별포 표시 부분 함수
     buttonOpen();
 });

@@ -23,7 +23,10 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     // 특정 식당의 특정 카테고리(예: 공지사항)에 속하는 게시글을 페이징 처리하여 가져오기
     Page<Board> findByRestaurantIdAndBoardCategory(Long restaurantId, RoleCategory boardCategory, Pageable pageable);
 
-//  해당 식당의 공지사항의 사이즈 값
+    List<Board> findByRestaurantIdAndBoardCategory(Long restaurantId, RoleCategory boardCategory);
+
+
+    //  해당 식당의 공지사항의 사이즈 값
     @Query("SELECT COUNT(b) FROM Board b WHERE b.restaurant.id = :restaurantId AND b.boardCategory = :boardCategory")
     Long countByRestaurantIdAndBoardCategory(@Param("restaurantId") Long restaurantId, @Param("boardCategory") RoleCategory boardCategory);
 

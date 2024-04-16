@@ -72,13 +72,13 @@
 .order-title, .order-subtitle{
     font-size: var(--font-small);
     color: var(--white);
-    padding:3px 20px;
     margin-right: 10px;
     border-radius: var(--radius);
     text-align: center;
     cursor: default;
 }
-.order-subtitle{border: 1px solid var(--light-gray);color:var(--gray);}
+.order-title{padding:3px 15px;}
+.order-subtitle{border: 1px solid var(--light-gray);color:var(--gray);padding:3px 5px;}
 .order-title.call{background: var(--blue);}
 .order-title.wait{background: var(--red);}
 .order-title.okay{background: var(--black);}

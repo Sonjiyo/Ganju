@@ -1,0 +1,6 @@
+.warning-msg{color: var(--red);padding: 30px;padding-bottom: 10px;}
+input[type=text]:read-only{background: var(--extra-light-gray);}
+input[type=text]:read-only:focus{outline: none;}
+label{margin-bottom: 15px;}
+.content label{margin-bottom: 0;}
+textarea{border:1px solid var(--light-gray);height: 200px;}
