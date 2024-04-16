@@ -163,87 +163,92 @@ public class MenuController {
         return "user/order";
     }
 
-    // uid를 감추고 싶어 만든 비동기 저장
     @PostMapping("/validImpUid")
     public ResponseEntity<?> order(@RequestBody PaymentValidationRequest validationRequest, HttpSession session) {
-        // 여기에서 imp_uid를 사용하여 결제 검증 로직을 구현하고,
-        // 검증 성공 시 세션에서 주문 정보를 조회한 후 데이터베이스에 저장합니다.
+        // 세션에서 주문 정보 및 관련 정보 가져오기
         Long restaurantId = (Long)session.getAttribute("restaurantId");
         int restaurantTableNo = (int)session.getAttribute("restaurantTableNo");
+        List<OrderDTO> ordersDTO = (List<OrderDTO>) session.getAttribute("orders");
 
-        System.out.println("결재 성공시 들어오는 곳");
-        System.out.println("validationRequest" + validationRequest);
-
-        // 세션에서 주문 정보 가져오기 (이 예제에서는 session.getAttribute를 사용하여 구현)
-        List<OrderDTO> orders = (List<OrderDTO>) session.getAttribute("orders");
-
-        if (orders == null) {
+        if (ordersDTO == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("주문 정보가 없습니다.");
         }
 
-        // 주문 정보를 데이터베이스에 저장하는 로직 구현 (생략)
-        Orders order = new Orders();
-        order.setRestaurantTableNo(restaurantTableNo);
-        List<OrderMenu> orderMenuList = new ArrayList<>();
-        for(OrderDTO o : orders){
+        Orders newOrder = new Orders();
+        newOrder.setRestaurantTableNo(restaurantTableNo);
+        newOrder.setRestaurant(restaurantService.findById(restaurantId).orElseThrow(() -> new RuntimeException("Restaurant not found")));
+        newOrder.setPrice(validationRequest.getTotalPrice());
+        newOrder.setRegDate(LocalDateTime.now());
+        newOrder.setContent(validationRequest.getContents());
+        newOrder.setUid(validationRequest.getImpUid());
+        newOrder.setDivision(RoleOrders.WAIT);
+        List<OrderMenu> orderMenus = new ArrayList<>();
+
+        for (OrderDTO orderDTO : ordersDTO) {
             OrderMenu orderMenu = new OrderMenu();
-            Menu menu = menuService.findById(o.getMenuId()).orElseThrow(() -> new RuntimeException("Menu not found"));
-            int menuTotalPrice = menu.getPrice();
-            StringBuilder menuString = new StringBuilder();
-            menuString.append(menu.getName()).append(o.getQuantity()).append("개; ");
-            menuString.append("가격:").append(menu.getPrice()).append("원; ");
+            orderMenu.setMenuName(menuService.findById(orderDTO.getMenuId()).orElseThrow(() -> new RuntimeException("Menu not found")).getName());
+            orderMenu.setQuantity(orderDTO.getQuantity());
+            orderMenu.setPrice(menuService.findById(orderDTO.getMenuId()).get().getPrice()); // 기본 가격 설정
+            orderMenu.setOrder(newOrder); // 연결된 주문 설정
 
-            // 옵션 정보를 추가하는 부분
-            menuString.append("options: ");
-            for (OrderDTO.OptionSelection selectedOption : o.getSelectedOptions()) {
-                MenuOption option = menuOptionService.findById(selectedOption.getOptionId());
-                MenuOptionValue value = menuOptionValueService.findById(selectedOption.getValueId());
-
-                menuString.append(option.getContent()).append(": ").append(value.getContent()).append(", ");
-                menuTotalPrice += value.getPrice();
+            List<OrderOption> orderOptions = new ArrayList<>();
+            for (OrderDTO.OptionSelection selectedOption : orderDTO.getSelectedOptions()) {
+                OrderOption orderOption = new OrderOption();
+                MenuOption menuOption = menuOptionService.findById(selectedOption.getOptionId());
+                MenuOptionValue menuOptionValue = menuOptionValueService.findById(selectedOption.getValueId());
+                orderOption.setOptionName(menuOption.getContent() + ": " + menuOptionValue.getContent());
+                orderOption.setPrice(menuOptionValue.getPrice()); // 추가 가격 설정
+                orderOption.setOrderMenu(orderMenu); // 연결된 주문 메뉴 설정
+                orderOptions.add(orderOption); // 옵션 목록에 추가
             }
-
-            // 마지막 콤마 제거
-            if (!o.getSelectedOptions().isEmpty()) {
-                int lastCommaIndex = menuString.lastIndexOf(", ");
-                menuString.delete(lastCommaIndex, menuString.length());
-            }
-
-            menuString.append("; total: ").append(menuTotalPrice * o.getQuantity()); // 옵션 가격을 포함한 총 가격 계산 필요
-            orderMenu.setOrderMenu(menuString.toString());
-            orderMenu.setQuantity(o.getQuantity());
-            System.out.println(menuString);
-            orderMenuList.add(orderMenu);
+            orderMenu.setOrderOptions(orderOptions); // 주문 메뉴에 옵션 설정
+            orderMenus.add(orderMenu); // 주문 메뉴 목록에 추가
         }
 
-        order.setOrderMenus(orderMenuList);
-        order.setRestaurant(restaurantService.findById(restaurantId).get());
-        order.setPrice(validationRequest.getTotalPrice());
-        order.setRegDate(LocalDateTime.now());
-        order.setContent(validationRequest.getContents());
-        order.setUid(validationRequest.getImpUid());
-        order.setDivision(RoleOrders.WAIT);
+        newOrder.setOrderMenus(orderMenus); // 주문에 주문 메뉴 목록 설정
+        Orders savedOrder = ordersService.add(newOrder); // 주문 저장
 
-        ordersService.add(order);
-        System.out.println(order);
-        System.out.println("여기까지");
-        return ResponseEntity.ok("결제 검증 및 주문 정보 저장 성공");
+        // 정상적인 처리 응답을 JSON 형태로 반환
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "결제 검증 및 주문 정보 저장 성공.");
+        response.put("orderId", savedOrder.getId().toString());
+        return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/order")
-    public String order() {
+    // 주문완료하고 시킨메뉴 보여주는 곳
+    @GetMapping("/order/{orderId}")
+    public String order(@PathVariable("orderId") Long orderId, Model model) {
+        Optional<Orders> order = ordersService.findById(orderId);
 
+        if(order.isPresent()){
+            model.addAttribute("order", order.get());
+        }
+        System.out.println(order);
         return "user/order";
     }
 
-    @GetMapping("/review")
-    public String review() {
+    @GetMapping("/review/{orderId}")
+    public String review(@PathVariable("orderId") Long orderId, Model model) {
+        model.addAttribute("orderId", orderId);
         return "user/review";
     }
 
     @PostMapping("/review")
-    public String review(Model model) {
-        return "redirect:/user/main";
+    public String review(ReviewDTO reviewDTO, HttpSession session) {
+        Review review = new Review();
+
+        Restaurant restaurant = restaurantService.findById((Long)session.getAttribute("restaurantId")).get();
+        review.setRestaurant(restaurant);
+        review.setName(reviewDTO.getName());
+        review.setContent(reviewDTO.getContent());
+        review.setRegDate(LocalDateTime.now());
+        review.setStar(reviewDTO.getStar());
+        Orders order = ordersService.findById(reviewDTO.getOrderId()).get();
+        review.setOrder(order);
+        review.setSecret(0);
+
+        reviewService.save(review);
+        return "redirect:/menu/main";
     }
 
     @GetMapping("/add")

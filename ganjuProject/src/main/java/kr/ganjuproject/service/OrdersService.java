@@ -6,12 +6,10 @@ import kr.ganjuproject.dto.OrderDetails;
 import kr.ganjuproject.entity.*;
 import kr.ganjuproject.repository.OrdersRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import org.aspectj.weaver.ast.Or;
 import java.time.LocalDateTime;
 
 
@@ -83,8 +81,13 @@ public class OrdersService {
 
     // 주문 완료 시 저장
     @Transactional
-    public void add(Orders order) {
-        ordersRepository.save(order);
+    public Orders add(Orders order) {
+       return ordersRepository.save(order);
+    }
+
+    // orderId로 orders 객체 하나 가져오기
+    public Optional<Orders> findById(Long id){
+        return ordersRepository.findById(id);
     }
     //주문 거부(삭제)
     @Transactional

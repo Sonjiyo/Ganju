@@ -21,6 +21,11 @@ import java.util.stream.Collectors;
 public class ReviewService {
     private final ReviewRepository reviewRepository;
 
+    // 새 리뷰 저장
+    @Transactional
+    public void save(Review review){
+        reviewRepository.save(review);
+    }
     // 메인 메뉴에서 비동기로 리뷰만 가져갈때 쓰는 메서드
     public List<ReviewDTO> reviewGetList(Long restaurantId, int page) {
         // PageRequest.of의 첫 번째 파라미터는 페이지 번호(0부터 시작), 두 번째 파라미터는 페이지 당 항목 수입니다.

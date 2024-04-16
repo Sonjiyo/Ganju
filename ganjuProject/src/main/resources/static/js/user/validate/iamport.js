@@ -54,7 +54,7 @@ function requestPay() {
                 },
                 body: JSON.stringify({
                     "impUid": rsp.imp_uid, // Iamport 결제 고유 번호
-                    "contents": contents.textContent, // 요청사항
+                    "contents": contents.value, // 요청사항
                     "totalPrice": totalPayMoney
                 }),
             })
@@ -62,7 +62,7 @@ function requestPay() {
                 .then(data => {
                     console.log(data);
                     // 서버에서 결제 검증 성공 후 리디렉션할 페이지로 이동
-                    location.href = "/menu/order";
+                    location.href = "/menu/order/" + data.orderId;
                 })
                 .catch(error => {
                     // 오류 처리 로직
