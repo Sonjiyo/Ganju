@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/manager/common.css">
     <link rel="stylesheet" href="/css/manager/notice.css">
+    <script defer src="/js/manager/notice.js"></script>
     <title>Title</title>
 </head>
 <body>
@@ -20,50 +21,32 @@
     </header>
     <div class="container">
         <div class="content-center">
-            <button class="button" onclick="location.href='notice_add.html'">공지사항 추가</button>
+            <button class="button" onclick="addNotice()">공지사항 추가</button>
         </div>
         <div class="underline"></div>
-        <div class="notice_menu">
+        <div class="notice_menu" th:each="board:${boards}">
             <div>
-                <a>3월 가격 인상안내..</a>
-                <a class="extrasmall">2024.02.20</a>
+                <a th:text="${board.title}"></a>
+                <a class="extrasmall" th:text="${#temporals.format(board.regDate, 'yyyy-MM-dd')}"></a>
                 <div>
-                    <a class="small">식자재 가격인상으로 인해 3월 1일 이후로...</a>
+                    <a class="small" th:text="${board.content}"></a>
                 </div>
             </div>
-            <a class="center">
-                <i class="fas fa-chevron-right"></i>
-            </a>
-        </div>
-        <div class="underline"></div>
-        <div class="notice_menu">
-            <div>
-                <a>3월 가격 인상안내..</a>
-                <a class="extrasmall">2024.02.20</a>
-                <div>
-                    <a class="small">식자재 가격인상으로 인해 3월 1일 이후로...</a>
+            <div class="navbar">
+                <div class="dropdown">
+                    <button class="dropbtn center" th:onclick="'myFunction(' + ${board.id} + ')'">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                    <div class="dropdown-content" th:id="'myDropdown' + ${board.id}">
+                        <a>수정</a>
+                        <a><span class="delete-button" th:data-id="${board.id}">삭제</span></a>
+                    </div>
                 </div>
             </div>
-            <a class="center">
-                <i class="fas fa-chevron-right"></i>
-            </a>
         </div>
         <div class="underline"></div>
-        <div class="notice_menu">
-            <div>
-                <a>3월 가격 인상안내..</a>
-                <a class="extrasmall">2024.02.20</a>
-                <div>
-                    <a class="small">식자재 가격인상으로 인해 3월 1일 이후로...</a>
-                </div>
-            </div>
-            <a class="center">
-                <i class="fas fa-chevron-right"></i>
-            </a>
-        </div>
-        <div class="underline"></div>
-        <footer th:replace="fragments/footer :: footer(myPage)"></footer>
     </div>
+    <footer th:replace="fragments/footer :: footer(myPage)"></footer>
 </div>
 </body>
 </html>

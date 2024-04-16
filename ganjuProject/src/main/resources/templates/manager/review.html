@@ -48,7 +48,7 @@
                 <div class="star margin">
                     <i th:each="starNum : ${#numbers.sequence(1, 5)}"
                        th:class="${review.star >= starNum} ? 'fas fa-star fonticon on' : 'far fa-star fonticon on'"></i>
-                    <p class="fonticon margin regDate" th:text="${review.regDate}"></p>
+                    <p class="fonticon margin regDate" th:text="${#temporals.format(review.regDate, 'yyyy-MM-dd')}"></p>
                 </div>
                 <p class="small left" th:text="${review.content}"></p>
             </div>
