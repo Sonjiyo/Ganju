@@ -1,16 +1,20 @@
-let buttons = [...document.querySelectorAll('.content-summary .right button')];
-let content = [...document.querySelectorAll('.info')];
-buttons.forEach(e=>{
-    e.addEventListener('click', ()=>{
-        if(e.classList.contains('on')){
-            e.classList.remove('on');
-            content[buttons.indexOf(e)].classList.remove('on');
-        }else{
-            e.classList.add('on');
-            content[buttons.indexOf(e)].classList.add('on');
-        }
+/* 내용물 펼치지 */
+function buttonOpen(){
+    let buttons = [...document.querySelectorAll('.content-summary .right button')];
+    let content = [...document.querySelectorAll('.info')];
+    buttons.forEach(e=>{
+        e.addEventListener('click', ()=>{
+            if(e.classList.contains('on')){
+                e.classList.remove('on');
+                content[buttons.indexOf(e)].classList.remove('on');
+            }else{
+                e.classList.add('on');
+                content[buttons.indexOf(e)].classList.add('on');
+            }
+        })
     })
-})
+}
+
 function filterList(type, button) {
     // 모든 li 요소에서 "on" 클래스 제거
     let listItems = document.querySelectorAll('.list-select li');
@@ -111,7 +115,128 @@ if (window.handleReceivedCall) {
 
         // order.js에서 추가 로직 구현
         console.log("order.js:", callInfo);
-        // 예: 화면에 메시지를 표시하는 로직
+
+        // 이전 주문 정보를 백업
+        let innerData = document.querySelector('.order-list').innerHTML;
+
+        // 주문 메뉴에 대한 HTML을 생성할 변수 초기화
+        let orderMenusHTML = '';
+
+        // 주문 총 수량을 계산할 변수 초기화
+        let totalQuantity = 0;
+
+        // 주문 옵션의 총 가격을 계산할 변수 초기화
+        let optionPrice = 0;
+
+        // 주문 정보가 "CALL"이 아닌 경우에만 처리
+        if (callInfo.division !== "CALL") {
+            // 주문 총 수량을 계산합니다.
+            callInfo.orderMenus.forEach(e => {
+                totalQuantity += e.quantity;
+            })
+
+            // 주문 메뉴를 처리
+            callInfo.orderMenus.forEach(e => {
+                // 주문 옵션의 총 가격을 계산
+                e.orderOptions.forEach(en => {
+                    optionPrice += en.price;
+                })
+
+                // 주문 메뉴의 총 가격을 계산
+                let totalPrice = (e.price + optionPrice) * e.quantity;
+
+                // 주문 옵션에 대한 HTML을 초기화
+                let orderOptionsHTML = '';
+
+                // 주문 옵션에 대한 HTML을 생성
+                e.orderOptions.forEach(en => {
+                    orderOptionsHTML += '<li>' + en.price + '원</li>\n';
+                });
+
+                // 주문 메뉴에 대한 HTML을 생성
+                orderMenusHTML +=
+                    '             <tr>\n' +
+                    '                  <td>\n' +
+                    '                       <p>' + e.menuName + '</p>\n' +
+                    '                       <ol>\n' +
+                    '                            <li>' + e.price + '원</li>\n' +
+                    orderOptionsHTML +
+                    '                       </ol>\n' +
+                    '                  </td>\n' +
+                    '                  <td>' + e.quantity + '</td>\n' +
+                    '                  <td>' + totalPrice + '</td>\n' +
+                    '             </tr>\n';
+            });
+        }
+
+        // 호출 버튼의 HTML을 생성
+        let infoBtn = callInfo.division !== "CALL" ? '<button><i class="fas fa-chevron-down"></i></button>\n' : '';
+
+        // 주문 정보 테이블의 HTML을 생성
+        let infoTable = callInfo.division !== "CALL" ? '<table class="info">\n' +
+            '              <tr>\n' +
+            '                   <th>상품이름</th>\n' +
+            '                   <th>수량</th>\n' +
+            '                   <th>금액</th>\n' +
+            '              </tr>\n' +
+            orderMenusHTML +
+            '             <tr class="last">\n' +
+            '                  <td>총 합계</td>\n' +
+            '                  <td>' + totalQuantity + '</td>\n' +
+            '                  <td>' + callInfo.price + '원</td>\n' +
+            '             </tr>\n' +
+            '             <tr class="contents">\n' +
+            '                  <td colspan="3">\n' +
+            '                      <p class="title">요청 사항</p>\n' +
+            '                      <p class="content">' + callInfo.content + '</p>\n' +
+            '                  </td>\n' +
+            '             </tr>\n' +
+            '             <tr class="button-group">\n' +
+            '                  <td colspan="3">\n' +
+            '                       <button class="button delete" onclick="deleteOrder(' + callInfo.id + ', this)">거부</button>\n' +
+            '                       <button class="button recognize" onclick="recognizeOrder(' + callInfo.id + ', this)">승인</button>\n' +
+            '                  </td>\n' +
+            '             </tr>'+
+            '     </table>\n' : '';
+
+        // 주문 정보의 타입에 따라 다른 스타일의 HTML을 생성
+        let division = callInfo.division === "CALL" ? '<p class="order-title call">호출</p>' : '<p class="order-title wait">주문</p>';
+        let waitContent = callInfo.division === "CALL" ? '<p class="order-subtitle">'+callInfo.content+'</p>\n' : '';
+
+        // 주문 정보의 왼쪽 영역에 대한 HTML을 생성
+        let leftInfo =
+            ' <div class="left">\n' + division + waitContent +
+            '<span class="table-name">' + callInfo.restaurantTableNo + '번 테이블</span>\n' +
+            ' </div>'
+
+        // 주문 정보의 시간에 대한 HTML을 생성
+        let rightInfo = '<div class="right">\n';
+
+        // 주문 정보의 등록일에 따라 다른 스타일의 시간을 생성
+        if (callInfo.regDate.substring(0, 10) !== new Date().toISOString().substring(0, 10)) {
+            rightInfo += '    <span class="time">' + callInfo.regDate.substring(11, 16) + '</span>\n';
+        } else {
+            let formattedDate = new Date(callInfo.regDate).toLocaleString('ko-KR', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+            }).replace(/\./g, '-').replaceAll(' ', ''); // 점(.)을 하이픈(-)으로 변경
+            formattedDate = formattedDate.substring(0, 10);
+            formattedDate += ' / ' + callInfo.regDate.substring(11, 16); // 마지막 하이픈과 '오전' 삭제
+            rightInfo += '    <span class="time">' + formattedDate + '</span>\n';
+        }
+
+        rightInfo += '</div>';
+
+        // 주문 정보를 화면에 추가
+        document.querySelector('.order-list').innerHTML =
+            '<li>\n' +
+            '    <div class="content-summary">\n' + leftInfo + rightInfo +
+            '    </div>\n' + infoTable + '</li>\n' + innerData;
+        buttonOpen();
     }
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    buttonOpen();
+});
