@@ -77,7 +77,7 @@
     text-align: center;
     cursor: default;
 }
-.order-title{padding:3px 20px;}
+.order-title{padding:3px 15px;}
 .order-subtitle{border: 1px solid var(--light-gray);color:var(--gray);padding:3px 5px;}
 .order-title.call{background: var(--blue);}
 .order-title.wait{background: var(--red);}

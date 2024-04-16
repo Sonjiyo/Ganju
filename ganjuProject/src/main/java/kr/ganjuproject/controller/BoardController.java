@@ -1,16 +1,15 @@
 package kr.ganjuproject.controller;
 
 import jakarta.servlet.http.HttpSession;
+import kr.ganjuproject.auth.PrincipalDetails;
 import kr.ganjuproject.dto.BoardDTO;
-import kr.ganjuproject.entity.Board;
-import kr.ganjuproject.entity.Category;
-import kr.ganjuproject.entity.Menu;
-import kr.ganjuproject.entity.RoleCategory;
+import kr.ganjuproject.entity.*;
 import kr.ganjuproject.service.BoardService;
 import kr.ganjuproject.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -70,5 +69,43 @@ public class BoardController {
 
         // 성공 응답 반환
         return ResponseEntity.ok().body(Map.of("message", "신고가 접수되었습니다."));
+    }
+
+    //문의내역 페이지
+    @GetMapping("/askList")
+    public String askListPage(Authentication authentication, Model model){
+        if (authentication == null) return "redirect:/";
+        Object principal = authentication.getPrincipal();
+
+        if (principal instanceof PrincipalDetails) {
+            PrincipalDetails principalDetails = (PrincipalDetails) principal;
+            Users user = principalDetails.getUser();
+            if (user.getLoginId().equals("admin")) return "redirect:/";
+
+            List<Board> list = boardService.getQuestionBoardList(user.getRestaurant().getId());
+            model.addAttribute("list", list);
+        }
+        return "manager/askList";
+    }
+
+    //문의하기 페이지
+    @GetMapping("/ask")
+    public String addAskPage(){
+        return "manager/addAsk";
+    }
+
+    @PostMapping("/ask")
+    public String addAsk(Authentication authentication,String title, String content){
+        if (authentication == null) return "redirect:/";
+        Object principal = authentication.getPrincipal();
+
+        if (principal instanceof PrincipalDetails) {
+            PrincipalDetails principalDetails = (PrincipalDetails) principal;
+            Users user = principalDetails.getUser();
+            if (user.getLoginId().equals("admin")) return "redirect:/";
+
+            boardService.addQuestion(user.getRestaurant(), title, content);
+        }
+        return "redirect:/board/askList";
     }
 }

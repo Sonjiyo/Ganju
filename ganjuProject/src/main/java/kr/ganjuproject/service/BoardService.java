@@ -10,11 +10,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static kr.ganjuproject.entity.RoleCategory.QUESTION;
 import static kr.ganjuproject.entity.RoleCategory.REPORT;
 
 @Service
@@ -83,6 +85,26 @@ public class BoardService {
     // 글 작성
     @Transactional
     public void save(Board board){
+        boardRepository.save(board);
+    }
+
+    public List<Board> getQuestionBoardList(Long id){
+        List<Board> questionList = boardRepository.findByRestaurantIdAndBoardCategory(id, QUESTION);
+        Collections.reverse(questionList); // 리스트를 역순으로 정렬
+        for (Board b : questionList){
+            b.setRestaurant(null);
+        }
+        return questionList;
+    }
+
+    @Transactional
+    public void addQuestion(Restaurant restaurant ,String title, String content){
+        Board board = new Board();
+        board.setTitle(title);
+        board.setContent(content);
+        board.setBoardCategory(QUESTION);
+        board.setRestaurant(restaurant);
+        board.setRegDate(LocalDateTime.now());
         boardRepository.save(board);
     }
 }
