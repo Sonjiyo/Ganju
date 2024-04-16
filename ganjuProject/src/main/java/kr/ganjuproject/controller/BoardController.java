@@ -1,10 +1,13 @@
 package kr.ganjuproject.controller;
 
+import jakarta.servlet.http.HttpSession;
 import kr.ganjuproject.dto.BoardDTO;
 import kr.ganjuproject.entity.Board;
 import kr.ganjuproject.entity.Category;
 import kr.ganjuproject.entity.Menu;
+import kr.ganjuproject.entity.RoleCategory;
 import kr.ganjuproject.service.BoardService;
+import kr.ganjuproject.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +25,7 @@ import java.util.Map;
 @RequestMapping("/board")
 @RequiredArgsConstructor
 public class BoardController {
+    private final RestaurantService restaurantService;
     private final BoardService boardService;
     // 비동기로 데이터 보내기
     @GetMapping("/validateMenuBoard")
@@ -48,5 +53,22 @@ public class BoardController {
         log.trace("keyId={}" , keyId);
         boardService.acceptReport(boardService.getOneBoard(keyId));
         return "ok";
+    }
+
+    @PostMapping("/validUserReport")
+    @ResponseBody
+    public ResponseEntity<?> saveReport(@RequestBody String content, HttpSession session) {
+        // content를 사용하여 DB에 저장하는 로직 구현
+        // 예를 들어, Report 엔티티를 생성하고 저장
+        Board report = new Board();
+        report.setName("신고");
+        report.setContent(content);
+        report.setRegDate(LocalDateTime.now());
+        report.setBoardCategory(RoleCategory.REPORT);
+        report.setRestaurant(restaurantService.findById((Long) session.getAttribute("restaurantId")).get());
+        boardService.save(report);
+
+        // 성공 응답 반환
+        return ResponseEntity.ok().body(Map.of("message", "신고가 접수되었습니다."));
     }
 }

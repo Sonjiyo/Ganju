@@ -85,7 +85,7 @@ public class OrdersService {
 
     // 주문 완료 시 저장
     @Transactional
-    public Orders add(Orders order) {
+    public Orders save(Orders order) {
        return ordersRepository.save(order);
     }
 

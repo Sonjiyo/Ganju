@@ -80,4 +80,9 @@ public class BoardService {
         return boardDTO;
     }
 
+    // 글 작성
+    @Transactional
+    public void save(Board board){
+        boardRepository.save(board);
+    }
 }

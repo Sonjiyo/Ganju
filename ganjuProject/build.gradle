@@ -37,6 +37,9 @@ dependencies {
 	//google 이메일 인증
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
+	// 채팅을 위한 웹소켓
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 

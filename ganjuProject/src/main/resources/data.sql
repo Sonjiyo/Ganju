@@ -78,7 +78,7 @@ INSERT INTO menu_option_value (content, menu_option_id, price) VALUES
 ('곱빼기', (SELECT id FROM menu_option WHERE content = '기본' AND menu_id = (SELECT id FROM menu WHERE name = '김치찌개')), 20);
 
 INSERT INTO menu_option_value (content, menu_option_id, price) VALUES
-('덜맵게', (SELECT id FROM menu_option WHERE content = '맵기' AND menu_id = (SELECT id FROM menu WHERE name = '김치찌개')), 0),
+('덜맵게', (SELECT id FROM menu_option WHERE content = '맵기' AND menu_id = (SELECT id FROM menu WHERE name = '김치찌개')), -10),
 ('기본', (SELECT id FROM menu_option WHERE content = '맵기' AND menu_id = (SELECT id FROM menu WHERE name = '김치찌개')), 0),
 ('더맵게', (SELECT id FROM menu_option WHERE content = '맵기' AND menu_id = (SELECT id FROM menu WHERE name = '김치찌개')), 0);
 

@@ -1,12 +1,17 @@
 package kr.ganjuproject.controller;
 
+import jakarta.servlet.http.HttpSession;
 import kr.ganjuproject.auth.PrincipalDetails;
 import kr.ganjuproject.dto.OrderDetails;
+import kr.ganjuproject.dto.OrderDTO;
+import kr.ganjuproject.dto.OrderResponseDTO;
 import kr.ganjuproject.dto.UpdateDate;
 import kr.ganjuproject.entity.Orders;
 import kr.ganjuproject.entity.RoleOrders;
 import kr.ganjuproject.entity.Users;
 import kr.ganjuproject.service.OrdersService;
+import kr.ganjuproject.service.RestaurantService;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -29,6 +34,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class OrdersController {
     private final OrdersService ordersService;
+    private final RestaurantService restaurantService;
 
     @GetMapping("/orders")
     public String orderPage(Authentication authentication, Model model){
@@ -131,5 +137,34 @@ public class OrdersController {
     public @ResponseBody String recognizeOrder(@PathVariable Long keyId){
         Orders order = ordersService.recognizeOrder(keyId);
         return order ==null ? "no" : "ok";
+    }
+
+    // 호출하기에서 값을 가져와서 orders에 저장하고 다시 orders로 내보냄
+    @PostMapping("/validUserCall")
+    public ResponseEntity<?> save(HttpSession session, @RequestBody String content){
+        long restaurantId = (long) session.getAttribute("restaurantId");
+        int restaurantTableNo = (int) session.getAttribute("restaurantTableNo");
+        Orders order = new Orders();
+        order.setRestaurantTableNo(restaurantTableNo);
+        order.setPrice(0);
+        order.setRegDate(LocalDateTime.now());
+        order.setRestaurant(restaurantService.findById(restaurantId).get());
+        order.setContent(content);
+        order.setDivision(RoleOrders.CALL);
+
+        Orders saveOrder = ordersService.save(order);
+
+        // Orders 엔티티를 OrderResponseDTO로 변환
+        OrderResponseDTO orderResponseDTO = new OrderResponseDTO(
+                saveOrder.getId(),
+                saveOrder.getContent(),
+                saveOrder.getRestaurantTableNo(),
+                saveOrder.getRegDate(),
+                saveOrder.getDivision().toString(),
+                saveOrder.getRestaurant().getId()
+        );
+        System.out.println(orderResponseDTO);
+        System.out.println("저장성공");
+        return ResponseEntity.ok().body(Map.of("order", orderResponseDTO));
     }
 }
