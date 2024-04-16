@@ -1,44 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
 <head>
     <meta charset="UTF-8">
     <title>주문완료</title>
     <link href="/css/style.css" rel="stylesheet">
     <link href="/css/user/order.css" rel="stylesheet" type="text/css">
     <script src="/js/user/order.js" type="text/javascript" defer></script>
+    <script>
+        var orderId = [[${order.id}]]; // Thymeleaf를 사용하여 서버 사이드에서 orderId 값을 전달
+    </script>
 </head>
 <body>
 <div class="innerBox">
     <header></header>
     <div class="container">
-        <div class="restaurant-name">더조은 식당</div>
-        <div class="order">
-            <div class="content">
-                <div class="title">짜파게티 1개</div>
-                <div class="before-price">가격 : 3000원</div>
-                <div class="option">옵션 : 안맵게 해주세요(-3,000원)</div>
+        <div class="restaurant-name" th:text="${order.restaurant.name}">더조은 식당</div>
+        <div th:each="orderMenu : ${order.orderMenus}">
+            <div class="order">
+                <div class="content">
+                    <div class="title" th:text="${orderMenu.menuName} + ' ' + ${orderMenu.quantity} + '개'"></div>
+                    <div class="before-price" th:text="'가격 : ' + ${orderMenu.price} + '원'"></div>
+                    <div class="option" th:each="option : ${orderMenu.orderOptions}" th:text="'옵션 : ' + ${option.optionName} + ' (' + ${option.price} + '원)'"></div>
+                </div>
+                <div class="after-price" th:text="'총 가격 : ' + ${orderMenu.totalPrice} + '원'"></div>
             </div>
-            <div class="after-price">3000원</div>
-        </div>
-        <div class="order">
-            <div class="content">
-                <div class="title">짜파게티 2개</div>
-                <div class="before-price">가격 : 3000원</div>
-                <div class="option">옵션 : 맵게 해주세요(-2,000원)</div>
-            </div>
-            <div class="after-price">1000원</div>
         </div>
         <div class="total-price">
             <div class="title">총 금액</div>
-            <div class="content">4,000원</div>
+            <div class="content" th:text="${order.price} + '원'"></div>
         </div>
         <div class="request">
             <div class="title">요청사항</div>
-            <div class="content">면 빼고 주세요</div>
+            <div class="content" th:text="${order.content}">면 빼고 주세요</div>
         </div>
         <div class="etc">
             <p class="warning">이 페이지를 벗어난 후에는 리뷰 작성이 불가능 합니다.</p>
-            <input type="button" class="submit button" th:onclick="'location.href=\'/user/review\''" value="리뷰 쓰기">
+            <input type="button" class="submit button" value="리뷰 쓰기">
         </div>
     </div>
 </div>

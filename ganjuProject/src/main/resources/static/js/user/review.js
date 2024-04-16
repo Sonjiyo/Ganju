@@ -1,4 +1,6 @@
+// 리뷰 작성
 function reviewCheck(form){
+    // orderId, nickname, contents, star가 넘어감
     form.submit();
 }
 
