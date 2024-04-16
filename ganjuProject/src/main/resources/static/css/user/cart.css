@@ -6,7 +6,7 @@
     padding: 0;
 }
 
- >div{
+.container>div{
     margin: 0;
     padding: 20px;
 }
@@ -92,6 +92,7 @@
 
 /* 새로운 매뉴 추가 */
 .container .menu-plus{
+    width: 100%;
     background-color: var(--extra-light-gray);
     text-align: center;
     color: var(--gray);
@@ -99,7 +100,6 @@
 
 /* 요청사항 */
 .container .request{
-    
     padding-top: 40px;
 }
 .container .request .title{
@@ -108,5 +108,7 @@
 .container .request .contents{
     border: 1px solid var(--light-gray);
 }
-.container .request .submit{}
+.container .request .submit{
+    width: 100%;
+}
 

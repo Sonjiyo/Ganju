@@ -14,7 +14,7 @@ public class WebSocketController {
 
     private final OrdersService ordersService;
 
-    @MessageMapping("/call")
+    @MessageMapping("/calls")
     @SendTo("/topic/calls")
     public OrderResponseDTO call(OrderResponseDTO order) throws Exception {
         // 처리 로직
