@@ -59,20 +59,27 @@
                             <th>수량</th>
                             <th>금액</th>
                         </tr>
-                        <tr>
-                            <td>짜파게티</td>
-                            <td>2</td>
-                            <td>3,000</td>
-                        </tr>
-                        <tr>
-                            <td>토마토 파스타</td>
-                            <td>23</td>
-                            <td>9,000</td>
+                        <tr th:each="menu : ${order.orderMenus}">
+                            <td>
+                                <p th:text="${menu.menuName}">짜파게티</p>
+                                <ol>
+                                    <li th:text="'가격 : '+ ${#numbers.formatInteger(menu.price, 0, 'COMMA')}+'원'"></li>
+                                    <li th:each="option : ${menu.orderOptions}" th:text="${option.optionName}+'('+${#numbers.formatInteger(option.price, 0, 'COMMA')}+'원)'"></li>
+                                </ol>
+                            </td>
+                            <td th:text="${menu.quantity}">2</td>
+                            <td th:text="${#numbers.formatInteger(menu.getTotalPrice(), 0, 'COMMA')}+'원'">3,000</td>
                         </tr>
                         <tr class="last">
                             <td>총 합계</td>
-                            <td>25</td>
-                            <td>267,000</td>
+                            <td th:text="${order.getTotalQuantity()}">25</td>
+                            <td th:text="${order.price}+'원'">267,000</td>
+                        </tr>
+                        <tr class="contents">
+                            <td colspan="3">
+                                <p class="title">요청 사항</p>
+                                <p class="content" th:if="${order.content ne null}" th:text="${order.content}"></p>
+                            </td>
                         </tr>
                         <tr class="button-group" th:if="${order.division.role eq 'wait'}">
                             <td colspan="3">

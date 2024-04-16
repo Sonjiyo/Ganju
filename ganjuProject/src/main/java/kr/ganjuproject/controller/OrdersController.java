@@ -1,6 +1,7 @@
 package kr.ganjuproject.controller;
 
 import kr.ganjuproject.auth.PrincipalDetails;
+import kr.ganjuproject.dto.OrderDetails;
 import kr.ganjuproject.dto.UpdateDate;
 import kr.ganjuproject.entity.Orders;
 import kr.ganjuproject.entity.RoleOrders;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +43,13 @@ public class OrdersController {
             LocalDateTime currentTime = LocalDateTime.now();
             LocalDateTime startTime = currentTime.minusHours(24); // 현재시간으로부터 24시간 전까지
 
-            model.addAttribute("list", ordersService.getRestaurantOrdersWithinTime(user.getRestaurant(), startTime, currentTime));
+            List<Orders> list = ordersService.getRestaurantOrdersWithinTime(user.getRestaurant(), startTime, currentTime);
+            for(Orders order : list) {
+                order.setReview(null);
+                order.setRestaurant(null);
+            }
+
+            model.addAttribute("list", list);
             model.addAttribute("callCount", ordersService.getRestaurantOrdersDivision(user.getRestaurant(), RoleOrders.CALL).size());
             model.addAttribute("waitCount", ordersService.getRestaurantOrdersDivision(user.getRestaurant(), RoleOrders.WAIT).size());
             model.addAttribute("okayCount", ordersService.getRestaurantOrdersDivision(user.getRestaurant(), RoleOrders.OKAY).size());
@@ -65,11 +73,11 @@ public class OrdersController {
             LocalDateTime endTime = LocalDateTime.of(currentTime.toLocalDate(), LocalTime.MAX); // 오늘 날짜의 끝
 
             List<Orders> list = ordersService.getRestaurantOrdersWithinTimeWithoutCall(user.getRestaurant(), startTime, endTime);
-
-            Map<String, Object> map = ordersService.getRestaurantOrderData(list);
-            model.addAttribute("orderCount", map.get("count"));
-            model.addAttribute("orderPrice", map.get("price"));
+            Map<String, Object> total = ordersService.getRestaurantOrderData(list);
+            
             model.addAttribute("list", list);
+            model.addAttribute("totalPrice", total.get("price"));
+            model.addAttribute("totalCount", total.get("count"));
             return "manager/sales";
         }
         return "redirect:/";
@@ -98,13 +106,13 @@ public class OrdersController {
             LocalDateTime endTime = LocalDateTime.of(date.getEnd().toLocalDate(), LocalTime.MAX); // 끝 날짜
 
             List<Orders> list = ordersService.getRestaurantOrdersWithinTimeWithoutCall(user.getRestaurant(), startTime, endTime);
-            Map<String, Object> orderData = ordersService.getRestaurantOrderData(list);
+            Map<String, Object> total = ordersService.getRestaurantOrderData(list);
 
             // 응답에 필요한 데이터를 status와 함께 묶어서 전달
             response.put("status", "ok");
-            response.put("orderCount", orderData.get("count"));
-            response.put("orderPrice", orderData.get("price"));
             response.put("list", list);
+            response.put("totalPrice", total.get("price"));
+            response.put("totalCount", total.get("count"));
 
             return ResponseEntity.ok(response);
         }

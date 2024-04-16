@@ -259,8 +259,8 @@ INSERT INTO orders (restaurant_table_no, price, reg_date, restaurant_id, content
 VALUES
     (1, 0, '2024-04-15 10:30:00',@restaurantId1, '물 주세요', 'CALL'),
     (5, 0, '2024-04-15 09:30:00',@restaurantId1, '와주세요', 'CALL'),
-    (2, 0, '2024-04-15 08:30:00',@restaurantId1, '티슈 주세요', 'CALL'),
-    (5, 0, '2024-04-15 11:20:00',@restaurantId1, '와주세요', 'CALL');
+    (2, 0, '2024-04-15 18:30:00',@restaurantId1, '티슈 주세요', 'CALL'),
+    (5, 0, '2024-04-15 17:20:00',@restaurantId1, '와주세요', 'CALL');
 
 -- 리뷰 추가
 INSERT INTO review (name, content, star, reg_date, restaurant_id, order_id, secret)

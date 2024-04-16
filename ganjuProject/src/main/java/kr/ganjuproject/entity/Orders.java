@@ -36,4 +36,12 @@ public class Orders {
     private String uid;
     @Enumerated(EnumType.STRING)
     private RoleOrders division;
+
+    public int getTotalQuantity() {
+        int totalQuantity = 0;
+        for (OrderMenu orderMenu : orderMenus) {
+            totalQuantity += orderMenu.getQuantity();
+        }
+        return totalQuantity;
+    }
 }
