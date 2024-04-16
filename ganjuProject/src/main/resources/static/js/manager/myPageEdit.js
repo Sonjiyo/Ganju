@@ -10,9 +10,10 @@ const myPageUpdate = () => {
     })
         .then(response => {
             if (response.ok) {
-                window.location.href = '/manager/myPageEdit';
+                window.location.href = '/manager/myPage';
             } else {
-                alert("비밀번호가 일치하지 않습니다");
+                alert("비밀번호가 일치하지 않거나 전화번호 형식이 올바르지 않습니다");
+                window.location.href = '/manager/myPageEdit';
             }
         })
         .catch(error => console.error('Error checking password:', error));

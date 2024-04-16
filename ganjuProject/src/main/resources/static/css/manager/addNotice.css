@@ -1,0 +1,29 @@
+.notice-day {
+    padding: var(--padding);
+}
+
+.line {
+    width: 354px;
+    height: 47px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    background-color: lightgray;
+    display: flex;
+    align-items: center;
+}
+
+.notice-name {
+    width: 354px;
+    height: 47px;
+}
+
+.notice-contents {
+    width: 354px;
+    height: 354px;
+}
+
+.add {
+    width: 354px;
+    height: 56px;
+    border: var(--orange);
+}

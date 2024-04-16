@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/manager/common.css">
+    <link rel="stylesheet" href="/css/manager/notice.css">
+    <title>Title</title>
+</head>
+<body>
+<div class="innerBox">
+    <header>
+        <div>
+            <a href=""><i class="fas fa-home"></i></a>
+        </div>
+        <p>공지사항 관리</p>
+        <div>
+            <a href="#"></a>
+        </div>
+    </header>
+    <div class="container">
+        <div class="content-center">
+            <button class="button" onclick="location.href='notice_add.html'">공지사항 추가</button>
+        </div>
+        <div class="underline"></div>
+        <div class="notice_menu">
+            <div>
+                <a>3월 가격 인상안내..</a>
+                <a class="extrasmall">2024.02.20</a>
+                <div>
+                    <a class="small">식자재 가격인상으로 인해 3월 1일 이후로...</a>
+                </div>
+            </div>
+            <a class="center">
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+        <div class="underline"></div>
+        <div class="notice_menu">
+            <div>
+                <a>3월 가격 인상안내..</a>
+                <a class="extrasmall">2024.02.20</a>
+                <div>
+                    <a class="small">식자재 가격인상으로 인해 3월 1일 이후로...</a>
+                </div>
+            </div>
+            <a class="center">
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+        <div class="underline"></div>
+        <div class="notice_menu">
+            <div>
+                <a>3월 가격 인상안내..</a>
+                <a class="extrasmall">2024.02.20</a>
+                <div>
+                    <a class="small">식자재 가격인상으로 인해 3월 1일 이후로...</a>
+                </div>
+            </div>
+            <a class="center">
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+        <div class="underline"></div>
+        <footer th:replace="fragments/footer :: footer(myPage)"></footer>
+    </div>
+</div>
+</body>
+</html>
