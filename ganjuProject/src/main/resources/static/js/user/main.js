@@ -78,11 +78,6 @@ function setActiveCategory() {
         if (containerTop - window.innerHeight / 2 < 0) {
             currentActiveIndex = index;
         }
-        console.log("containerTop - window.innerHeight / 2 = " +( containerTop - window.innerHeight / 2 ));
-        console.log("index = " + index);
-        console.log("containerTop = " + containerTop);
-        console.log("window.innerHeight = " + window.innerHeight);
-        console.log("currentActiveIndex = " + currentActiveIndex);
     });
     categories.forEach((category, index) => {
         if (index === currentActiveIndex) {
@@ -197,3 +192,18 @@ scrollTopBtn.addEventListener('click', () => {
         behavior: 'smooth'
     });
 });
+
+document.addEventListener("DOMContentLoaded", () =>{
+    const activeTab = Array.from(contents).find(tab => tab.style.display !== 'none');
+
+    let reviewPlus = document.querySelector(".review-plus");
+    reviewPlus.style.display = 'block';
+
+    if(activeTab.className.split('-')[0] == 'menu'){
+        reviewPlus.style.display = 'none';
+    }else{
+        reviewPlus.style.display = 'block';
+    }
+    console.log("탭버튼 = " + activeTab.className.split('-')[0]);
+    fetchValidate(activeTab.className.split('-')[0]);
+})

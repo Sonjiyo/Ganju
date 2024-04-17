@@ -8,18 +8,18 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class IamportConfig {
 
-    @Value("${iamport.key}")
-    private String key;
-    @Value("${iamport.api}")
-    private String api;
+    @Value("${iamport.code}")
+    private String code;
+    @Value("${iamport.apikey}")
+    private String apikey;
     @Value("${iamport.secret}")
     private String secret;
 
     @Bean
     public IamportDTO iamport(){
         IamportDTO dto = new IamportDTO();
-        dto.setKey(this.key);
-        dto.setApi(this.api);
+        dto.setCode(this.code);
+        dto.setApikey(this.apikey);
         dto.setSecret(this.secret);
         return dto;
     }

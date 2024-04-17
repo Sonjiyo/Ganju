@@ -9,25 +9,30 @@ document.querySelector('.report-button').addEventListener('click', () => {
 document.querySelector('.modal-submit').addEventListener('click', () => {
     const content = document.getElementById('reportReason').value;
 
-    console.log(content);
-    fetch('/board/validUserReport', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'text/plain',
-        },
-        body: content,
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log("신고 성공");
+    if(content == ''){
+        alert("내용이 없습니다");
+        return false;
+    }else {
+        console.log(content);
+        fetch('/board/validUserReport', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'text/plain',
+            },
+            body: content,
         })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+            .then(response => response.json())
+            .then(data => {
+                console.log("신고 성공");
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
 
-    document.getElementById('reportModal').style.display = 'none';
-    document.getElementById('reportReason').value = '';
-    document.body.style.overflow = ''; // 스크롤 활성화
+        document.getElementById('reportModal').style.display = 'none';
+        document.getElementById('reportReason').value = '';
+        document.body.style.overflow = ''; // 스크롤 활성화
+    }
 });
 
 // 호출하기 버튼 클릭 이벤트

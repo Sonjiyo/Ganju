@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+<header th:fragment="bodyHeader(args)">
+    <div>
+        <a class="icon home-icon" th:if="${args.showIcon}" href='/menu/main'>
+            <i class="fas fa-home"></i>
+        </a>
+    </div>
+    <p th:text="${args.name}" class="center-text"></p>
+    <div>
+        <a class="icon cart-icon" th:if="${args.showBasket}" href='/menu/cart'>
+            <i class="fas fa-shopping-cart"></i>
+        </a>
+    </div>
+</header>
+</body>
+</html>

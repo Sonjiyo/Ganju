@@ -8,7 +8,7 @@ orderCheck.addEventListener("click", () =>{
 document.getElementById('refundButton').addEventListener('click', function() {
     const restaurantName = document.querySelector('.restaurant-name');
     const orderId = restaurantName.dataset.orderId;
-
+    alert(orderId);
     if (confirm('정말로 환불하시겠습니까?')) {
         fetch('/menu/refund', {
             method: 'POST',
