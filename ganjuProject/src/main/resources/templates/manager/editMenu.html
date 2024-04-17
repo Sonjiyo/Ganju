@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/manager/addMenu.css">
+    <link rel="stylesheet" href="/css/manager/common.css">
+    <script defer src="/js/manager/menuEdit.js"></script>
+    <script defer src="/js/fragments/footer.js"></script>
+    <title>Document</title>
+</head>
+<body>
+<div class="innerBox">
+    <header>
+        <div>
+            <a href="/"><i class="fas fa-home"></i></a>
+        </div>
+        <p>메뉴 수정</p>
+        <div>
+            <a href="#"></a>
+        </div>
+    </header>
+    <div class="container">
+        <div class="option">
+            <label for="category">카테고리 선택</label>
+            <select name="category" id="category">
+                <option value="" selected disabled>선택 안함</option>
+                <option th:each="category:${categories}"
+                        th:value="${category.id}"
+                        th:text="${category.name}">
+                </option>
+            </select>
+        </div>
+        <div class="imgbox">
+            <P class="flex">이미지
+                <img src="#" class="img">
+            </P>
+            <input type="file" id="uploadImage" accept="image/*" style="display: none;">
+            <button id="deleteImageButton" class="black-btn">이미지 삭제</button>
+        </div>
+        <div class="menu-name">
+            <p>메뉴명</p>
+            <textarea name="name" id="name" class="textarea" th:text="${menus.name}"></textarea>
+        </div>
+        <div class="price">
+            <p>가격</p>
+            <textarea name="price" class="visible" id="price1" th:text="${menus.price}"></textarea>
+            <div class="placeholder" id="placeholder1">원</div>
+        </div>
+        <div class="menu-info">
+            <p>정보</p>
+            <textarea name="info" class="bigArea" id="info1" th:text="${menus.info}"></textarea>
+        </div>
+        <p>필수 옵션</p>
+        <div class="option-l">
+            <div class="title">
+                <p class="small">매운맛</p>
+            </div>
+            <div class="contents">
+                <label class="select">
+                    <input type="radio" name="spiciness" class="check" value="less_spicy">
+                    <span class="spicy">안맵게 해주세요</span>
+                    <span>-3000원</span>
+                </label>
+                <label class="select">
+                    <input type="radio" name="spiciness" class="check" value="more_spicy">
+                    <span class="spicy">맵게 해주세요</span>
+                    <span>+3000원</span>
+                </label>
+            </div>
+            <p class="add-option-sub"><i class="fas fa-plus"></i>세부 옵션 추가</p>
+            <div class="underline-dark"></div>
+            <p class="add-option"><i class="fas fa-plus"></i>옵션 추가</p>
+        </div>
+        <div class="modal">
+            <div class="modal-content">
+                <div class="option-subname">
+                    <p>선택 옵션
+                        <span class="close">&times;</span>
+                    </p>
+                </div>
+                <div class="choice-option">
+                    <textarea name="option_name" id="option_name" placeholder="옵션 이름"></textarea>
+                    <button class="button border">옵션 추가</button>
+                </div>
+                <textarea name="option-subname" id="option-subname" placeholder="세부 옵션 이름"
+                          class="option-subname"></textarea>
+                <div class="modal-price">
+                    <p>가격</p>
+                    <textarea class="visible" id="price2"></textarea>
+                    <div class="placeholder" id="placeholder2">원</div>
+                </div>
+                <div class="div-add-option-sub">
+                    <button class="button border">세부 옵션 추가</button>
+                </div>
+            </div>
+        </div>
+        <div class="menu-add">
+            <button id="addMenuButton" class="button border select-option" th:onclick="'menuUpdate(' + ${menus.id} + ')'">메뉴 수정</button>
+        </div>
+    </div>
+    <footer th:replace="fragments/footer :: footer(menu)"></footer>
+</div>
+</body>
+
+</html>

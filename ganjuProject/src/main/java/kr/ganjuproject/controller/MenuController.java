@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -208,10 +209,18 @@ public class MenuController {
         return "manager/addMenu";
     }
 
+    @GetMapping("/editMenu/{id}")
+    public String editMenu(Model model, @PathVariable Long id) {
+        List<CategoryDTO> categories = categoryService.findCategoriesByRestaurantId(1L);
+        model.addAttribute("categories", categories);
+        Menu menus = menuService.findById(id).orElse(null);
+        model.addAttribute("menus", menus);
+        return "manager/editMenu";
+    }
+
     @PostMapping(value = "/add")
-    public ResponseEntity<String> addMenu(@RequestBody String menuData) {
+    public ResponseEntity<String> addMenu(@RequestBody String menuData, @RequestParam MultipartFile image) {
         try {
-            System.out.println("menu = " + menuData);
             ObjectMapper mapper = new ObjectMapper();
             Map<String, String> input = mapper.readValue(menuData, new TypeReference<Map<String, String>>() {});
             // 받아온 레스토랑 ID를 사용하여 해당 레스토랑에 속한 카테고리를 데이터베이스에서 조회
@@ -224,14 +233,29 @@ public class MenuController {
             obj.setName(input.get("name"));
             obj.setPrice(Integer.parseInt(input.get("price")));
             obj.setCategory(category); // 조회된 카테고리를 메뉴 객체에 설정
+            obj.setInfo(input.get("info"));
+            obj.setMenuImage(input.get("image"));
             obj.setRestaurant(restaurantService.findById(restaurantId)
                     .orElseThrow(() -> new RuntimeException("해당 ID에 해당하는 레스토랑을 찾을 수 없습니다")));
-            System.out.println("obj = " + obj);
-            menuService.add(obj);
+            menuService.add(obj, image);
             return ResponseEntity.ok().body("메뉴가 성공적으로 등록 되었습니다");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("메뉴 등록에 실패하였습니다");
         }
+    }
+
+    @PostMapping("/updateMenu/{id}")
+    public String updateMenu(@RequestBody Map<String, String> requestBody, @PathVariable Long id) {
+        String newName = requestBody.get("name");
+        String newPrice = requestBody.get("price");
+        String newInfo = requestBody.get("info");
+        Menu menu = menuService.getOneMenu(id);
+        menu.setName(newName);
+        menu.setPrice(Integer.parseInt(newPrice));
+        menu.setInfo(newInfo);
+        menuService.updateMenu(menu);
+        return "redirect:/category/main";
+
     }
 
     @DeleteMapping("/{id}")

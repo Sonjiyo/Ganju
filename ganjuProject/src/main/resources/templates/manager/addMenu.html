@@ -23,78 +23,85 @@
         </div>
     </header>
     <div class="container">
-        <div class="option">
-            <label for="category">카테고리 선택</label>
-            <select name="category" id="category">
-                <option value="" selected disabled>선택 안함</option>
-                <option th:each="category:${categories}"
-                        th:value="${category.id}"
-                        th:text="${category.name}">
-                </option>
-            </select>
-        </div>
-        <div class="imgbox">
-            <P class="flex">이미지
-                <img src="#" class="img">
-            </P>
-            <button class="delete-btn">이미지 삭제</button>
-        </div>
-        <div class="menu-name">
-            <p>메뉴명</p>
-            <textarea class="textarea"></textarea>
-        </div>
-        <div class="price">
-            <p>가격</p>
-            <textarea class="visible" id="price1"></textarea>
-            <div class="placeholder" id="placeholder1">원</div>
-        </div>
-        <p>필수 옵션</p>
-        <div class="option-l">
-            <div class="title">
-                <p class="small">매운맛</p>
+        <form action="/menu/add" method="post" encType="multipart/form-data">
+            <div class="option">
+                <label for="category">카테고리 선택</label>
+                <select name="category" id="category">
+                    <option value="" selected disabled>선택 안함</option>
+                    <option th:each="category:${categories}"
+                            th:value="${category.id}"
+                            th:text="${category.name}">
+                    </option>
+                </select>
             </div>
-            <div class="contents">
-                <label class="select">
-                    <input type="radio" name="spiciness" class="check" value="less_spicy">
-                    <span class="spicy">안맵게 해주세요</span>
-                    <span>-3000원</span>
-                </label>
-                <label class="select">
-                    <input type="radio" name="spiciness" class="check" value="more_spicy">
-                    <span class="spicy">맵게 해주세요</span>
-                    <span>+3000원</span>
-                </label>
+            <div class="imgbox">
+                <P class="flex">이미지
+                    <img src="#" class="img">
+                </P>
+                <input type="file" name="image" id="uploadImage" accept="image/*" style="display: none;">
+                <button id="uploadImageButton" class="black-btn">이미지 넣기</button>
             </div>
-            <p class="add-option-sub"><i class="fas fa-plus"></i>세부 옵션 추가</p>
-            <div class="underline-dark"></div>
-            <p class="add-option"><i class="fas fa-plus"></i>옵션 추가</p>
-        </div>
-        <div class="modal">
-            <div class="modal-content">
-                <div class="option-subname">
-                    <p>선택 옵션
-                        <span class="close">&times;</span>
-                    </p>
+            <div class="menu-name">
+                <p>메뉴명</p>
+                <textarea class="textarea"></textarea>
+            </div>
+            <div class="price">
+                <p>가격</p>
+                <textarea class="visible" id="price1"></textarea>
+                <div class="placeholder" id="placeholder1">원</div>
+            </div>
+            <div class="menu-info">
+                <p>정보</p>
+                <textarea class="bigArea" id="info1"></textarea>
+            </div>
+            <p>필수 옵션</p>
+            <div class="option-l">
+                <div class="title">
+                    <p class="small">매운맛</p>
                 </div>
-                <div class="choice-option">
-                    <textarea name="option_name" id="option_name" placeholder="옵션 이름"></textarea>
-                    <button class="button border">옵션 추가</button>
+                <div class="contents">
+                    <label class="select">
+                        <input type="radio" name="spiciness" class="check" value="less_spicy">
+                        <span class="spicy">안맵게 해주세요</span>
+                        <span>-3000원</span>
+                    </label>
+                    <label class="select">
+                        <input type="radio" name="spiciness" class="check" value="more_spicy">
+                        <span class="spicy">맵게 해주세요</span>
+                        <span>+3000원</span>
+                    </label>
                 </div>
-                <textarea name="option-subname" id="option-subname" placeholder="세부 옵션 이름"
-                          class="option-subname"></textarea>
-                <div class="modal-price">
-                    <p>가격</p>
-                    <textarea class="visible" id="price2"></textarea>
-                    <div class="placeholder" id="placeholder2">원</div>
-                </div>
-                <div class="div-add-option-sub">
-                    <button class="button border">세부 옵션 추가</button>
+                <p class="add-option-sub"><i class="fas fa-plus"></i>세부 옵션 추가</p>
+                <div class="underline-dark"></div>
+                <p class="add-option"><i class="fas fa-plus"></i>옵션 추가</p>
+            </div>
+            <div class="modal">
+                <div class="modal-content">
+                    <div class="option-subname">
+                        <p>선택 옵션
+                            <span class="close">&times;</span>
+                        </p>
+                    </div>
+                    <div class="choice-option">
+                        <textarea name="option_name" id="option_name" placeholder="옵션 이름"></textarea>
+                        <button class="button border">옵션 추가</button>
+                    </div>
+                    <textarea name="option-subname" id="option-subname" placeholder="세부 옵션 이름"
+                              class="option-subname"></textarea>
+                    <div class="modal-price">
+                        <p>가격</p>
+                        <textarea class="visible" id="price2"></textarea>
+                        <div class="placeholder" id="placeholder2">원</div>
+                    </div>
+                    <div class="div-add-option-sub">
+                        <button class="button border">세부 옵션 추가</button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="menu-add">
-            <button id="addMenuButton" class="button border select-option">메뉴 등록</button>
-        </div>
+            <div class="menu-add">
+                <button id="addMenuButton" class="button border select-option">메뉴 등록</button>
+            </div>
+        </form>
     </div>
     <footer th:replace="fragments/footer :: footer(menu)"></footer>
 </div>
