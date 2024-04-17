@@ -26,10 +26,11 @@ function filterList(type, button) {
     button.classList.add('on');
 
     // 모든 주문 리스트 아이템을 가져옴
-    let orders = document.querySelectorAll('.order-list li');
+    let orders = document.querySelectorAll('.order-list>li');
 
     // 선택한 타입에 따라 필터링
     orders.forEach(order=> {
+        console.log(orders);
         let orderType = order.querySelector('.order-title').classList[1]; // 클래스명에서 타입 가져오기
 
         // 전체는 모든 아이템을 보여줌
@@ -169,7 +170,7 @@ if (window.handleReceivedCall) {
             });
         }
 
-        // 호출 버튼의 HTML을 생성
+        // 펼처지는 버튼의 HTML을 생성
         let infoBtn = callInfo.division !== "CALL" ? '<button><i class="fas fa-chevron-down"></i></button>\n' : '';
 
         // 주문 정보 테이블의 HTML을 생성
@@ -213,7 +214,7 @@ if (window.handleReceivedCall) {
         let rightInfo = '<div class="right">\n';
 
         // 주문 정보의 등록일에 따라 다른 스타일의 시간을 생성
-        if (callInfo.regDate.substring(0, 10) !== new Date().toISOString().substring(0, 10)) {
+        if (callInfo.regDate.substring(0, 10) === new Date().toISOString().substring(0, 10)) {
             rightInfo += '    <span class="time">' + callInfo.regDate.substring(11, 16) + '</span>\n';
         } else {
             let formattedDate = new Date(callInfo.regDate).toLocaleString('ko-KR', {
@@ -226,13 +227,22 @@ if (window.handleReceivedCall) {
             rightInfo += '    <span class="time">' + formattedDate + '</span>\n';
         }
 
-        rightInfo += '</div>';
+        rightInfo += infoBtn+'</div>';
 
         // 주문 정보를 화면에 추가
         document.querySelector('.order-list').innerHTML =
             '<li>\n' +
             '    <div class="content-summary">\n' + leftInfo + rightInfo +
             '    </div>\n' + infoTable + '</li>\n' + innerData;
+
+        let waitCount = document.querySelector('.order-state-summary li.wait .state-content span');
+        let callCount = document.querySelector('.order-state-summary li.call .state-content span');
+        if(callInfo.division === "CALL"){
+            callCount.textContent = parseInt(callCount.textContent) +1;
+        }else{
+            waitCount.textContent = parseInt(waitCount.textContent)+1;
+        }
+
         buttonOpen();
     }
 }

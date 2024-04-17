@@ -42,4 +42,11 @@ public class AdminController {
         return "admin/reportList";
     }
 
+    @GetMapping("/askList")
+    public String askList(Model model){
+        List<Board> list = boardService.getAskList();
+        model.addAttribute("list", list);
+        return "admin/askList";
+    }
+
 }

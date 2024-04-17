@@ -120,8 +120,21 @@ public class BoardService {
         boardRepository.save(board);
     }
 
+    public List<Board> getAskList(){
+        List<Board> askList = boardRepository.findByBoardCategory(QUESTION);
+        Collections.reverse(askList);
+        return askList;
+    }
+
+    @Transactional
+    public void askAnswer(Board oneBoard, String content) {
+        if(content.equals("null")) content = null;
+        oneBoard.setName(content);
+        boardRepository.save(oneBoard);
+
     @Transactional
     public void updateNotice(Board board) {
         boardRepository.save(board);
+
     }
 }

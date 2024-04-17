@@ -17,3 +17,20 @@ function buttonOpen(){
         })
     })
 }
+
+function deleteAsk(id, btn){
+    fetch(`/board/${id}`, {
+        method: 'DELETE',
+    }).then(response=>{
+        return response.text();
+    }).then(data => {
+        if(data === 'ok'){
+            console.log('삭제 성공');
+            btn.closest('li').remove();
+        }else{
+            console.log('삭제 실패');
+        }
+    }).catch(error => {
+        console.error('확인 실패', error);
+    });
+}

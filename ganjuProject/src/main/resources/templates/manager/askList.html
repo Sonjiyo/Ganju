@@ -44,7 +44,7 @@
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <button class="button">삭제하기</button>
+                            <button class="button" th:onclick="'deleteAsk(\'' + ${ask.id} + '\', this)'">삭제하기</button>
                         </td>
                     </tr>
                 </table>

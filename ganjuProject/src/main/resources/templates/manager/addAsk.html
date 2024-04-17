@@ -3,6 +3,7 @@
 <head>
     <div th:replace="fragments/header :: header('문의하기')"></div>
     <link rel="stylesheet" href="/css/manager/ask.css">
+    <script src="/js/manager/addAsk.js" defer type="text/javascript"></script>
 </head>
 <body>
 <div class="innerBox">
@@ -18,7 +19,7 @@
         <form action="/board/ask" method="post">
             <div class="date">
                 <label for="regdate">날짜</label>
-                <input type="text" id="regdate" readonly>
+                <input type="text" id="regdate" th:value="${#temporals.format(date, 'YYYY-MM-dd')}" readonly>
             </div>
             <div class="title">
                 <label for="title">제목</label>
@@ -28,7 +29,7 @@
                 <label for="content">내용</label>
                 <textarea name="content" id="content"></textarea>
             </div>
-            <input type="button" value="등록하기" class="button" onclick="form.submit()">
+            <input type="button" value="등록하기" class="button" onclick="askCheck(form)">
         </form>
     </div>
     <footer th:replace="fragments/footer :: footer(myPage)"></footer>

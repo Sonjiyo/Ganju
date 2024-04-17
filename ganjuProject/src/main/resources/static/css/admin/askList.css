@@ -1,0 +1,125 @@
+.tab-btn{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.tab-btn>div{
+    text-align: center;
+    width: 50%;
+    padding:var(--padding) 0;
+    font-size: 20px;
+    background: var(--extra-light-gray);
+    color:var(--gray);
+    cursor: pointer;
+}
+.tab-btn>div.on{background:inherit;color: var(--black);}
+
+.ask-list li .title{
+    padding:var(--padding);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.ask-list .title>div{display: flex; align-items: center;}
+.title-left{width: 50%;}
+.title-left>span{color: var(--gray);font-size: var(--font-small);margin-left:6px;}
+.title-right{width: 50%;}
+.title-left>p{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
+}
+.title-right>span{color: var(--gray);font-size: var(--font-small);margin-right:15px;}
+
+/* 뱃지 */
+.badge{
+    font-size: var(--font-extra-small);
+    color: var(--white);
+    padding:3px 9px;
+    margin-right: 20px;
+    border-radius: var(--radius);
+}
+.badge.waiting{background: var(--black);}
+.badge.success{background: var(--orange);}
+.badge.refuse{background: var(--red);}
+
+.title-right button{
+    border: none;
+    background: inherit;
+    cursor: pointer;
+    font-size: var(--font-content);
+    padding:0 10px;
+    transition: all .3s;
+}
+.title-right button.on{transform: rotate(-180deg);}
+
+/* 내용 */
+.ask-list{width: 100%;}
+.ask-list li{
+    width: 100%;
+    border-bottom: 1px solid var(--light-gray);
+    transition: all .3s;
+}
+.ask-list li .content{
+    width: 100%;
+    table-layout:fixed;
+    background: var(--extra-light-gray);
+    padding:var(--padding);
+    font-size: var(--font-small);
+    display: none;
+    overflow: hidden;
+}
+.ask-list li .content.on{
+    display: block;
+}
+input{
+    border: none;
+    padding:0;
+    background: inherit;
+    border-radius: 0;
+}
+input:focus{outline: none;}
+.ask-list li .content tbody,
+.ask-list li .content tr{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.ask-list li .content tr.last{
+    margin: 20px 0;
+    background: var(--white);
+    padding: 10px;
+}
+.ask-list li .content tr:last-child td{display: flex;justify-content: space-between;}
+.ask-list li .content tr:last-child td button{width: 45%;}
+.ask-list li .content tr:last-child td button.delete{background: var(--red);}
+.ask-list li .content tr:last-child td button.delete:hover{background: var(--red-hover);}
+.ask-list li .content td{width: 100%;word-break: break-all;}
+.ask-list li .content td{padding:6px 0;}
+.ask-list li .content tr td:first-child{color:var(--gray);}
+.ask-list li .content tr td span{
+    color:var(--orange);
+    cursor: pointer;
+}
+.ask-list li .content td:has(a) .flex{
+    padding-top: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.ask-list li .content td a{
+    display: inline-block;
+    padding:10px 30px;
+    background: var(--orange);
+    color: var(--white);
+    border-radius: var(--radius);
+}
+.ask-list li .content td a:hover{filter: brightness(0.9);}
+.ask-list li .content td a.refuse{background-color: var(--red);}
+
+.container>button{width: 90%;margin: var(--padding);}
+
+.ask-list li .content tr.last.answer{display: none;}
+.button.answer{display: none;}

@@ -240,27 +240,35 @@ VALUES
     ('', '음식이 너무 맛이 없습니다', '2020-09-15', 'REPORT', @restaurantId1),
     ('', '허위신고', '2020-09-15', 'REPORT', @restaurantId1);
 
+-- 문의 추가
+INSERT INTO board (title, content, reg_date, board_category, restaurant_id)
+VALUES
+    ('문의 드립니다', '무분별한 손님의 신고로 인해 가게의 피해가 많습니다. 신고 시스템 개편을 요구합니다.', '2020-09-15', 'QUESTION', @restaurantId1),
+    ('문의', '메뉴는 어디서 추가할 수 있나요? 아무리 찾아도 보이질 않네요', '2020-09-15', 'QUESTION', @restaurantId1),
+    ('질문 있습니다', '주문이 들어왔을 대 어디서 확인할 수 있나요?', '2020-09-15', 'QUESTION', @restaurantId2),
+    ('답변 부탁드립니다', '허위신고가 많이 접수되고 있습니다. 제대로 확인을 하고 처리해주세요.', '2020-09-15', 'QUESTION', @restaurantId1);
+
 -- 주문 정보 삽입 예시
 INSERT INTO orders (restaurant_table_no, price, reg_date, restaurant_id, content, uid, division)
 VALUES
-    (1, 100, '2024-04-11 12:00:00',@restaurantId1, '김치찌개와 쌀밥 주문', 'UID123', 'WAIT'),
-    (2, 120, '2024-04-11 12:10:00',@restaurantId1, '된장찌개 곱빼기 주문', 'UID124', 'WAIT'),
-    (3, 80, '2024-04-12 13:00:00',@restaurantId1, '콩나물국 주문', 'UID125', 'WAIT'),
-    (4, 90, '2024-04-12 13:20:00',@restaurantId1, '육개장 주문', 'UID126', 'OKAY'),
-    (5, 70, '2024-04-13 18:00:00',@restaurantId1, '미역국 주문', 'UID127', 'WAIT'),
-    (1, 200, '2024-04-13 18:30:00',@restaurantId1, '불고기 주문', 'UID128', 'OKAY'),
-    (2, 150, '2024-04-14 19:00:00',@restaurantId1, '제육볶음 주문', 'UID129', 'WAIT'),
-    (3, 180, '2024-04-14 19:30:00',@restaurantId1, '신선로 주문', 'UID130', 'WAIT'),
-    (4, 220, '2024-04-15 20:00:00',@restaurantId1, '고등어조림 주문', 'UID131', 'WAIT'),
-    (1, 250, '2024-04-15 10:30:00',@restaurantId1, '삼겹살 주문', 'UID132', 'OKAY');
+    (1, 100, '2024-04-15 12:00:00',@restaurantId1, '김치찌개와 쌀밥 주문', 'UID123', 'WAIT'),
+    (2, 120, '2024-04-15 12:10:00',@restaurantId1, '된장찌개 곱빼기 주문', 'UID124', 'WAIT'),
+    (3, 80, '2024-04-15 13:00:00',@restaurantId1, '콩나물국 주문', 'UID125', 'WAIT'),
+    (4, 90, '2024-04-16 13:20:00',@restaurantId1, '육개장 주문', 'UID126', 'OKAY'),
+    (5, 70, '2024-04-16 18:00:00',@restaurantId1, '미역국 주문', 'UID127', 'WAIT'),
+    (1, 200, '2024-04-16 18:30:00',@restaurantId1, '불고기 주문', 'UID128', 'OKAY'),
+    (2, 150, '2024-04-17 19:00:00',@restaurantId1, '제육볶음 주문', 'UID129', 'WAIT'),
+    (3, 180, '2024-04-17 19:30:00',@restaurantId1, '신선로 주문', 'UID130', 'WAIT'),
+    (4, 220, '2024-04-17 20:00:00',@restaurantId1, '고등어조림 주문', 'UID131', 'WAIT'),
+    (1, 250, '2024-04-17 10:30:00',@restaurantId1, '삼겹살 주문', 'UID132', 'OKAY');
 
 -- 호출 추가
 INSERT INTO orders (restaurant_table_no, price, reg_date, restaurant_id, content, division)
 VALUES
-    (1, 0, '2024-04-15 10:30:00',@restaurantId1, '물 주세요', 'CALL'),
-    (5, 0, '2024-04-15 09:30:00',@restaurantId1, '와주세요', 'CALL'),
-    (2, 0, '2024-04-15 18:30:00',@restaurantId1, '티슈 주세요', 'CALL'),
-    (5, 0, '2024-04-15 17:20:00',@restaurantId1, '와주세요', 'CALL');
+    (1, 0, '2024-04-16 10:30:00',@restaurantId1, '물 주세요', 'CALL'),
+    (5, 0, '2024-04-17 09:30:00',@restaurantId1, '와주세요', 'CALL'),
+    (2, 0, '2024-04-17 18:30:00',@restaurantId1, '티슈 주세요', 'CALL'),
+    (5, 0, '2024-04-17 17:20:00',@restaurantId1, '와주세요', 'CALL');
 
 -- 리뷰 추가
 INSERT INTO review (name, content, star, reg_date, restaurant_id, order_id, secret)

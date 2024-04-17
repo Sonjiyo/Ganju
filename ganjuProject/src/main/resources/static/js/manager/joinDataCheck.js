@@ -246,7 +246,7 @@ function verificationCheck(form){
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-        console.log('추가 성공');
+        alert('회원가입 성공');
         location.href="/";
     }).catch(error => {
         console.error('추가 실패', error);

@@ -17,7 +17,8 @@
         <div class="container">
             <div class="tab-btn">
                 <div onclick="location.href='/admin/restaurantList'">식당 관리</div>
-                <div onclick="location.href='/admin/reportList'" class="on">신고 내역</div>
+                <div class="on" onclick="location.href='/admin/reportList'">신고 내역</div>
+                <div onclick="location.href='/admin/askList'">문의 내역</div>
             </div>
             <ul class="report-list">
                 <li th:each="report : ${list}">

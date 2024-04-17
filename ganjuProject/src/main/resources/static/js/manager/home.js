@@ -29,4 +29,27 @@ function ratingStar() {
 document.addEventListener('DOMContentLoaded', () => {
     // 별포 표시 부분 함수
     ratingStar();
+
 });
+if (window.handleReceivedCall) {
+    // 기존의 handleReceivedCall 함수를 백업
+    const originalHandleReceivedCall = window.handleReceivedCall;
+
+    // handleReceivedCall 함수 확장
+    window.handleReceivedCall = function (callInfo) {
+        // 기존 로직 호출
+        originalHandleReceivedCall(callInfo);
+
+        let callCount = document.querySelector('.order-list li:nth-child(1) span');
+        let waitCount = document.querySelector('.order-list li:nth-child(2) span');
+        let todayCount = document.querySelector('.today-sales p:first-child span');
+        let todaySales = document.querySelector('.today-sales p:last-child span');
+        if(callInfo.division === "CALL"){
+            callCount.textContent = parseInt(callCount.textContent) +1;
+        }else{
+            waitCount.textContent = parseInt(waitCount.textContent)+1;
+            todayCount.textContent = (parseInt(todayCount.textContent) +1)+'건';
+            todaySales.textContent = (parseInt(todaySales.textContent) + callInfo.price).toLocaleString()+'원';
+        }
+    }
+}
