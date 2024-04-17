@@ -8,7 +8,7 @@ function updateValidSessionQuantity(menuId, newQuantity){
     console.log(menuId);
     console.log(newQuantity);
     // 서버에 수량 변경 요청 보내기
-    fetch('/menu/updateValidQuantity',{
+    fetch('/updateValidQuantity',{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -46,7 +46,54 @@ function updateQuantityAndPrice(menuId, textElement, change) {
 
     // 새로운 총 가격 계산 후 전체 주문 가격 업데이트
     updateTotalOrderPrice();
+
+    // 버튼 상태 업데이트 로직
+    const minusButton = textElement.closest('.num').querySelector('.minus');
+    const trashIcon = textElement.closest('.num').querySelector('.fas.fa-trash');
+    const plusButton = textElement.closest('.num').querySelector('.plus');
+
+    if (quantity === 1) {
+        minusButton.style.display = 'none';
+        trashIcon.style.display = 'inline-block';
+    } else {
+        minusButton.style.display = 'inline-block';
+        trashIcon.style.display = 'none';
+    }
+
+    if (quantity === 100) {
+        plusButton.disabled = true;
+        plusButton.classList.add('disabled-button');
+    } else {
+        plusButton.disabled = false;
+        plusButton.classList.remove('disabled-button');
+    }
 }
+
+// 휴지통 아이콘 클릭 이벤트
+document.querySelectorAll('.fas.fa-trash').forEach(icon => {
+    icon.addEventListener('click', function() {
+        const ordersDiv = icon.closest('.orders');
+        const menuId = ordersDiv.dataset.menuId;
+        removeOrder(menuId, ordersDiv); // 주문 목록에서 해당 메뉴 제거 함수 호출
+    });
+});
+
+function removeOrder(menuId, ordersDiv) {
+    // 서버에 주문 항목 삭제 요청 보내기
+    fetch(`/removeValidOrder?menuId=${menuId}`, { // URL에 menuId를 쿼리 매개변수로 추가
+        method: 'POST',
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            ordersDiv.remove(); // 페이지에서 해당 주문 항목 삭제
+            updateTotalOrderPrice(); // 전체 주문 가격 업데이트
+        })
+        .catch((error) => {
+            console.error('주문 항목 삭제 실패:', error);
+        });
+}
+
 
 // 총 가격 실시간 계산 함수
 function updateTotalOrderPrice() {
@@ -83,13 +130,39 @@ plus.forEach(button => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    updateTotalOrderPrice(); // 페이지 로드 시 전체 주문 가격을 계산하고 버튼에 반영
-});
+    // 전체 주문 가격을 계산하고 버튼에 반영
+    updateTotalOrderPrice();
 
+    // 각 주문 항목의 수량에 따라 버튼 상태 초기화
+    document.querySelectorAll('.orders').forEach(ordersDiv => {
+        const quantityTextElement = ordersDiv.querySelector('.num .text');
+        const quantity = parseInt(quantityTextElement.textContent, 10);
+        const minusButton = ordersDiv.querySelector('.minus');
+        const trashIcon = ordersDiv.querySelector('.fas.fa-trash'); // 휴지통 아이콘 선택자를 적절히 조정하세요.
+        const plusButton = ordersDiv.querySelector('.plus');
 
-// 메뉴 추가 버튼 클릭 시 메인으로
-const menuPlus = document.querySelector(".menu-plus");
+        // 수량이 1일 경우
+        if (quantity === 1) {
+            minusButton.style.display = 'none';
+            trashIcon.style.display = 'inline-block'; // 휴지통 아이콘 보이게 설정
+        } else {
+            minusButton.style.display = 'inline-block';
+            trashIcon.style.display = 'none'; // 휴지통 아이콘 숨김
+        }
 
-menuPlus.addEventListener('click', () =>{
-    location.href = '/menu/main';
+        // 수량이 100일 경우
+        if (quantity === 100) {
+            plusButton.disabled = true;
+            plusButton.classList.add('disabled-button'); // 비활성화 스타일 적용
+        } else {
+            plusButton.disabled = false;
+            plusButton.classList.remove('disabled-button'); // 비활성화 스타일 제거
+        }
+    });
+
+    // 메뉴 추가 버튼 클릭 이벤트
+    const menuPlus = document.querySelector(".menu-plus");
+    menuPlus.addEventListener('click', () => {
+        location.href = '/menu/main';
+    });
 });

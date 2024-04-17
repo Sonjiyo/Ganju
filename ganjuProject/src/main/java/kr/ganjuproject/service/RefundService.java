@@ -6,16 +6,13 @@ import kr.ganjuproject.config.IamportConfig;
 import kr.ganjuproject.dto.IamportDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 @Service
@@ -67,17 +64,48 @@ public class RefundService {
 
     // 환불 처리
     public Map<String, Object> requestRefund(String impUid, String reason, String accessToken) {
-        RestTemplate restTemplate = new RestTemplate();
-        Map<String, Object> request = new HashMap<>();
-        request.put("imp_uid", impUid);
-        request.put("reason", reason);
-        log.info("request" + request.toString());
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Authorization", accessToken);
-        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(request, headers);
+        try {
+            URL url = new URL("https://api.iamport.kr/payments/cancel");
+            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
 
-        log.info("entity" + entity.toString());
-        return restTemplate.postForObject("https://api.iamport.kr/payments/cancel", entity, Map.class);
+            // HTTP 메서드 설정
+            connection.setRequestMethod("POST");
+
+            // 헤더 설정
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("Authorization", accessToken);
+
+            // 요청 본문 전송을 위해 출력 가능으로 설정
+            connection.setDoOutput(true);
+
+            // 요청 본문 구성
+            String jsonInputString = "{\"imp_uid\": \"" + impUid + "\", \"reason\": \"" + reason + "\"}";
+
+            // 요청 본문 전송
+            try (OutputStream os = connection.getOutputStream()) {
+                byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
+                os.write(input, 0, input.length);
+            }
+
+            // 응답 수신
+            int responseCode = connection.getResponseCode();
+            System.out.println("POST Response Code :: " + responseCode);
+
+            if (responseCode == HttpURLConnection.HTTP_OK) { // 성공적인 응답 처리
+                System.out.println("성공");
+                // 응답 본문 읽기 (이 부분은 별도의 함수로 처리할 수 있습니다.)
+                // 예를 들어, BufferedReader와 StringBuilder를 사용하여 응답 본문을 문자열로 변환
+                // 응답 본문을 JSON 객체로 파싱하고 필요한 정보를 추출/가공하여 반환
+                // 여기서는 단순화를 위해 성공했다는 메시지만 반환
+                return Map.of("success", true);
+            } else {
+                System.out.println("POST request not worked");
+                // 오류 처리
+                return Map.of("success", false);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Map.of("error", e.getMessage());
+        }
     }
 }

@@ -9,7 +9,7 @@
 </head>
 <body>
 <div class="innerBox">
-    <header></header>
+    <header th:replace="~{fragments/bodyHeader :: bodyHeader(${headerArgs})}"></header>
     <div class="container">
         <form action="/menu/info" name="OrderDTO" method="post" class="info-form">
             <input class="menuId" name="menuId" type="hidden" th:value="${menu.id}">
@@ -20,15 +20,15 @@
             <div class="info">
                 <div class="title" th:text="${menu.name}"></div>
                 <div class="contents" th:text="${menu.info}"></div>
-                <div class="price" th:text="${menu.price}"></div>
+                <div class="price" th:text="${menu.price} + '원'"></div>
             </div>
             <!-- 메뉴 옵션 중 REQUIRED만 표시하는 부분 -->
             <div th:each="menuOption : ${menuOptions}">
-                <div class="option" th:if="${menuOption.menuOptionId == T(kr.ganjuproject.entity.RoleMenuOption).REQUIRED}">
+                <div class="option required" th:if="${menuOption.menuOptionId == T(kr.ganjuproject.entity.RoleMenuOption).REQUIRED}">
                     <div class="title">
                         <input type="hidden" class="menuOptionId" th:value="${menuOption.id}">
                         <div class="text" th:text="${menuOption.content}"></div>
-                        <div class="select">필수</div>
+                        <div class="select optional">필수</div>
                     </div>
                     <!-- 해당 메뉴 옵션 ID에 대한 옵션 값들 반복 -->
                     <div class="contents" th:name="option + ${menuOption.id}" th:each="value : ${menuOptionValues[menuOption.id.toString()]}">
@@ -37,7 +37,7 @@
                             <input type="radio" th:name="${menuOption.id}" class="check" th:value="${value.id}">
                             <label></label>
                             <span class="content" th:text="${value.content}"></span>
-                            <span class="price" th:text="${'+' + value.price + '원'}"></span>
+                            <span class="price" th:text="${value.price > 0 ? '+' : ''} + ${value.price} + '원'"></span>
                         </label>
                     </div>
                 </div>
@@ -57,7 +57,7 @@
                             <input type="checkbox" class="check" th:value="${value.id}">
                             <label></label>
                             <span class="content" th:text="${value.content}"></span>
-                            <span class="price" th:text="${'+' + value.price + '원'}"></span>
+                            <span class="price" th:text="${value.price > 0 ? '+' : ''} + ${value.price} + '원'"></span>
                         </label>
                     </div>
                 </div>

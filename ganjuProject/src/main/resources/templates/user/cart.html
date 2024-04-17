@@ -39,10 +39,10 @@
                     <img th:src="@{/images/sample.png}" alt="음식 이미지" class="img">
                 </div>
                 <div class="num">
-                    <!-- 수량 조절은 자바스크립트 함수로 구현할 수 있습니다 -->
-                    <input type="button" class="minus" value="-">
-                    <div class="text" th:text="${orderDetails.quantity}">2</div>
-                    <input type="button" class="plus" value="+">
+                    <input type="button" class="minus" value="-" data-quantity="${orderDetails.quantity}">
+                    <i class="fas fa-trash" style="display: none;"></i> <!-- 휴지통 아이콘 -->
+                    <div class="text" th:text="${orderDetails.quantity}"></div>
+                    <input type="button" class="plus" value="+" data-quantity="${orderDetails.quantity}">
                 </div>
             </div>
         </div>

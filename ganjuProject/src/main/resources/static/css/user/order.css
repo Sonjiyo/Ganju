@@ -81,6 +81,10 @@
 }
 
 /* 버튼 */
-.container .etc .submit{
+.container .etc .submit, .container .etc .refund{
     width: 100%;
+}
+
+.container .etc .refund{
+    margin-top: 10px;
 }

@@ -8,9 +8,8 @@ orderCheck.addEventListener("click", () =>{
 document.getElementById('refundButton').addEventListener('click', function() {
     const restaurantName = document.querySelector('.restaurant-name');
     const orderId = restaurantName.dataset.orderId;
-    alert(orderId);
     if (confirm('정말로 환불하시겠습니까?')) {
-        fetch('/menu/refund', {
+        fetch('/validRefund', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -21,8 +20,11 @@ document.getElementById('refundButton').addEventListener('click', function() {
         })
             .then(response => response.json())
             .then(data => {
+                console.log(data.success);
                 if (data.success) {
                     alert('환불 처리가 완료되었습니다.');
+                    location.href = "/menu/main";
+
                     // 환불 처리 후 페이지 리디렉션 또는 UI 업데이트
                 } else {
                     alert('환불 처리에 실패했습니다.');
