@@ -19,6 +19,7 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -39,6 +40,9 @@ dependencies {
 
 	// 채팅을 위한 웹소켓
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+	// 결재 부분
+	implementation 'com.github.iamport:iamport-rest-client-java:0.1.6'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'

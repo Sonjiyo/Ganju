@@ -10,6 +10,8 @@ public class IamportConfig {
 
     @Value("${iamport.key}")
     private String key;
+    @Value("${iamport.api}")
+    private String api;
     @Value("${iamport.secret}")
     private String secret;
 
@@ -17,6 +19,7 @@ public class IamportConfig {
     public IamportDTO iamport(){
         IamportDTO dto = new IamportDTO();
         dto.setKey(this.key);
+        dto.setApi(this.api);
         dto.setSecret(this.secret);
         return dto;
     }
