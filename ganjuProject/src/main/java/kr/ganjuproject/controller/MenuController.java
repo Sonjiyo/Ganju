@@ -208,11 +208,12 @@ public class MenuController {
 
         newOrder.setOrderMenus(orderMenus); // 주문에 주문 메뉴 목록 설정
         Orders savedOrder = ordersService.save(newOrder); // 주문 저장
+        OrderResponseDTO dto = ordersService.convertToOrderResponseDTO(savedOrder);
 
         // 정상적인 처리 응답을 JSON 형태로 반환
         Map<String, Object> response = new HashMap<>();
-        response.put("order", savedOrder);
-        System.out.println(savedOrder);
+        response.put("order", dto);
+        System.out.println(dto);
         return ResponseEntity.ok(response);
     }
 

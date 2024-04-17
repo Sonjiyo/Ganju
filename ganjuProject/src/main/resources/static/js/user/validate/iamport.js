@@ -63,7 +63,6 @@ function requestPay() {
                     console.log(data);
                     // fetch 성공 후, 저장된 주문 정보를 WebSocket을 통해 전송
                     if (window.stompClient && window.stompClient.connected) {
-                        console.log("여긴");
                         console.log(data);
                         const orderInfo = {
                             id: data.order.id, // 저장된 주문 ID
@@ -77,7 +76,6 @@ function requestPay() {
                         };
 
                         console.log(orderInfo);
-                        alert("orderInfo");
                         stompClient.send("/app/calls", {}, JSON.stringify(orderInfo));
                     }
                     alert("정지");

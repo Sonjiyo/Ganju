@@ -1,8 +1,6 @@
 package kr.ganjuproject.service;
 
-import kr.ganjuproject.dto.OptionDetails;
-import kr.ganjuproject.dto.OrderDTO;
-import kr.ganjuproject.dto.OrderDetails;
+import kr.ganjuproject.dto.*;
 import kr.ganjuproject.entity.*;
 import kr.ganjuproject.repository.OrdersRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -107,5 +106,40 @@ public class OrdersService {
         order.setDivision(RoleOrders.OKAY);
         Orders orders = ordersRepository.save(order);
         return order;
+    }
+
+    // 둘데 없어서 둔 orders에서 DTO로 바꿔주는 어쩌구 저쩌구
+    public OrderResponseDTO convertToOrderResponseDTO(Orders order) {
+        OrderResponseDTO dto = new OrderResponseDTO();
+        dto.setId(order.getId());
+        dto.setRestaurantTableNo(order.getRestaurantTableNo());
+        dto.setPrice(order.getPrice());
+        dto.setContent(order.getContent());
+        dto.setRegDate(order.getRegDate());
+        dto.setDivision(order.getDivision().toString());
+        dto.setUid(order.getUid());
+
+        List<OrderMenuDTO> orderMenuDTOs = order.getOrderMenus().stream().map(orderMenu -> {
+            OrderMenuDTO orderMenuDTO = new OrderMenuDTO();
+            orderMenuDTO.setId(orderMenu.getId());
+            orderMenuDTO.setMenuName(orderMenu.getMenuName());
+            orderMenuDTO.setQuantity(orderMenu.getQuantity());
+            orderMenuDTO.setPrice(orderMenu.getPrice());
+
+            List<OrderOptionDTO> orderOptionDTOs = orderMenu.getOrderOptions().stream().map(orderOption -> {
+                OrderOptionDTO orderOptionDTO = new OrderOptionDTO();
+                orderOptionDTO.setId(orderOption.getId());
+                orderOptionDTO.setOptionName(orderOption.getOptionName());
+                orderOptionDTO.setPrice(orderOption.getPrice());
+                return orderOptionDTO;
+            }).collect(Collectors.toList());
+
+            orderMenuDTO.setOrderOptions(orderOptionDTOs);
+            return orderMenuDTO;
+        }).collect(Collectors.toList());
+
+        dto.setOrderMenus(orderMenuDTOs);
+
+        return dto;
     }
 }

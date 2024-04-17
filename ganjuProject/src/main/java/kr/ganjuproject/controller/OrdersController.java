@@ -155,14 +155,7 @@ public class OrdersController {
         Orders saveOrder = ordersService.save(order);
 
         // Orders 엔티티를 OrderResponseDTO로 변환
-        OrderResponseDTO orderResponseDTO = new OrderResponseDTO(
-                saveOrder.getId(),
-                saveOrder.getContent(),
-                saveOrder.getRestaurantTableNo(),
-                saveOrder.getRegDate(),
-                saveOrder.getDivision().toString(),
-                saveOrder.getRestaurant().getId()
-        );
+        OrderResponseDTO orderResponseDTO = ordersService.convertToOrderResponseDTO(saveOrder);
         System.out.println(orderResponseDTO);
         System.out.println("저장성공");
         return ResponseEntity.ok().body(Map.of("order", orderResponseDTO));
