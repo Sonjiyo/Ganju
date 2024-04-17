@@ -24,3 +24,13 @@ document.getElementById("addNoticeButton").addEventListener("click", async funct
         }
     }).catch(error => console.log(error));
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const dateElement = document.querySelector('.line p');
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const formattedDate = `${year}.${month}.${day}`;
+    dateElement.textContent = formattedDate;
+})

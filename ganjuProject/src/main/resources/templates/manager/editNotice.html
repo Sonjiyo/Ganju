@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/manager/common.css">
     <link rel="stylesheet" href="/css/manager/addNotice.css">
-    <script defer src="/js/manager/addNotice.js"></script>
+    <script defer src="/js/manager/noticeEdit.js"></script>
     <title>Title</title>
 </head>
 <body>
@@ -14,7 +14,7 @@
         <div>
             <a href=""><i class="fas fa-home"></i></a>
         </div>
-        <p>공지 사항 추가</p>
+        <p>공지 사항 수정</p>
         <div>
             <a href="#"></a>
         </div>
@@ -24,22 +24,22 @@
             <div class="notice-menu">
                 <p>날짜</p>
                 <div class="line">
-                    <p></p>
+                    <p th:text="${#temporals.format(boards.regDate, 'yyyy-MM-dd')}"></p>
                 </div>
             </div>
         </div>
         <div class="notice-title">
             <div class="notice-menu">
                 <p>제목</p>
-                <textarea name="title" id="title" class="notice-name"></textarea>
+                <textarea name="title" id="title" class="notice-name" th:text="${boards.title}"></textarea>
             </div>
         </div>
         <div class="notice-contents">
             <div class="notice-menu">
                 <p>내용</p>
-                <textarea name="contents" id="contents" class="notice-contents"></textarea>
+                <textarea name="contents" id="contents" class="notice-contents" th:text="${boards.content}"></textarea>
             </div>
-            <button id="addNoticeButton" class="button add">등록하기</button>
+            <button id="editNoticeButton" class="button add" th:onclick="'boardUpdate(' + ${boards.id} + ')'">수정 하기</button>
         </div>
     </div>
     <footer th:replace="fragments/footer :: footer(myPage)"></footer>

@@ -137,7 +137,6 @@ public class ManagerController {
             if (inputPhone != null && PHONE_PATTERN.matcher(inputPhone).matches()) {
                 user.setPhone(inputPhone);
                 managerService.updateUser(user);
-                System.out.println("user = " + user);
                 return "redirect:/manager/myPage";
             } else {
                 throw new IllegalArgumentException("올바른 전화번호 형식이 아닙니다.");
@@ -163,8 +162,8 @@ public class ManagerController {
     }
 
     @GetMapping("/notice")
-    public String noticeMain(Model model) {
-        List<Board> boards = boardService.findAll();
+    public String noticeMain(Model model, RoleCategory roleCategory) {
+        List<Board> boards = boardService.findByRoleCategory(roleCategory);
         model.addAttribute("boards", boards);
         return "manager/notice";
     }
@@ -176,10 +175,16 @@ public class ManagerController {
         return "manager/addNotice";
     }
 
+    @GetMapping("/editNotice/{id}")
+    public String editNotice(Model model, @PathVariable Long id) {
+        Board boards = boardService.findById(id).orElse(null);
+        model.addAttribute("boards", boards);
+        return "manager/editNotice";
+    }
+
     @PostMapping("/addNotice")
     public ResponseEntity<String> addNotice(@RequestBody Map<String, String> noticeData, Authentication authentication) {
         try {
-            System.out.println("notice = " + noticeData);
             String loggedInUsername = authentication.getName();
             Board board = new Board();
             board.setTitle(noticeData.get("title"));
@@ -191,6 +196,7 @@ public class ManagerController {
                 // Handle case when restaurant with ID 1 is not found
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("레스토랑을 찾을 수 없습니다");
             }
+            board.setRegDate(LocalDateTime.now());
             board.setName(loggedInUsername);
             board.setBoardCategory(RoleCategory.NOTICE);
             boardService.save(board);
@@ -200,6 +206,17 @@ public class ManagerController {
             // 등록에 실패한 경우
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("공지사항 등록 실패");
         }
+    }
+
+    @PostMapping("/updateNotice/{id}")
+    public String updateNotice(@RequestBody Map<String, String> requestBody, @PathVariable Long id) {
+        String newTitle = requestBody.get("title");
+        String newContents = requestBody.get("contents");
+        Board board = boardService.getOneBoard(id);
+        board.setTitle(newTitle);
+        board.setContent(newContents);
+        boardService.updateNotice(board);
+        return "redirect:/manager/notice";
     }
 
     @DeleteMapping("/notice/{id}")

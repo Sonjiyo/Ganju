@@ -25,24 +25,28 @@
         </div>
         <div class="underline"></div>
         <div class="notice_menu" th:each="board:${boards}">
-            <div>
-                <a th:text="${board.title}"></a>
-                <a class="extrasmall" th:text="${#temporals.format(board.regDate, 'yyyy-MM-dd')}"></a>
+            <th:block th:if="${board.boardCategory == T(kr.ganjuproject.entity.RoleCategory).NOTICE}">
                 <div>
-                    <a class="small" th:text="${board.content}"></a>
-                </div>
-            </div>
-            <div class="navbar">
-                <div class="dropdown">
-                    <button class="dropbtn center" th:onclick="'myFunction(' + ${board.id} + ')'">
-                        <i class="fas fa-ellipsis-h"></i>
-                    </button>
-                    <div class="dropdown-content" th:id="'myDropdown' + ${board.id}">
-                        <a>수정</a>
-                        <a><span class="delete-button" th:data-id="${board.id}">삭제</span></a>
+                    <a th:text="${board.title}"></a>
+                    <a class="extrasmall" th:text="${#temporals.format(board.regDate, 'yyyy-MM-dd')}"></a>
+                    <div>
+                        <a class="small" th:text="${board.content}"></a>
                     </div>
                 </div>
-            </div>
+                <div class="navbar">
+                    <div class="dropdown">
+                        <button class="dropbtn center" th:onclick="'myFunction(' + ${board.id} + ')'">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </button>
+                        <div class="dropdown-content" th:id="'myDropdown' + ${board.id}">
+                            <a th:href="'editNotice/' + ${board.id}">
+                                <span>수정</span>
+                            </a>
+                            <a><span class="delete-button" th:data-id="${board.id}">삭제</span></a>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
         </div>
         <div class="underline"></div>
     </div>
