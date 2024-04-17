@@ -24,7 +24,7 @@
     </header>
     <div class="container" th:each="users:${user}">
         <div class="icon">
-            <img src="/images/sample.png" alt="식당 이미지" class="img">
+            <img th:src="${user.restaurant.logo}" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="logo-image">
         </div>
         <div class="line">
             <span th:text="${user.restaurant.name}">더조은 식당</span>

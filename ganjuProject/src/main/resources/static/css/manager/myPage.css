@@ -1,13 +1,15 @@
 .container {
+    margin-top: 20px;
     margin-bottom: 80px;
 }
 
 .icon {
     display: flex;
-    width: 114px;
-    height: 114px;
+    width: 100px;
+    height: 100px;
     justify-content: center;
     flex-direction: column;
+    margin-bottom: 10px;
 }
 
 .line {
