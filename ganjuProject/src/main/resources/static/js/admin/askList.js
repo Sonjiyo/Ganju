@@ -1,13 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
     buttonOpen();
 });
-
+let answerCheck = false;
 
 function buttonOpen(){
     let buttons = [...document.querySelectorAll('.title-right button')];
     let content = [...document.querySelectorAll('.content')];
     buttons.forEach(e=>{
         e.addEventListener('click', ()=>{
+            answerCheck = false;
             if(e.classList.contains('on')){
                 e.classList.remove('on');
                 content[buttons.indexOf(e)].classList.remove('on');
@@ -26,7 +27,9 @@ function buttonShow(btn){
     btn.style.display='none';
 }
 
+
 function answerBtn(id, btn){
+    if(answerCheck) return false;
     let answerBtns = [...document.querySelectorAll('.button.answer')];
     let btnIndex = answerBtns.indexOf(btn);
     let answerText = document.querySelectorAll('.last.answer')[btnIndex].querySelector('textarea').value;
@@ -38,6 +41,8 @@ function answerBtn(id, btn){
     }).then(data => {
         if(data === 'ok'){
             console.log('답변 성공');
+
+            answerCheck=true;
             let lastTr = document.querySelectorAll('.last td:last-child');
             lastTr[btnIndex].innerHTML=answerText;
             document.querySelectorAll('.last')[btnIndex].classList.remove('answer');
@@ -80,6 +85,7 @@ function deleteAsk(id, btn){
 }
 
 function deleteAnswer(id, btn) {
+    answerCheck = false;
     let answerText=null;
     fetch(`/board/ask/${id}/${answerText}`, {
         method: 'PUT'

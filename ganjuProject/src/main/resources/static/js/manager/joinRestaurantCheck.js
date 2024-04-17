@@ -4,9 +4,12 @@ let msgOk = document.createElement('p');
 msgOk.classList.add('msg');
 msgOk.classList.add('msg-ok');
 
+let resturantBtnCheck = false;
 //상점 등록------------------------------------------------------
 function resturantCheck(form){
     msg.textContent='';
+
+    if(resturantBtnCheck) return false;
     //이미지 체크
     if(!form.logo.value.trim()){
         msg.textContent= "로고 이미지를 넣어주세요";
@@ -56,6 +59,7 @@ function resturantCheck(form){
         return false;
     }
 
+    resturantBtnCheck = true;
     form.submit();
 }
 

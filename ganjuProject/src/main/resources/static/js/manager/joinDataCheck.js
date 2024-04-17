@@ -176,6 +176,8 @@ function emailCheck(form){
 
 let timeLeft = document.createElement('span');
 timeLeft.classList.add('time-left');
+let emailBtnCheck = true;
+let timeCheck = true;
 let num = "";
 //카운트다운 & 이메일 전송
 function countDown(form){
@@ -183,7 +185,7 @@ function countDown(form){
 
     emailCheck(form);
     if(!emailPatternCheck){return false;}
-    timeCheck = true;
+    if(timeCheck && !emailBtnCheck) return false;
 
     fetch(`/email/${form.email.value}`, {
         method: 'POST',
@@ -194,18 +196,20 @@ function countDown(form){
     }).catch(error => {
         console.error('확인 실패', error);
     });
-
+    emailBtnCheck = false;
     timeLeft.innerHTML = 0o3 + ":" + 0o0;
     document.querySelector('.verification label').appendChild(timeLeft);
     startTimer();
+
 }
 
-let timeCheck = true;
 
+let joinBtnCheck = true;
 function verificationCheck(form){
 
     msg.textContent='';
 
+    if(!joinBtnCheck) return false;
     emailCheck(form);
     if(!emailPatternCheck){return false;}
 
@@ -246,6 +250,7 @@ function verificationCheck(form){
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
+        joinBtnCheck=false;
         alert('회원가입 성공');
         location.href="/";
     }).catch(error => {

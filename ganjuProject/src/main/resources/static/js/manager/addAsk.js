@@ -1,9 +1,10 @@
 let msg = document.createElement('p');
 msg.classList.add('msg');
-
+let check = false;
 function askCheck(form) {
     msg.textContent = '';
 
+    if(check) return false;
     //제목 체크
     if (!form.title.value.trim()) {
         msg.textContent = '제목을 입력해주세요';
@@ -18,25 +19,6 @@ function askCheck(form) {
         return false;
     }
 
+    check = true;
     form.submit();
-}
-
-function deleteAsk(id, btn){
-    fetch(`/board/${id}`, {
-        method: 'DELETE',
-    }).then(response=>{
-        return response.text();
-    }).then(data => {
-        if(data === 'ok'){
-            console.log('삭제 성공');
-            let deleteBtns = document.querySelectorAll('.button.delete');
-            let btnIndex = deleteBtns.indexOf(btn);
-            let askList = document.querySelectorAll('.ask-list li');
-            askList[btnIndex].remove();
-        }else{
-            console.log('삭제 실패');
-        }
-    }).catch(error => {
-        console.error('확인 실패', error);
-    });
 }
