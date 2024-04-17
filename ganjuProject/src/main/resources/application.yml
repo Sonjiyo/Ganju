@@ -12,11 +12,6 @@ spring:
   config:
     activate:
       on-profile: common
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/ganjudb?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
-    username: root
-    password: 1234
 
   sql:
     init:
