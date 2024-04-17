@@ -24,7 +24,7 @@ import static kr.ganjuproject.entity.RoleCategory.REPORT;
 @RequiredArgsConstructor
 public class BoardService {
     private final BoardRepository boardRepository;
-    
+
     // 메인 메뉴에서 비동기로 공지사항만 가져갈때 쓰는 메서드
     public List<BoardDTO> noticeGetList(Long restaurantId, int page) {
 
@@ -32,41 +32,53 @@ public class BoardService {
         PageRequest pageRequest = PageRequest.of(page, num, Sort.by("regDate").descending());
 
         // NOTICE 카테고리에 해당하는 Board 엔티티만 조회
-        Page<Board> boards = boardRepository.findByRestaurantIdAndBoardCategory(restaurantId,RoleCategory.NOTICE, pageRequest);
+        Page<Board> boards = boardRepository.findByRestaurantIdAndBoardCategory(restaurantId, RoleCategory.NOTICE, pageRequest);
 
         // Board 엔티티 리스트를 BoardDTO 리스트로 변환
         return boards.getContent().stream().map(this::convertToDTO).collect(Collectors.toList());
 
     }
+
     // 해당 식당의 공지글 사이즈 가져가는
     public Long getNoticeCountForRestaurant(Long restaurantId) {
         return boardRepository.countByRestaurantIdAndBoardCategory(restaurantId, RoleCategory.NOTICE);
     }
 
     // 다 불러오기
-    public List<Board> findAll(){
+    public List<Board> findAll() {
         return boardRepository.findAll();
     }
-    public List<Board> getReortList(){
+
+    public Optional<Board> findById(Long id) {
+        return boardRepository.findById(id);
+    }
+
+    public List<Board> findByRoleCategory(RoleCategory roleCategory) {
+        return boardRepository.findByRole(roleCategory);
+    }
+
+    public List<Board> getReortList() {
         List<Board> reportList = boardRepository.findByBoardCategoryAndTitleNot(REPORT, "accept");
         Collections.reverse(reportList); // 리스트를 역순으로 정렬
         return reportList;
     }
 
-    public Board getOneBoard(Long id){
+    public Board getOneBoard(Long id) {
         return boardRepository.findById(id).orElse(null);
     }
 
     @Transactional
-    public Board acceptReport(Board board){
+    public Board acceptReport(Board board) {
         board.setTitle("accept");
         return boardRepository.save(board);
     }
 
     @Transactional
-    public void deleteBoard(Long id){boardRepository.deleteById(id);}
+    public void deleteBoard(Long id) {
+        boardRepository.deleteById(id);
+    }
 
-    public int getReortAcceptList(Restaurant restaurant){
+    public int getReortAcceptList(Restaurant restaurant) {
         return boardRepository.findByBoardCategoryAndTitleAndRestaurant(REPORT, "accept", restaurant).size();
     }
 
@@ -84,27 +96,32 @@ public class BoardService {
 
     // 글 작성
     @Transactional
-    public void save(Board board){
+    public void save(Board board) {
         boardRepository.save(board);
     }
 
-    public List<Board> getQuestionBoardList(Long id){
+    public List<Board> getQuestionBoardList(Long id) {
         List<Board> questionList = boardRepository.findByRestaurantIdAndBoardCategory(id, QUESTION);
         Collections.reverse(questionList); // 리스트를 역순으로 정렬
-        for (Board b : questionList){
+        for (Board b : questionList) {
             b.setRestaurant(null);
         }
         return questionList;
     }
 
     @Transactional
-    public void addQuestion(Restaurant restaurant ,String title, String content){
+    public void addQuestion(Restaurant restaurant, String title, String content) {
         Board board = new Board();
         board.setTitle(title);
         board.setContent(content);
         board.setBoardCategory(QUESTION);
         board.setRestaurant(restaurant);
         board.setRegDate(LocalDateTime.now());
+        boardRepository.save(board);
+    }
+
+    @Transactional
+    public void updateNotice(Board board) {
         boardRepository.save(board);
     }
 }

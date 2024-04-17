@@ -2,6 +2,10 @@ const addNotice = () => {
     location.href = "/manager/addNotice";
 }
 
+const editNotice = (boardId) => {
+    location.href = "/manager/editNotice?id=" + boardId;
+}
+
 function myFunction(boardNumber) {
     const dropdownContent = document.getElementById("myDropdown" + boardNumber);
     const isVisible = dropdownContent.classList.contains("show");
