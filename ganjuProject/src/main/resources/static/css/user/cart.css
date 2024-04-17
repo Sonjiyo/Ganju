@@ -91,6 +91,14 @@
     font-size: var(--font-content); /* 필요에 따라 조정 */
 }
 
+/* 휴지통 버튼 관련 */
+.fa-trash.fas {
+    padding: 0 15px;
+    background-color: var(--white);
+    font-size: var(--font-content); /* 버튼 내 텍스트 크기 */
+    cursor: pointer; /* 마우스 커서 변경 */
+}
+
 /* 새로운 매뉴 추가 */
 .container .menu-plus{
     width: 100%;

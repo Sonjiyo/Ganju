@@ -2,15 +2,9 @@ package kr.ganjuproject.controller;
 
 import jakarta.servlet.http.HttpSession;
 import kr.ganjuproject.auth.PrincipalDetails;
-import kr.ganjuproject.dto.OrderDetails;
-import kr.ganjuproject.dto.OrderDTO;
-import kr.ganjuproject.dto.OrderResponseDTO;
-import kr.ganjuproject.dto.UpdateDate;
-import kr.ganjuproject.entity.Orders;
-import kr.ganjuproject.entity.RoleOrders;
-import kr.ganjuproject.entity.Users;
-import kr.ganjuproject.service.OrdersService;
-import kr.ganjuproject.service.RestaurantService;
+import kr.ganjuproject.dto.*;
+import kr.ganjuproject.entity.*;
+import kr.ganjuproject.service.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -33,8 +28,12 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 public class OrdersController {
+    private final MenuService menuService;
+    private final MenuOptionService menuOptionService;
+    private final MenuOptionValueService menuOptionValueService;
     private final OrdersService ordersService;
     private final RestaurantService restaurantService;
+    private final RefundService refundService;
 
     @GetMapping("/orders")
     public String orderPage(Authentication authentication, Model model){
@@ -139,6 +138,60 @@ public class OrdersController {
         return order ==null ? "no" : "ok";
     }
 
+    // 결재 하고 저장하는 부분
+    @PostMapping("/validImpUid")
+    public ResponseEntity<?> order(@RequestBody PaymentValidationRequest validationRequest, HttpSession session) {
+        // 세션에서 주문 정보 및 관련 정보 가져오기
+        Long restaurantId = (Long)session.getAttribute("restaurantId");
+        int restaurantTableNo = (int)session.getAttribute("restaurantTableNo");
+        List<OrderDTO> ordersDTO = (List<OrderDTO>) session.getAttribute("orders");
+
+        if (ordersDTO == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("주문 정보가 없습니다.");
+        }
+
+        Orders newOrder = new Orders();
+        newOrder.setRestaurantTableNo(restaurantTableNo);
+        newOrder.setRestaurant(restaurantService.findById(restaurantId).orElseThrow(() -> new RuntimeException("Restaurant not found")));
+        newOrder.setPrice(validationRequest.getTotalPrice());
+        newOrder.setRegDate(LocalDateTime.now());
+        newOrder.setContent(validationRequest.getContents());
+        newOrder.setUid(validationRequest.getImpUid());
+        newOrder.setDivision(RoleOrders.WAIT);
+        List<OrderMenu> orderMenus = new ArrayList<>();
+
+        for (OrderDTO orderDTO : ordersDTO) {
+            OrderMenu orderMenu = new OrderMenu();
+            orderMenu.setMenuName(menuService.findById(orderDTO.getMenuId()).orElseThrow(() -> new RuntimeException("Menu not found")).getName());
+            orderMenu.setQuantity(orderDTO.getQuantity());
+            orderMenu.setPrice(menuService.findById(orderDTO.getMenuId()).get().getPrice()); // 기본 가격 설정
+            orderMenu.setOrder(newOrder); // 연결된 주문 설정
+
+            List<OrderOption> orderOptions = new ArrayList<>();
+            for (OrderDTO.OptionSelection selectedOption : orderDTO.getSelectedOptions()) {
+                OrderOption orderOption = new OrderOption();
+                MenuOption menuOption = menuOptionService.findById(selectedOption.getOptionId());
+                MenuOptionValue menuOptionValue = menuOptionValueService.findById(selectedOption.getValueId());
+                orderOption.setOptionName(menuOption.getContent() + ": " + menuOptionValue.getContent());
+                orderOption.setPrice(menuOptionValue.getPrice()); // 추가 가격 설정
+                orderOption.setOrderMenu(orderMenu); // 연결된 주문 메뉴 설정
+                orderOptions.add(orderOption); // 옵션 목록에 추가
+            }
+            orderMenu.setOrderOptions(orderOptions); // 주문 메뉴에 옵션 설정
+            orderMenus.add(orderMenu); // 주문 메뉴 목록에 추가
+        }
+
+        newOrder.setOrderMenus(orderMenus); // 주문에 주문 메뉴 목록 설정
+        Orders savedOrder = ordersService.save(newOrder); // 주문 저장
+        OrderResponseDTO dto = ordersService.convertToOrderResponseDTO(savedOrder);
+
+        // 정상적인 처리 응답을 JSON 형태로 반환
+        Map<String, Object> response = new HashMap<>();
+        response.put("order", dto);
+        response.put("success", true);
+        return ResponseEntity.ok(response);
+    }
+
     // 호출하기에서 값을 가져와서 orders에 저장하고 다시 orders로 내보냄
     @PostMapping("/validUserCall")
     public ResponseEntity<?> save(HttpSession session, @RequestBody String content){
@@ -159,5 +212,83 @@ public class OrdersController {
         System.out.println(orderResponseDTO);
         System.out.println("저장성공");
         return ResponseEntity.ok().body(Map.of("order", orderResponseDTO));
+    }
+
+    // cart에서 수량 변경 시 비동기로 업데이트
+    @PostMapping("/updateValidQuantity")
+    public ResponseEntity<?> updateMenuQuantity(HttpSession session, @RequestBody OrderDTO orderDTO){
+
+        // 세션에서 주문 목록을 가져옴
+        List<OrderDTO> orders = (List<OrderDTO>) session.getAttribute("orders");
+        if (orders == null) {
+            return ResponseEntity.badRequest().body("장바구니가 비어 있습니다.");
+        }
+
+        // 메뉴 ID와 일치하는 주문 찾기 및 수량 업데이트
+        for (OrderDTO order : orders) {
+            System.out.println("order.getMenuId() = " + order.getMenuId());
+            System.out.println("MenuID = " + orderDTO.getMenuId());
+            System.out.println("Quantity = " + orderDTO.getMenuId());
+            if (order.getMenuId() == orderDTO.getMenuId()) {
+                order.setQuantity(orderDTO.getQuantity()); // 수량 업데이트
+                break; // 메뉴 ID가 일치하는 첫 번째 주문만 업데이트
+            }
+        }
+
+        // 업데이트된 주문 목록을 세션에 저장
+        session.setAttribute("orders", orders);
+        System.out.println(orders);
+        // 정상적인 처리 응답을 JSON 형태로 반환
+        Map<String, String> response = new HashMap<>();
+        response.put("data", "수량이 업데이트되었습니다.");
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/removeValidOrder")
+    public ResponseEntity<?> removeValidOrder(HttpSession session, @RequestParam Long menuId) {
+        List<OrderDTO> orders = (List<OrderDTO>) session.getAttribute("orders");
+        if (orders == null) {
+            return ResponseEntity.badRequest().body("장바구니가 비어 있습니다.");
+        }
+
+        // 메뉴 ID와 일치하는 주문을 찾아서 삭제
+        boolean removed = orders.removeIf(order -> order.getMenuId().equals(menuId));
+        if (!removed) {
+            return ResponseEntity.badRequest().body("해당 메뉴 ID를 가진 주문이 장바구니에 없습니다.");
+        }
+
+        // 업데이트된 주문 목록을 세션에 저장
+        session.setAttribute("orders", orders);
+
+        // 정상적인 처리 응답을 JSON 형태로 반환
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "주문이 삭제되었습니다.");
+        response.put("orders", orders);
+        return ResponseEntity.ok(response);
+    }
+
+
+    // 비동기 환불처리
+    @PostMapping("/validRefund")
+    public ResponseEntity<?> refundOrder(@RequestBody Map<String, Object> payload) throws IOException {
+        String reason = "테스트용"; // 환불 사유
+        Long orderId = Long.valueOf((String) payload.get("orderId"));
+
+        Orders order = ordersService.findById(orderId).get();
+
+        System.out.println("order" + order);
+        String accessToken = refundService.getAccessToken();
+        Map<String, Object> refundResult = refundService.requestRefund(order.getUid(), reason, accessToken);
+
+        System.out.println("refundResult" + refundResult);
+        System.out.println("order" + order);
+
+        // "success" 키의 값이 true인지 확인하여 성공 여부를 판단
+        Boolean success = (Boolean) refundResult.get("success");
+        if (Boolean.TRUE.equals(success)) { // 성공 여부 확인
+            return ResponseEntity.ok().body(Map.of("success", true, "message", "환불 처리가 완료되었습니다."));
+        } else {
+            return ResponseEntity.badRequest().body(Map.of("success", false, "message", "환불 처리에 실패했습니다."));
+        }
     }
 }

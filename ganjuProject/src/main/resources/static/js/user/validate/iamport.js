@@ -44,51 +44,92 @@ function requestPay() {
         // buyer_postcode: "123-456", // 구매자 우편번호
         // m_redirect_url: "/menu/order" // 모바일 결제 후 리디렉션될 URL
     }, function (rsp) {
-        console.log(rsp);
         if (rsp.success) {
-            // 결제 성공 시 로직
-            fetch("/menu/validImpUid", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    "impUid": rsp.imp_uid, // Iamport 결제 고유 번호
-                    "contents": contents.value, // 요청사항
-                    "totalPrice": totalPayMoney
-                }),
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    // fetch 성공 후, 저장된 주문 정보를 WebSocket을 통해 전송
-                    if (window.stompClient && window.stompClient.connected) {
-                        console.log(data);
-                        const orderInfo = {
-                            id: data.order.id, // 저장된 주문 ID
-                            restaurantTableNo: data.order.restaurantTableNo, // 테이블 번호
-                            orderMenus: data.order.orderMenus, // 주문한 메뉴 리스트
-                            price: data.order.price, // 총가격
-                            content: data.order.content, // 호출 내용
-                            regDate: data.order.regDate, // 등록 날짜
-                            division: data.order.division, // 호출인가?
-                            uid: data.order.uid // 호출인가?
-                        };
+            // 결재 금액과 실제 금액이 같다면
+             if(rsp.paid_amount == totalPayMoney){
+                 // 결제 성공 시 로직
+                 fetch("/validImpUid", {
+                     method: "POST",
+                     headers: {
+                         "Content-Type": "application/json",
+                     },
+                     body: JSON.stringify({
+                         "impUid": rsp.imp_uid, // Iamport 결제 고유 번호
+                         "contents": contents.value, // 요청사항
+                         "totalPrice": totalPayMoney
+                     }),
+                 })
+                     .then(response => response.json())
+                     .then(data => {
+                         console.log(data.success);
+                         if (data.success) {
+                             // fetch 성공 후, 저장된 주문 정보를 WebSocket을 통해 전송
+                             if (window.stompClient && window.stompClient.connected) {
+                                 const orderInfo = {
+                                     id: data.order.id, // 저장된 주문 ID
+                                     restaurantTableNo: data.order.restaurantTableNo, // 테이블 번호
+                                     orderMenus: data.order.orderMenus, // 주문한 메뉴 리스트
+                                     price: data.order.price, // 총가격
+                                     content: data.order.content, // 호출 내용
+                                     regDate: data.order.regDate, // 등록 날짜
+                                     division: data.order.division, // 호출인가?
+                                     uid: data.order.uid // 호출인가?
+                                 };
 
-                        console.log(orderInfo);
-                        stompClient.send("/app/calls", {}, JSON.stringify(orderInfo));
-                    }
-                    alert("정지");
-                    // 서버에서 결제 검증 성공 후 리디렉션할 페이지로 이동
-                    location.href = "/menu/order/" + data.order.id;
-                })
-                .catch(error => {
-                    // 오류 처리 로직
-                    alert("결제 검증에 실패했습니다. 다시 시도해주세요.");
-                });
+                                 console.log(orderInfo);
+                                 stompClient.send("/app/calls", {}, JSON.stringify(orderInfo));
+                             }
+                             // 서버에서 결제 검증 성공 후 리디렉션할 페이지로 이동
+                             location.href = "/menu/order/" + data.order.id;
+                         } else {
+                             // 실패 로직 처리, 예: 사용자에게 알림
+                             alert("결제 검증에 실패했습니다: " + data.message);
+                             // 필요한 경우 환불 처리 로직 추가
+                             validRefund(orderId);
+                         }
+                     })
+                     .catch(error => {
+                         // 오류 처리 로직
+                         alert("결제 검증에 실패했습니다. 다시 시도해주세요.");
+                         validRefund(orderId);
+                     });
+             }else{
+                 alert("결제 검증에 실패했습니다. 금액이 맞지 않습니다");
+                 validRefund(orderId);
+             }
         } else {
             // 결제 실패 시 로직,
             alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
+            validRefund(orderId);
         }
     });
+}
+
+// 환불 처리 함수
+
+function validRefund(orderId){
+    fetch('/validRefund', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            orderId: orderId, // 서버 사이드에서 전달받은 주문 ID
+        }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('환불 처리가 완료되었습니다.');
+                // 환불 처리 후 페이지 리디렉션 또는 UI 업데이트
+            } else {
+                alert('환불 처리에 실패했습니다.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('서버와의 통신 중 문제가 발생했습니다.');
+        });
+
+    location.href = "/menu/main";
 }

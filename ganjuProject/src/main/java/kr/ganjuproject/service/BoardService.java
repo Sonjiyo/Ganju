@@ -128,9 +128,10 @@ public class BoardService {
 
     @Transactional
     public void askAnswer(Board oneBoard, String content) {
-        if(content.equals("null")) content = null;
+        if (content.equals("null")) content = null;
         oneBoard.setName(content);
         boardRepository.save(oneBoard);
+    }
 
     @Transactional
     public void updateNotice(Board board) {

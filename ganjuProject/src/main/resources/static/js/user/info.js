@@ -112,5 +112,15 @@ document.querySelectorAll('.option input').forEach(input => {
     input.addEventListener('change', updateTotalPrice);
 });
 
-// 초기 페이지 로드 시 총 가격 업데이트
-document.addEventListener('DOMContentLoaded', updateTotalPrice);
+// 초기 페이지 로드 시 총 가격 업데이트, 그리고 필수 옵션이 있다면 첫번째 버튼 체크드
+document.addEventListener('DOMContentLoaded', function() {
+    updateTotalPrice();
+    // 모든 'required' 클래스를 가진 옵션 컨테이너를 찾음
+    document.querySelectorAll('.option.required').forEach(function(option) {
+        // 각 옵션 컨테이너 내 첫 번째 라디오 버튼을 찾아 체크함
+        const firstRadioButton = option.querySelector('input[type="radio"]');
+        if (firstRadioButton) {
+            firstRadioButton.checked = true;
+        }
+    });
+});
