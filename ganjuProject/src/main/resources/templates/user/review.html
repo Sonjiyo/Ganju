@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>리뷰작성</title>
+    <div th:replace="~{fragments/header :: header(${session.restaurantName})}"></div>
     <link href="/css/style.css" rel="stylesheet">
     <link href="/css/user/review.css" rel="stylesheet" type="text/css">
     <script src="/js/user/review.js" type="text/javascript" defer></script>
 </head>
 <body>
 <div class="innerBox">
-    <header></header>
+    <header th:replace="~{fragments/bodyHeader :: bodyHeader(${headerArgs})}"></header>
     <div class="container">
         <form action="/menu/review" method="post">
             <input type="hidden" name="orderId" class="orderId" th:value="${orderId}">
-            <div class="restaurant-name">더조은 식당</div>
+            <div class="restaurant-name" th:text="${session.restaurantName}"></div>
             <div class="stars">
                 <div class="star-span">
                     <span><i class="fas fa-star"></i></span>

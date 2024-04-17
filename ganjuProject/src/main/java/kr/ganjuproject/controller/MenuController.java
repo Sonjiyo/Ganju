@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -31,18 +32,33 @@ public class MenuController {
     private final OrdersService ordersService;
     private final RefundService refundService;
 
+    // 헤더 부분 값 념거주는 메서드
+    public Map<String, Object> someMethod(boolean showIcon, String name, boolean showBasket){
+        Map<String, Object> headerArgs = new HashMap<>();
+        headerArgs.put("showIcon", showIcon);
+        headerArgs.put("name", name);
+        headerArgs.put("showBasket", showBasket);
+
+        return headerArgs;
+    }
+
     // 메인 메뉴 첫 페이지
     @GetMapping("/main")
     public String main(Model model, HttpSession session) {
         Long restaurantId = 1L;
         int restaurantTableNo = 1;
+        Restaurant restaurant = restaurantService.findById(restaurantId).get();
+
         List<CategoryDTO> categories = categoryService.findCategoriesByRestaurantId(restaurantId);
         model.addAttribute("categories", categories);
         List<MenuDTO> menus = menuService.findMenusByRestaurantId(restaurantId);
         model.addAttribute("menus", menus);
+        // 헤더 부분
+        model.addAttribute("headerArgs", someMethod(true, "", true));
 //      리뷰 평균 점수
         model.addAttribute("staAve", reviewService.getAverageRating(restaurantId));
         session.setAttribute("restaurantId", restaurantId);
+        session.setAttribute("restaurantName", restaurant.getName());
         session.setAttribute("restaurantTableNo", restaurantTableNo);
         return "user/main";
     }
@@ -77,6 +93,8 @@ public class MenuController {
                 menuOptionValueMap.put(menuOptions.get(i).getId().toString() , menuOptionValues);
             }
         }
+        // 헤더 부분
+        model.addAttribute("headerArgs", someMethod(true, "", true));
 
         if (menu.isPresent()) {
             Menu m = menu.get();
@@ -113,10 +131,13 @@ public class MenuController {
         return ResponseEntity.ok(response);
     }
 
-    // 장바구니 페이지 이동 시 session에 값이 있다면 가지고 감
     @GetMapping("/cart")
     public String cart(HttpSession session, Model model) {
+        // 세션에서 orders를 가져올 때 null 체크를 하고, null일 경우 빈 리스트를 생성합니다.
         List<OrderDTO> orders = (List<OrderDTO>) session.getAttribute("orders");
+        if (orders == null) {
+            orders = new ArrayList<>(); // orders가 null일 경우 빈 리스트를 생성합니다.
+        }
         List<OrderDetails> orderDetailsList = new ArrayList<>();
 
         for (OrderDTO order : orders) {
@@ -124,6 +145,8 @@ public class MenuController {
             orderDetailsList.add(orderDetails);
         }
 
+        // 헤더 부분
+        model.addAttribute("headerArgs", someMethod(true, "장바구니", false));
         model.addAttribute("orderDetailsList", orderDetailsList);
 
         return "user/cart"; // 장바구니 페이지로 이동
@@ -225,6 +248,8 @@ public class MenuController {
         if(order.isPresent()){
             model.addAttribute("order", order.get());
         }
+        // 헤더 부분
+        model.addAttribute("headerArgs", someMethod(true, "주문완료", false));
         System.out.println(order);
         session.removeAttribute("orders");
         session.removeAttribute("orderDetailsList");
@@ -233,6 +258,8 @@ public class MenuController {
 
     @GetMapping("/review/{orderId}")
     public String review(@PathVariable("orderId") Long orderId, Model model) {
+        // 헤더 부분
+        model.addAttribute("headerArgs", someMethod(true, "리뷰작성", false));
         model.addAttribute("orderId", orderId);
         return "user/review";
     }
@@ -304,16 +331,21 @@ public class MenuController {
 
     // 비동기 환불처리
     @PostMapping("/refund")
-    public ResponseEntity<?> refundOrder(@RequestBody Map<String, Object> payload) {
+    public ResponseEntity<?> refundOrder(@RequestBody Map<String, Object> payload) throws IOException {
         String reason = "테스트용"; // 환불 사유
         Long orderId = Long.valueOf((String) payload.get("orderId"));
 
         Orders order = ordersService.findById(orderId).get();
 
+        System.out.println("order" + order);
         String accessToken = refundService.getAccessToken();
         Map<String, Object> refundResult = refundService.requestRefund(order.getUid(), reason, accessToken);
 
-        if (refundResult != null && "true".equals(refundResult.get("success").toString())) {
+        System.out.println("refundResult" + refundResult);
+        System.out.println("order" + order);
+        // "success" 대신 "code" 키의 값이 0인지 확인하여 성공 여부를 판단
+        Object codeObj = refundResult.get("code");
+        if (codeObj != null && "0".equals(codeObj.toString())) {
             return ResponseEntity.ok().body(Map.of("success", true, "message", "환불 처리가 완료되었습니다."));
         } else {
             return ResponseEntity.badRequest().body(Map.of("success", false, "message", "환불 처리에 실패했습니다."));

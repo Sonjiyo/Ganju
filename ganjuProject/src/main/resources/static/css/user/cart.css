@@ -13,9 +13,10 @@
 
 /* 식당 이름 */
 .container .restaurant-name{
+    width: 100%;
     font-size: var(--font-middle);
     font-weight: bold;
-    border-top: 1px solid var(--light-gray);
+    text-align: left;
 }
 
 /* 주문 리스트 */
@@ -112,3 +113,14 @@
     width: 100%;
 }
 
+/* 카트에 내용물이 없다면 */
+.disabled-button {
+    background-color: var(--light-gray);
+    color: var(--gray);
+    cursor: not-allowed;
+}
+.disabled-button:hover {
+    background-color: var(--light-gray);
+    color: var(--gray);
+    cursor: not-allowed;
+}

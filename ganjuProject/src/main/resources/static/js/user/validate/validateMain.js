@@ -1,6 +1,7 @@
 const loadMoreReviews = document.getElementById('loadMoreReviews');
 // 탭 버튼 클릭 이벤트 핸들러
 function handleTabClick(e) {
+    let reviewPlus = document.querySelector(".review-plus");
     currentPage = 0;
     // 모든 버튼과 컨텐츠 초기화
     buttons.forEach(btn => {
@@ -19,8 +20,10 @@ function handleTabClick(e) {
     // 더보기 버튼을 리뷰 에서만 보이기
     if(selectedContentId !== 'menu-content'){
         loadMoreReviews.style.display = 'block';
+        reviewPlus.style.display = 'block';
     }else{
         loadMoreReviews.style.display = 'none';
+        reviewPlus.style.display = 'none';
     }
 
     e.target.style.backgroundColor = 'var(--orange)';
@@ -32,9 +35,7 @@ function handleTabClick(e) {
 let currentPage = 0;
 
 function fetchTap(e){
-    console.log(e.target);
     const target = e.target.getAttribute('data-target').split("-")[0];
-    console.log(target);
     const capitalizedTarget = target.charAt(0).toUpperCase() + target.slice(1);
     let url = `/${target}/validateMenu${capitalizedTarget}`;
 
@@ -51,7 +52,6 @@ function fetchTap(e){
             return response.json();
         })
         .then(data => {
-            console.log(data);
             if(target === 'board'){
                 boardList(data);
                 currentPage++;
@@ -176,7 +176,6 @@ function reviewList(data){
 // 메뉴 비동기로 불러 왔을 때
 function menuList(data){
 
-    console.log("메뉴 비동기 뿌리기");
     // 기존 콘텐츠를 초기화
     categoryContent.innerHTML = '';
     menusContainer.innerHTML = '';
@@ -202,7 +201,6 @@ function menuList(data){
         const menusDiv = document.createElement('div');
         menusDiv.className = 'menus';
         data.menus.filter(menu => menu.categoryId === category.id).forEach(menu => {
-            console.log("menu = " + menu);
             const menuDiv = document.createElement('div');
             menuDiv.className = 'menu';
             menuDiv.onclick = function() {
@@ -214,6 +212,7 @@ function menuList(data){
             const img = document.createElement('img');
             img.src = '/images/sample.png'; // 여기는 실제 메뉴 이미지 URL을 사용해야 함
             img.alt = '메뉴 이미지';
+            img.classList.add("restaurant-image"); // 이 부분을 추가합니다.
             imageDiv.appendChild(img);
 
             const textDiv = document.createElement('div');
@@ -269,7 +268,6 @@ categoryContent.addEventListener('click', e => {
 document.getElementById('loadMoreReviews').addEventListener('click', e =>{
     // 현재 활성화된 탭을 찾습니다.
     const activeTab = Array.from(contents).find(tab => tab.style.display !== 'none');
-
     console.log(activeTab.className.split('-')[0]);
     fetchValidate(activeTab.className.split('-')[0]);
 });
