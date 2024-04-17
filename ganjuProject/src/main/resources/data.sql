@@ -240,6 +240,14 @@ VALUES
     ('', '음식이 너무 맛이 없습니다', '2020-09-15', 'REPORT', @restaurantId1),
     ('', '허위신고', '2020-09-15', 'REPORT', @restaurantId1);
 
+-- 문의 추가
+INSERT INTO board (title, content, reg_date, board_category, restaurant_id)
+VALUES
+    ('문의 드립니다', '무분별한 손님의 신고로 인해 가게의 피해가 많습니다. 신고 시스템 개편을 요구합니다.', '2020-09-15', 'QUESTION', @restaurantId1),
+    ('문의', '메뉴는 어디서 추가할 수 있나요? 아무리 찾아도 보이질 않네요', '2020-09-15', 'QUESTION', @restaurantId1),
+    ('질문 있습니다', '주문이 들어왔을 대 어디서 확인할 수 있나요?', '2020-09-15', 'QUESTION', @restaurantId2),
+    ('답변 부탁드립니다', '허위신고가 많이 접수되고 있습니다. 제대로 확인을 하고 처리해주세요.', '2020-09-15', 'QUESTION', @restaurantId1);
+
 -- 주문 정보 삽입 예시
 INSERT INTO orders (restaurant_table_no, price, reg_date, restaurant_id, content, uid, division)
 VALUES

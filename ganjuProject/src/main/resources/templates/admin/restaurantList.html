@@ -16,8 +16,9 @@
         </header>
         <div class="container">
             <div class="tab-btn">
-                <div onclick="location.href='/admin/restaurantList'" class="on">식당 관리</div>
+                <div class="on" onclick="location.href='/admin/restaurantList'">식당 관리</div>
                 <div onclick="location.href='/admin/reportList'">신고 내역</div>
+                <div onclick="location.href='/admin/askList'">문의 내역</div>
             </div>
             <ul class="resturant-list" >
                 <li th:each="manager : ${list}">

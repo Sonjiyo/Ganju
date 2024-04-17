@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="fragments/header :: header('어드민 페이지')"></div>
+    <link rel="stylesheet" href="/css/admin/askList.css">
+    <script src="/js/admin/askList.js" defer type="text/javascript"></script>
+</head>
+<body>
+<div class="innerBox">
+    <header>
+        <div></div>
+        <p>어드민 페이지</p>
+        <div>
+            <a href="/logout"><i class="fas fa-sign-out-alt"></i></a>
+        </div>
+    </header>
+    <div class="container">
+        <div class="tab-btn">
+            <div onclick="location.href='/admin/restaurantList'">식당 관리</div>
+            <div onclick="location.href='/admin/reportList'">신고 내역</div>
+            <div class="on" onclick="location.href='/admin/askList'">문의 내역</div>
+        </div>
+        <ul class="ask-list">
+            <li th:each="ask : ${list}">
+                <div class="title">
+                    <div class="title-left">
+                        <p th:text="${ask.title}">문의드립니다</p>
+                        <span th:text="${ask.restaurant.name}"></span>
+                    </div>
+                    <div class="title-right">
+                        <span th:text="${#temporals.format(ask.regDate, 'YYYY-MM-dd')}">2024-04-05</span>
+                        <div class="badge waiting" th:if="${ask.name eq null}">확인중</div>
+                        <div class="badge success" th:if="${ask.name ne null}">확인됨</div>
+                        <button><i class="fas fa-chevron-down"></i></button>
+                    </div>
+                </div>
+                <table class="content">
+                    <tr>
+                        <td>식당</td>
+                        <td th:text="${ask.restaurant.name}">식당이름</td>
+                    </tr>
+                    <tr>
+                        <td>제목</td>
+                        <td th:text="${ask.title}">제목</td>
+                    </tr>
+                    <tr>
+                        <td>내용</td>
+                        <td th:text="${ask.content}">내용</td>
+                    </tr>
+                    <tr th:if="${ask.name ne null}" class="last">
+                        <td>답변</td>
+                        <td th:text="${ask.name}"></td>
+                    </tr>
+                    <tr th:unless="${ask.name ne null}" class="last answer">
+                        <td>답변</td>
+                        <td>
+                            <label>
+                                <textarea th:text="${ask.name eq null ? '' : ask.name}"></textarea>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <button class="button show" th:if="${ask.name eq null}" onclick="buttonShow(this)">답변하기</button>
+                            <button class="button answer" th:if="${ask.name eq null}" th:onclick="'answerBtn(\'' + ${ask.id} + '\', this)'">등록하기</button>
+                            <button class="button delete" th:onclick="'deleteAsk(\'' + ${ask.id} + '\', this)'">삭제하기</button>
+                            <button class="button answer-delete" th:unless="${ask.name eq null}" th:onclick="'deleteAnswer(\'' + ${ask.id} + '\', this)'">답변 삭제하기</button>
+                        </td>
+                    </tr>
+                </table>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

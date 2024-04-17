@@ -90,7 +90,8 @@ public class BoardController {
 
     //문의하기 페이지
     @GetMapping("/ask")
-    public String addAskPage(){
+    public String addAskPage(Model model){
+        model.addAttribute("date", LocalDateTime.now());
         return "manager/addAsk";
     }
 
@@ -107,5 +108,13 @@ public class BoardController {
             boardService.addQuestion(user.getRestaurant(), title, content);
         }
         return "redirect:/board/askList";
+    }
+
+    //문의 답변
+    @PutMapping("/ask/{keyId}/{content}")
+    public @ResponseBody String askAnswer(@PathVariable Long keyId,@PathVariable String content){
+        log.trace("keyId={}" , keyId);
+        boardService.askAnswer(boardService.getOneBoard(keyId), content);
+        return "ok";
     }
 }
