@@ -1,7 +1,5 @@
 package kr.ganjuproject.controller;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import kr.ganjuproject.dto.*;
 import kr.ganjuproject.entity.*;
@@ -33,7 +31,7 @@ public class MenuController {
     private final OrdersService ordersService;
 
     // 헤더 부분 값 념거주는 메서드
-    public Map<String, Object> someMethod(boolean showIcon, String name, boolean showBasket){
+    public Map<String, Object> someMethod(boolean showIcon, String name, boolean showBasket) {
         Map<String, Object> headerArgs = new HashMap<>();
         headerArgs.put("showIcon", showIcon);
         headerArgs.put("name", name);
@@ -86,11 +84,11 @@ public class MenuController {
         List<MenuOption> menuOptions = menuOptionService.findByMenuId(menu.get().getId());
         Map<String, Object> menuOptionValueMap = new HashMap<>();
         // 메뉴 옵션이 없는 경우도 있으니 확인하고 비어 있지 않으면
-        if(!menuOptions.isEmpty()){
+        if (!menuOptions.isEmpty()) {
             model.addAttribute("menuOptions", menuOptions);
-            for(int i=0 ; i<menuOptions.size() ; i++){
+            for (int i = 0; i < menuOptions.size(); i++) {
                 List<MenuOptionValue> menuOptionValues = menuOptionValueService.findByMenuOptionId(menuOptions.get(i).getId());
-                menuOptionValueMap.put(menuOptions.get(i).getId().toString() , menuOptionValues);
+                menuOptionValueMap.put(menuOptions.get(i).getId().toString(), menuOptionValues);
             }
         }
         // 헤더 부분
@@ -99,7 +97,7 @@ public class MenuController {
         if (menu.isPresent()) {
             Menu m = menu.get();
             model.addAttribute("menu", m);
-            if(!menuOptionValueMap.isEmpty()){
+            if (!menuOptionValueMap.isEmpty()) {
                 model.addAttribute("menuOptionValues", menuOptionValueMap);
             }
             return "user/info";
@@ -163,7 +161,7 @@ public class MenuController {
     public String order(@PathVariable("orderId") Long orderId, Model model, HttpSession session) {
         Optional<Orders> order = ordersService.findById(orderId);
 
-        if(order.isPresent()){
+        if (order.isPresent()) {
             model.addAttribute("order", order.get());
         }
         // 헤더 부분
@@ -186,7 +184,7 @@ public class MenuController {
     public String review(ReviewDTO reviewDTO, HttpSession session) {
         Review review = new Review();
 
-        Restaurant restaurant = restaurantService.findById((Long)session.getAttribute("restaurantId")).get();
+        Restaurant restaurant = restaurantService.findById((Long) session.getAttribute("restaurantId")).get();
         review.setRestaurant(restaurant);
         review.setName(reviewDTO.getName());
         review.setContent(reviewDTO.getContent());
@@ -218,30 +216,42 @@ public class MenuController {
         return "manager/editMenu";
     }
 
-    @PostMapping(value = "/add")
-    public ResponseEntity<String> addMenu(@RequestBody String menuData, @RequestParam MultipartFile image) {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            Map<String, String> input = mapper.readValue(menuData, new TypeReference<Map<String, String>>() {});
-            // 받아온 레스토랑 ID를 사용하여 해당 레스토랑에 속한 카테고리를 데이터베이스에서 조회
-            Long restaurantId = Long.parseLong(input.get("restaurantId"));
-            Long categoryId = Long.parseLong(input.get("categoryId"));
-            // 여기서 적절한 카테고리 선택 로직이 필요합니다. 예를 들어 첫 번째 카테고리를 선택하거나, 특정 조건에 따라 선택할 수 있습니다.
-            Category category = categoryService.findById(categoryId)
-                    .orElseThrow(() -> new RuntimeException("해당 ID에 해당하는 카테고리를 찾을 수 없습니다"));
-            Menu obj = new Menu();
-            obj.setName(input.get("name"));
-            obj.setPrice(Integer.parseInt(input.get("price")));
-            obj.setCategory(category); // 조회된 카테고리를 메뉴 객체에 설정
-            obj.setInfo(input.get("info"));
-            obj.setMenuImage(input.get("image"));
-            obj.setRestaurant(restaurantService.findById(restaurantId)
-                    .orElseThrow(() -> new RuntimeException("해당 ID에 해당하는 레스토랑을 찾을 수 없습니다")));
-            menuService.add(obj, image);
-            return ResponseEntity.ok().body("메뉴가 성공적으로 등록 되었습니다");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("메뉴 등록에 실패하였습니다");
-        }
+    @PostMapping("/add")
+    public String addMenu(@RequestParam MultipartFile image, MenuDTO menuDTO, Model model) throws IOException {
+        Menu menu = new Menu();
+        menu.setName(menuDTO.getName());
+        menu.setPrice(menuDTO.getPrice());
+        menu.setInfo(menuDTO.getInfo());
+        Category category = (categoryService.findById(menuDTO.getCategoryId()).orElse(null));
+        menu.setCategory(category);
+        menuService.addMenu(image, menu);
+        model.addAttribute("menu", menu);
+        System.out.println("category = " + category);
+        System.out.println("menu = " + menu);
+        return "manager/menuCategory";
+
+//        try {
+//            ObjectMapper mapper = new ObjectMapper();
+//            Map<String, String> input = mapper.readValue(menuData, new TypeReference<Map<String, String>>() {});
+//            // 받아온 레스토랑 ID를 사용하여 해당 레스토랑에 속한 카테고리를 데이터베이스에서 조회
+//            Long restaurantId = Long.parseLong(input.get("restaurantId"));
+//            Long categoryId = Long.parseLong(input.get("categoryId"));
+//            // 여기서 적절한 카테고리 선택 로직이 필요합니다. 예를 들어 첫 번째 카테고리를 선택하거나, 특정 조건에 따라 선택할 수 있습니다.
+//            Category category = categoryService.findById(categoryId)
+//                    .orElseThrow(() -> new RuntimeException("해당 ID에 해당하는 카테고리를 찾을 수 없습니다"));
+//            Menu obj = new Menu();
+//            obj.setName(input.get("name"));
+//            obj.setPrice(Integer.parseInt(input.get("price")));
+//            obj.setCategory(category); // 조회된 카테고리를 메뉴 객체에 설정
+//            obj.setInfo(input.get("info"));
+//            obj.setMenuImage(input.get("image"));
+//            obj.setRestaurant(restaurantService.findById(restaurantId)
+//                    .orElseThrow(() -> new RuntimeException("해당 ID에 해당하는 레스토랑을 찾을 수 없습니다")));
+//            menuService.add(obj, image);
+//            return ResponseEntity.ok().body("메뉴가 성공적으로 등록 되었습니다");
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("메뉴 등록에 실패하였습니다");
+//        }
     }
 
     @PostMapping("/updateMenu/{id}")

@@ -61,17 +61,7 @@ select {
 .modal-price {
     width: 100%;
     position: relative;
-}
-
-.price textarea {
-    padding-right: 30px;
-    /* placeholder를 표시할 오른쪽 여백 */
-    text-align: left;
-    /* 텍스트를 왼쪽으로 정렬 */
-}
-
-.menu-info textarea {
-    text-align: left;
+    margin-bottom: 10px;
 }
 
 .bigArea {
@@ -101,6 +91,10 @@ select {
     width: 100%;
 }
 
+.visible {
+    width: 100%;
+}
+
 .add-option-sub {
     display: flex;
     font-size: var(--font-small);
@@ -117,10 +111,13 @@ select {
 .choice-option {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
 }
 
 .option-subname {
     width: 100%;
+    margin-bottom: 10px;
 }
 
 .menu-add {
@@ -146,7 +143,7 @@ select {
 
 .div-add-option-sub {
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;
 }
 
 .visible::placeholder {

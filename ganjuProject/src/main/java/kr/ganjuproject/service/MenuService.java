@@ -55,12 +55,17 @@ public class MenuService {
     }
 
     @Transactional
-    public void add(Menu menu, MultipartFile image) throws IOException {
-        if(!image.isEmpty()) {
+    public Menu addMenu(MultipartFile image, Menu menu) throws IOException {
+        if (!image.isEmpty()) {
             String storedFileName = s3Uploader.upload(image);
             menu.setMenuImage(storedFileName);
         }
-        menuRepository.save(menu);
+        return save(menu);
+    }
+
+    @Transactional
+    public Menu save(Menu menu) {
+        return menuRepository.save(menu);
     }
 
     public Menu getOneMenu(Long id) {
