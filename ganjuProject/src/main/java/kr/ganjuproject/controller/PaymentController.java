@@ -8,7 +8,6 @@ import kr.ganjuproject.entity.*;
 import kr.ganjuproject.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -62,7 +60,7 @@ public class PaymentController {
 
         System.out.println("order" + order);
         String accessToken = refundService.getAccessToken();
-        Map<String, Object> refundResult = refundService.requestRefund(order.getUid(), reason, accessToken);
+        Map<String, Object> refundResult = refundService.requestRefund(order, reason, accessToken);
 
         System.out.println("refundResult" + refundResult);
         System.out.println("order" + order);
@@ -91,7 +89,7 @@ public class PaymentController {
     }
 
     @GetMapping("/payment/verify")
-    public String  verifyPayment(@RequestParam("imp_uid") String impUid, HttpSession session) throws JSONException {
+    public String  verifyPayment(@RequestParam("imp_uid") String impUid, HttpSession session) throws IOException {
         // 세션에서 저장된 데이터 가져오기
         int totalPrice = (int) session.getAttribute("totalPrice");
         log.info("impUid = " + impUid);
