@@ -179,3 +179,19 @@ footer a:nth-child(2)::before{content: '\f328';font-weight: 500;}
 footer a:nth-child(3)::before{content: '\f6d7';}
 footer a:nth-child(4)::before{content: '\f14b';}
 footer a:nth-child(5)::before{content: '\f007';}
+
+/* menu 쪽 전체에서 아이콘 관련 */
+.cart-icon {
+       position: relative;
+       display: inline-block;
+   }
+.cart-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    padding: 2px 6px;
+    border-radius: 50%;
+    background: red;
+    color: white;
+    font-size: 12px;
+}
