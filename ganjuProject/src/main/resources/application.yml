@@ -36,3 +36,7 @@ spring:
     defer-datasource-initialization: true
 server:
   port: 8081
+
+logging:
+  level:
+    root: TRACE

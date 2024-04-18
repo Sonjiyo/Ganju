@@ -1,25 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css">
+    <div th:replace="fragments/header :: header('마이페이지')"></div>
     <link rel="stylesheet" href="/css/manager/common.css">
     <link rel="stylesheet" href="/css/manager/myPage.css">
-    <script defer src="/js/manager/myPage.js"></script>
-    <script defer src="/js/fragments/footer.js"></script>
-    <title>Document</title>
 </head>
 <body>
 <div class="innerBox">
     <header>
         <div>
-            <a href=""><i class="fas fa-home"></i></a>
+            <a href="/"><i class="fas fa-home"></i></a>
         </div>
         <p>마이 페이지</p>
-        <div>
-            <a href="#"></a>
-        </div>
+        <div></div>
     </header>
     <div class="container">
         <div class="icon">
@@ -47,11 +40,11 @@
             </div>
         </div>
         <div class="upbtn">
-            <button class="button buttons" onclick="myPageEdit()">수정하기</button>
+            <button class="button buttons" onclick="location.href = '/manager/myPageEdit'">수정하기</button>
             <button class="button-info buttons">식당정보</button>
         </div>
         <div class="downbtn">
-            <button class="button-etc buttons" onclick="logoutUser()">로그아웃</button>
+            <button class="button-etc buttons" onclick="location.href='/logout'">로그아웃</button>
             <button class="button-etc buttons">회원탈퇴</button>
         </div>
     </div>
