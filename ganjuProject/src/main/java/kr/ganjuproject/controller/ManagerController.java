@@ -54,6 +54,7 @@ public class ManagerController {
             if (user.getLoginId().equals("admin")) return "redirect:/";
 
             double starAvg = reviewService.getAverageRating(user.getRestaurant().getId());
+
             LocalDateTime currentTime = LocalDateTime.now();
             LocalDateTime startTime = LocalDateTime.of(currentTime.toLocalDate(), LocalTime.MIN); // 오늘 날짜의 시작
             LocalDateTime endTime = LocalDateTime.of(currentTime.toLocalDate(), LocalTime.MAX); // 오늘 날짜의 끝
@@ -144,15 +145,6 @@ public class ManagerController {
         } else {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다");
         }
-    }
-
-    @GetMapping("/logout")
-    public String logout(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
-        }
-        return "redirect:/";
     }
 
     @DeleteMapping("/{keyId}")

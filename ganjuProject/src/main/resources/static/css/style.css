@@ -40,7 +40,6 @@ body{
     font-size: var(--font-content);
 }
 .innerBox{
-    border: 1px solid red;
     max-width: var(--innerBox-width);
     width: auto;
     min-height: 100%;
@@ -194,4 +193,8 @@ footer a:nth-child(5)::before{content: '\f007';}
     background: red;
     color: white;
     font-size: 12px;
+}
+@media screen and (max-width: 480px) {
+    .innerBox{width: 100%;}
+    footer{width: 100%;}
 }
