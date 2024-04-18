@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/manager/addMenu.css">
     <link rel="stylesheet" href="/css/manager/common.css">
-    <script defer src="/js/manager/addOption.js"></script>
+    <script defer src="/js/manager/addMenu.js"></script>
     <script defer src="/js/fragments/footer.js"></script>
-    <title>Document</title>
+    <title>메뉴 추가</title>
 </head>
 <body>
 <div class="innerBox">
@@ -23,7 +23,7 @@
         </div>
     </header>
     <div class="container">
-        <form action="/menu/add" method="post" encType="multipart/form-data">
+        <form action="/menu/add" method="post" enctype="multipart/form-data">
             <div class="option">
                 <label for="category">카테고리 선택</label>
                 <select name="category" id="category">
@@ -35,24 +35,23 @@
                 </select>
             </div>
             <div class="imgbox">
-                <P class="flex">이미지
-                    <img src="#" class="img">
-                </P>
-                <input type="file" name="image" id="uploadImage" accept="image/*" style="display: none;">
-                <button id="uploadImageButton" class="black-btn">이미지 넣기</button>
+                <label for="img" class="flex">이미지
+                    <img src="#" class="img" alt="menu-image" id="menuImage">
+                </label>
+                <input type="file" name="img" id="img" onchange="readURL(this)">
             </div>
             <div class="menu-name">
-                <p>메뉴명</p>
-                <textarea class="textarea"></textarea>
+                <label for="menuName">메뉴명</label>
+                <input type="text" name="menuName" id="menuName" class="textarea">
             </div>
             <div class="price">
-                <p>가격</p>
-                <textarea class="visible" id="price1"></textarea>
+                <label for="menuPrice">가격</label>
+                <input name="menuPrice" id="menuPrice" class="visible">
                 <div class="placeholder" id="placeholder1">원</div>
             </div>
             <div class="menu-info">
-                <p>정보</p>
-                <textarea class="bigArea" id="info1"></textarea>
+                <label for="menuInfo">정보</label>
+                <input name="menuInfo" id="menuInfo" class="bigArea">
             </div>
             <p>필수 옵션</p>
             <div class="option-l">
@@ -83,14 +82,14 @@
                         </p>
                     </div>
                     <div class="choice-option">
-                        <textarea name="option_name" id="option_name" placeholder="옵션 이름"></textarea>
+                        <input name="option_name" id="option_name" placeholder="옵션 이름">
                         <button class="button border">옵션 추가</button>
                     </div>
-                    <textarea name="option-subname" id="option-subname" placeholder="세부 옵션 이름"
-                              class="option-subname"></textarea>
+                    <input name="option-subname" id="option-subname" placeholder="세부 옵션 이름"
+                              class="option-subname">
                     <div class="modal-price">
-                        <p>가격</p>
-                        <textarea class="visible" id="price2"></textarea>
+                        <label for="price2">가격</label>
+                        <input name="price2" id="price2" class="visible">
                         <div class="placeholder" id="placeholder2">원</div>
                     </div>
                     <div class="div-add-option-sub">
@@ -98,9 +97,7 @@
                     </div>
                 </div>
             </div>
-            <div class="menu-add">
-                <button id="addMenuButton" class="button border select-option">메뉴 등록</button>
-            </div>
+            <input type="button" class="button border select-option" value="메뉴 등록" onclick="menuCheck(form)">
         </form>
     </div>
     <footer th:replace="fragments/footer :: footer(menu)"></footer>
