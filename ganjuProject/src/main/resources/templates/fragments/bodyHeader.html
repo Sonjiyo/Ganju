@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
 <header th:fragment="bodyHeader(args)">
@@ -16,6 +15,8 @@
     <div>
         <a class="icon cart-icon" th:if="${args.showBasket}" href='/menu/cart'>
             <i class="fas fa-shopping-cart"></i>
+            <!-- 주문 개수 뱃지 -->
+            <span class="cart-badge" th:if="${session.orders != null and #lists.size(session.orders) > 0}" th:text="${#lists.size(session.orders)}"></span>
         </a>
     </div>
 </header>
