@@ -2,15 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css">
+    <div th:replace="fragments/header :: header('메뉴관리')"></div>
     <link rel="stylesheet" href="/css/manager/menuCategory.css">
     <link rel="stylesheet" href="/css/manager/common.css">
     <script defer src="/js/manager/menuCategory.js"></script>
     <script defer src="/js/manager/menuMenu.js"></script>
-    <script defer src="/js/fragments/footer.js"></script>
-    <title>메뉴 관리</title>
 </head>
 <body>
 <div class="innerBox">
@@ -19,9 +15,7 @@
             <a href="/"><i class="fas fa-home"></i></a>
         </div>
         <p>메뉴 관리</p>
-        <div>
-            <a href="#"></a>
-        </div>
+        <div></div>
     </header>
     <div class="container">
         <div class="menu">

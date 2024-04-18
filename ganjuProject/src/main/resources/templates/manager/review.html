@@ -1,14 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css">
+    <div th:replace="fragments/header :: header('리뷰관리')"></div>
     <link rel="stylesheet" href="/css/manager/common.css">
     <link rel="stylesheet" href="/css/manager/review.css">
     <script defer src="/js/manager/review.js"></script>
-    <script defer src="/js/fragments/footer.js"></script>
-    <title>리뷰 관리</title>
 </head>
 <body>
 <div class="innerBox">
@@ -17,9 +13,7 @@
             <a href="/"><i class="fas fa-home"></i></a>
         </div>
         <p>리뷰 관리</p>
-        <div>
-            <a href="#"></a>
-        </div>
+        <div></div>
     </header>
     <div class="container">
         <div class="review">
