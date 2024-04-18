@@ -56,6 +56,7 @@ public class ManagerController {
             double starAvg = reviewService.getAverageRating(user.getRestaurant().getId());
 
             LocalDateTime currentTime = LocalDateTime.now();
+            log.trace("currentTime{}", currentTime);
             LocalDateTime startTime = LocalDateTime.of(currentTime.toLocalDate(), LocalTime.MIN); // 오늘 날짜의 시작
             LocalDateTime endTime = LocalDateTime.of(currentTime.toLocalDate(), LocalTime.MAX); // 오늘 날짜의 끝
 
@@ -108,7 +109,7 @@ public class ManagerController {
             if (user.getLoginId().equals("admin")) return "redirect:/";
             model.addAttribute("user", user);
         }
-        return "/manager/myPage";
+        return "manager/myPage";
     }
 
     @GetMapping("myPageEdit")
@@ -121,7 +122,7 @@ public class ManagerController {
             if (user.getLoginId().equals("admin")) return "redirect:/";
             model.addAttribute("user", user);
         }
-        return "/manager/myPageEdit";
+        return "manager/myPageEdit";
     }
 
     @PostMapping("/update")
