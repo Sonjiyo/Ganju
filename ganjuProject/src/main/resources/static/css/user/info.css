@@ -148,7 +148,6 @@
     display: flex;
     justify-content: space-between; /* 내부 요소를 양 끝으로 정렬 */
     width: 100%; /* 부모 컨테이너의 전체 너비 사용 */
-    padding: 0 20px; /* 좌우 패딩 추가로 내부 요소들 사이 간격 조정 */
     margin-bottom: 10px;
 }
 .container .count .inner .text {
@@ -187,5 +186,12 @@
 
 /* 버튼 */
 .container .count .submit{
-    width: calc(100% - 20px); /* 패딩 고려하여 너비 조정 */
+    width: 100% /* 패딩 고려하여 너비 조정 */
+}
+
+@media screen and (max-width: 480px) {
+    .container .count {
+        width: 100%;
+        padding: 30px;
+    }
 }
