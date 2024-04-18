@@ -68,7 +68,6 @@ document.getElementById('submitCall').addEventListener('click', () => {
                     restaurantId: data.order.restaurantId
                 };
 
-                console.log(orderInfo);
                 stompClient.send("/app/calls", {}, JSON.stringify(orderInfo));
             }
             console.log("성공");
