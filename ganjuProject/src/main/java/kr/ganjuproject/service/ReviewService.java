@@ -41,7 +41,7 @@ public class ReviewService {
     public Double getAverageRating(Long restaurantId) {
         // restaurantId에 해당하는 식당의 평균 별점을 조회
         Double averageRating = reviewRepository.findAverageRatingByRestaurantId(restaurantId);
-        return averageRating != null ? Math.round(averageRating * 10) / 10.0 : null; // 소수점 한 자리까지 반올림
+        return averageRating != null ? Math.round(averageRating * 10) / 10.0 : 0.0; // 소수점 한 자리까지 반올림
     }
 
     public List<Review> findAll(){
