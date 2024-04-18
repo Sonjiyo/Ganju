@@ -4,8 +4,11 @@ import com.nimbusds.jose.shaded.gson.Gson;
 import com.nimbusds.jose.shaded.gson.JsonObject;
 import kr.ganjuproject.config.IamportConfig;
 import kr.ganjuproject.dto.IamportDTO;
+import kr.ganjuproject.dto.OrderResponseDTO;
+import kr.ganjuproject.entity.Orders;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -21,6 +24,9 @@ import java.util.Map;
 public class RefundService {
 
     private final IamportConfig iamportConfig;
+    private final OrdersService ordersService; // OrdersService 주입
+    // controller 에서 그냥 불러와서 써지네?
+    private final SimpMessagingTemplate messagingTemplate;
 
     // 인증 토큰 발급 받기
     public String getAccessToken() throws IOException {
@@ -63,7 +69,7 @@ public class RefundService {
     }
 
     // 환불 처리
-    public Map<String, Object> requestRefund(String impUid, String reason, String accessToken) {
+    public Map<String, Object> requestRefund(Orders order, String reason, String accessToken) {
         try {
             URL url = new URL("https://api.iamport.kr/payments/cancel");
             HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
@@ -79,7 +85,7 @@ public class RefundService {
             connection.setDoOutput(true);
 
             // 요청 본문 구성
-            String jsonInputString = "{\"imp_uid\": \"" + impUid + "\", \"reason\": \"" + reason + "\"}";
+            String jsonInputString = "{\"imp_uid\": \"" + order.getUid() + "\", \"reason\": \"" + reason + "\"}";
 
             // 요청 본문 전송
             try (OutputStream os = connection.getOutputStream()) {
@@ -93,10 +99,11 @@ public class RefundService {
 
             if (responseCode == HttpURLConnection.HTTP_OK) { // 성공적인 응답 처리
                 System.out.println("성공");
-                // 응답 본문 읽기 (이 부분은 별도의 함수로 처리할 수 있습니다.)
-                // 예를 들어, BufferedReader와 StringBuilder를 사용하여 응답 본문을 문자열로 변환
+                ordersService.deleteOrder(order.getId());
                 // 응답 본문을 JSON 객체로 파싱하고 필요한 정보를 추출/가공하여 반환
-                // 여기서는 단순화를 위해 성공했다는 메시지만 반환
+                OrderResponseDTO dto = ordersService.convertToOrderResponseDTO(order);
+
+                messagingTemplate.convertAndSend("/topic/calls", order.getUid());
                 return Map.of("success", true);
             } else {
                 System.out.println("POST request not worked");
