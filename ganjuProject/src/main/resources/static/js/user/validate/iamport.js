@@ -30,6 +30,7 @@ function orderContent(){
 function requestPay() {
     const contents = document.getElementById('contents');
     orderContent();
+    addValidSession(contents);
     // 결제 정보 준비
     IMP.request_pay({
         pg: "html5_inicis", // PG사
@@ -42,7 +43,7 @@ function requestPay() {
         // buyer_tel: "010-1234-5678", // 구매자 전화번호
         // buyer_addr: "서울특별시 강남구 삼성동",
         // buyer_postcode: "123-456", // 구매자 우편번호
-        // m_redirect_url: "/menu/order" // 모바일 결제 후 리디렉션될 URL
+        m_redirect_url: "http://localhost:8081/payment/verify" // 모바일 결제 후 리디렉션될 URL
     }, function (rsp) {
         if (rsp.success) {
             // 결재 금액과 실제 금액이 같다면
@@ -55,8 +56,6 @@ function requestPay() {
                      },
                      body: JSON.stringify({
                          "impUid": rsp.imp_uid, // Iamport 결제 고유 번호
-                         "contents": contents.value, // 요청사항
-                         "totalPrice": totalPayMoney
                      }),
                  })
                      .then(response => response.json())
@@ -132,4 +131,31 @@ function validRefund(orderId){
         });
 
     location.href = "/menu/main";
+}
+
+// 모바일 결재 때문에 session에 가격하고 요구사항 저장하는 비동기 로직 추가
+function addValidSession(contents){
+    fetch('/addValidSession', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            "contents": contents.value, // 요청사항
+            "totalPrice": totalPayMoney
+        }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('session 저장 성공.');
+                // 환불 처리 후 페이지 리디렉션 또는 UI 업데이트
+            } else {
+                console.log('session 저장 실패.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('서버와의 통신 중 문제가 발생했습니다.');
+        });
 }

@@ -207,3 +207,21 @@ document.addEventListener("DOMContentLoaded", () =>{
     console.log("탭버튼 = " + activeTab.className.split('-')[0]);
     fetchValidate(activeTab.className.split('-')[0]);
 })
+
+// 요소의 크기를 계산하고 스타일을 업데이트하는 함수
+function updatePosition() {
+    // .innerBox 요소의 가로 길이를 가져옵니다.
+    const innerBoxWidth = document.querySelector('.innerBox').offsetWidth;
+
+    // 위치를 조정할 요소를 선택합니다. (예를 들어, '.target-element'라고 가정합니다)
+    const targetElement = document.querySelector('.scroll-to-top');
+
+    // 계산된 값을 사용하여 위치를 조정합니다.
+    // '--innerBox-width' 커스텀 속성을 업데이트하거나, 직접 'left' 스타일을 설정할 수 있습니다.
+    targetElement.style.left = `calc(50% + ${innerBoxWidth / 2}px - 70px)`;
+}
+
+// 처음 페이지가 로드될 때 함수를 호출하여 초기 위치를 설정합니다.
+updatePosition();
+
+window.addEventListener('resize', updatePosition);
