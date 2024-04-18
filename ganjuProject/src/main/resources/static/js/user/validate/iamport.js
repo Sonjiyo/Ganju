@@ -85,21 +85,25 @@ function requestPay() {
                              alert("결제 검증에 실패했습니다: " + data.message);
                              // 필요한 경우 환불 처리 로직 추가
                              validRefund(orderId);
+                             location.href = "/menu/main";
                          }
                      })
                      .catch(error => {
                          // 오류 처리 로직
                          alert("결제 검증에 실패했습니다. 다시 시도해주세요.");
                          validRefund(orderId);
+                         location.href = "/menu/main";
                      });
              }else{
                  alert("결제 검증에 실패했습니다. 금액이 맞지 않습니다");
                  validRefund(orderId);
+                 location.href = "/menu/main";
              }
         } else {
             // 결제 실패 시 로직,
             alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
             validRefund(orderId);
+            location.href = "/menu/main";
         }
     });
 }
@@ -120,14 +124,17 @@ function validRefund(orderId){
         .then(data => {
             if (data.success) {
                 alert('환불 처리가 완료되었습니다.');
+                location.href = "/menu/main";
                 // 환불 처리 후 페이지 리디렉션 또는 UI 업데이트
             } else {
                 alert('환불 처리에 실패했습니다.');
+                location.href = "/menu/main";
             }
         })
         .catch(error => {
             console.error('Error:', error);
             alert('서버와의 통신 중 문제가 발생했습니다.');
+            location.href = "/menu/main";
         });
 
     location.href = "/menu/main";
@@ -152,10 +159,13 @@ function addValidSession(contents){
                 // 환불 처리 후 페이지 리디렉션 또는 UI 업데이트
             } else {
                 console.log('session 저장 실패.');
+                alert('session 저장 실패.');
+                location.href = "/menu/main";
             }
         })
         .catch(error => {
             console.error('Error:', error);
             alert('서버와의 통신 중 문제가 발생했습니다.');
+            location.href = "/menu/main";
         });
 }

@@ -1,4 +1,4 @@
-// 숫자 증감
+        // 숫자 증감
 
 const minus = document.querySelectorAll('.minus');
 const plus = document.querySelectorAll('.plus');
