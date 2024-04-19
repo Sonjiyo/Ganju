@@ -45,7 +45,7 @@ function requestPay() {
             // buyer_tel: "010-1234-5678", // 구매자 전화번호
             // buyer_addr: "서울특별시 강남구 삼성동",
             // buyer_postcode: "123-456", // 구매자 우편번호
-            m_redirect_url: "http://15.164.252.101:8081/payment/verify" // 모바일 결제 후 리디렉션될 URL
+            m_redirect_url: "http://ganju.pe.kr:8081/payment/verify" // 모바일 결제 후 리디렉션될 URL
         }, function (rsp) {
             if (rsp.success) {
                 // 결재 금액과 실제 금액이 같다면
