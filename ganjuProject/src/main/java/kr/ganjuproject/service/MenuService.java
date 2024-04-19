@@ -76,4 +76,12 @@ public class MenuService {
     public void updateMenu(Menu menu) {
         menuRepository.save(menu);
     }
+
+    public String uploadImage(MultipartFile image) throws IOException {
+        if (!image.isEmpty()) {
+            return s3Uploader.upload(image);
+        } else {
+            throw new IllegalArgumentException("이미지 파일이 비어 있습니다");
+        }
+    }
 }

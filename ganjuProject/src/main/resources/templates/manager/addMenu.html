@@ -2,14 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css">
+    <div th:replace="fragments/header :: header('메뉴추가')"></div>
     <link rel="stylesheet" href="/css/manager/addMenu.css">
     <link rel="stylesheet" href="/css/manager/common.css">
     <script defer src="/js/manager/addMenu.js"></script>
-    <script defer src="/js/fragments/footer.js"></script>
-    <title>메뉴 추가</title>
 </head>
 <body>
 <div class="innerBox">
@@ -18,12 +14,10 @@
             <a href="/"><i class="fas fa-home"></i></a>
         </div>
         <p>메뉴 추가</p>
-        <div>
-            <a href="#"></a>
-        </div>
+        <div></div>
     </header>
     <div class="container">
-        <form action="/menu/add" method="post" enctype="multipart/form-data">
+        <form action="/menu/addMenu" method="post" enctype="multipart/form-data">
             <div class="option">
                 <label for="category">카테고리 선택</label>
                 <select name="category" id="category">
