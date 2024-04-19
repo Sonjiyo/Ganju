@@ -63,4 +63,9 @@ public class ReviewService {
     public long countReviews() {
         return reviewRepository.count();
     }
+
+    @Transactional
+    public void deleteReview(Long id) {
+        reviewRepository.deleteById(id);
+    }
 }

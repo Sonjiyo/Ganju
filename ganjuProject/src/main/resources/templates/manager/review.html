@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <div th:replace="fragments/header :: header('리뷰관리')"></div>
     <link rel="stylesheet" href="/css/manager/common.css">
@@ -24,8 +25,8 @@
                    th:class="${starAvg >= starNum} ? 'fas fa-star fonticon on' : (${starAvg > starNum - 0.5} ? 'fas fa-star-half-alt fonticon on' : 'far fa-star fonticon on')"></i>
             </div>
             <div class="review-count">
-                <p class="big">리뷰 수</p>
-                <p class="big" th:text="${reviewCount} + 개"></p>
+                <p class="big reviewKr">리뷰 수</p>
+                <p class="big reviewCnt" th:text="${reviewCount} + 개"></p>
             </div>
         </div>
         <div class="underline"></div>
@@ -38,7 +39,10 @@
         </div>
         <div class="review-content">
             <div class="line" th:each="review:${reviews}">
-                <p class="small left" th:text="${review.name}"></p>
+                <p class="small left" th:text="${review.name}" th:data-id="${review.id}"></p>
+                <a>
+                    <i class="fas fa-times review_deleteBtn" th:data-id="${review.id}"></i>
+                </a>
                 <div class="star margin">
                     <i th:each="starNum : ${#numbers.sequence(1, 5)}"
                        th:class="${review.star >= starNum} ? 'fas fa-star fonticon on' : 'far fa-star fonticon on'"></i>

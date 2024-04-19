@@ -5,6 +5,17 @@
 .logo-img {
     width: 100px;
     height: 100px;
+    background: var(--light-gray);
+    margin-top: var(--padding);
+    margin-bottom: 0;
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow: 0 0 5px 0px #2222221f;
+}
+#logoImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .shift8 {
@@ -21,6 +32,7 @@
 
 .res-address {
     width: 100%;
+    margin-bottom: 50px;
 }
 
 .address {
