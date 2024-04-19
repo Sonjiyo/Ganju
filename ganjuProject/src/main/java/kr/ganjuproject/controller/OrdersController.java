@@ -216,4 +216,38 @@ public class OrdersController {
             return ResponseEntity.ok(response);
         }
     }
+
+    // 리뷰를 쓰려고 할 때 식당 측에서 주문 거부나 환불을 시켰다면 리뷰 거부
+    @PostMapping("/validOrderCheck")
+    public ResponseEntity<?> validOrderCheck(HttpSession session, @RequestParam Long menuId) {
+        List<OrderDTO> orders = (List<OrderDTO>) session.getAttribute("orders");
+        if (orders == null || orders.isEmpty()) {
+            return ResponseEntity.badRequest().body("장바구니가 비어 있습니다.");
+        }
+
+        // 메뉴 ID와 일치하는 주문을 찾아서 삭제
+        boolean removed = orders.removeIf(order -> order.getMenuId().equals(menuId));
+        if (!removed) {
+            return ResponseEntity.badRequest().body("해당 메뉴 ID를 가진 주문이 장바구니에 없습니다.");
+        }
+
+        // 삭제 후 주문 목록이 비어 있으면 세션에서 orders 속성 삭제
+        if (orders.isEmpty()) {
+            session.removeAttribute("orders");
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "장바구니가 비워졌습니다.");
+            return ResponseEntity.ok(response);
+        } else {
+            // 아니면 업데이트된 주문 목록을 세션에 저장
+            session.setAttribute("orders", orders);
+
+            // 정상적인 처리 응답을 JSON 형태로 반환
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "주문이 삭제되었습니다.");
+            response.put("orders", orders);
+            return ResponseEntity.ok(response);
+        }
+    }
+
+    // 비동기로 orders 에 값이 있는지 확인
 }
