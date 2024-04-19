@@ -49,7 +49,7 @@ if (window.handleReceivedCall) {
         }else{
             waitCount.textContent = parseInt(waitCount.textContent)+1;
             todayCount.textContent = (parseInt(todayCount.textContent) +1)+'건';
-            todaySales.textContent = (parseInt(todaySales.textContent) + callInfo.price).toLocaleString()+'원';
+            todaySales.textContent = (parseInt(todaySales.textContent.substring(todaySales.textContent.length-1).replaceAll(',','')) + callInfo.price).toLocaleString()+'원';
         }
     }
 }
