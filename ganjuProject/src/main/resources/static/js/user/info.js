@@ -17,39 +17,47 @@ function collectSelectedOptions() {
     return selectedOptions;
 }
 
+let infoSubmitBtnClick = true;
 function infosubmit(form) {
-    const selectedOptions = collectSelectedOptions();
-    const quantity = document.getElementById('order-num').innerText;
-    const menuId = form.menuId.value;
+    if(infoSubmitBtnClick) {
+        const selectedOptions = collectSelectedOptions();
+        const quantity = document.getElementById('order-num').innerText;
+        const menuId = form.menuId.value;
 
-    // JSON 형태로 서버에 데이터 전송
-    fetch('/menu/info', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            menuId: menuId,
-            selectedOptions: selectedOptions,
-            quantity: quantity,
-        }),
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Success:', data);
-            // 성공적으로 처리되었을 때의 로직
-            window.location.href = "/menu/cart";
+        // JSON 형태로 서버에 데이터 전송
+        fetch('/menu/info', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                menuId: menuId,
+                selectedOptions: selectedOptions,
+                quantity: quantity,
+            }),
         })
-        .catch((error) => {
-            console.error('Error:', error);
-            // 에러 처리 로직
-            alert('처리 중 에러가 발생했습니다. 메인 화면으로 이동합니다.');
-            // 메인 화면으로 리디렉션
-            window.location.href = "/menu/main";
-        });
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                // 성공적으로 처리되었을 때의 로직
+                window.location.href = "/menu/cart";
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                // 에러 처리 로직
+                alert('처리 중 에러가 발생했습니다. 메인 화면으로 이동합니다.');
+                // 메인 화면으로 리디렉션
+                window.location.href = "/menu/main";
+            });
 
-    // 기본 폼 제출 방지
-    event.preventDefault();
+        // 기본 폼 제출 방지
+        event.preventDefault();
+
+        infoSubmitBtnClick = false;
+        setTimeout( ()=>{
+            infoSubmitBtnClick = true;
+        }, 1000);
+    }
 }
 
 // 수량 증감 액션
@@ -124,4 +132,3 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-
