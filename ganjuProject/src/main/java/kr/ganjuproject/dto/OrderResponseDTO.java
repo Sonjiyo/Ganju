@@ -23,8 +23,10 @@ public class OrderResponseDTO {
 
     public int getTotalQuantity() {
         int totalQuantity = 0;
-        for (OrderMenuDTO orderMenu : orderMenus) {
-            totalQuantity += orderMenu.getQuantity();
+        if(orderMenus != null) {
+            for (OrderMenuDTO orderMenu : orderMenus) {
+                totalQuantity += orderMenu.getQuantity();
+            }
         }
         return totalQuantity;
     }
