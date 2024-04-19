@@ -30,7 +30,6 @@ function filterList(type, button) {
 
     // 선택한 타입에 따라 필터링
     orders.forEach(order=> {
-        console.log(orders);
         let orderType = order.querySelector('.order-title').classList[1]; // 클래스명에서 타입 가져오기
 
         // 전체는 모든 아이템을 보여줌

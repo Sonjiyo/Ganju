@@ -43,13 +43,15 @@ if (window.handleReceivedCall) {
         let callCount = document.querySelector('.order-list li:nth-child(1) span');
         let waitCount = document.querySelector('.order-list li:nth-child(2) span');
         let todayCount = document.querySelector('.today-sales p:first-child span');
-        let todaySales = document.querySelector('.today-sales p:last-child span');
+        let todaySales = document.querySelector('.today-sales p:last-child span').textContent;
+        let salseValue = todaySales.substring(todaySales.length-1).replaceAll(',','');
+        console.log(salseValue);
         if(callInfo.division === "CALL"){
             callCount.textContent = parseInt(callCount.textContent) +1;
         }else{
             waitCount.textContent = parseInt(waitCount.textContent)+1;
             todayCount.textContent = (parseInt(todayCount.textContent) +1)+'건';
-            todaySales.textContent = (parseInt(todaySales.textContent.substring(todaySales.textContent.length-1).replaceAll(',','')) + callInfo.price).toLocaleString()+'원';
+            todaySales.textContent = (parseInt(salseValue) + callInfo.price).toLocaleString()+'원';
         }
     }
 }
