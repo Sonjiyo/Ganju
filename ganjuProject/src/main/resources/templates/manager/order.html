@@ -55,7 +55,10 @@
                     </div>
                     <table class="info" th:if="${order.division.role ne 'call'}">
                         <tr>
-                            <th>상품이름</th>
+                            <th>
+                                상품이름
+                                <input type="hidden" th:value="${order.id}" class="id">
+                            </th>
                             <th>수량</th>
                             <th>금액</th>
                         </tr>
@@ -83,8 +86,8 @@
                         </tr>
                         <tr class="button-group" th:if="${order.division.role eq 'wait'}">
                             <td colspan="3">
-                                <button class="button delete" th:onclick="'deleteOrder(\'' + ${order.id} + '\', this)'">거부</button>
-                                <button class="button recognize" th:onclick="'recognizeOrder(\'' + ${order.id} + '\', this)'">승인</button>
+                                <button class="button delete" th:onclick="'deleteOrder(\'' + ${order.id} + '\')'">거부</button>
+                                <button class="button recognize" th:onclick="'recognizeOrder(\'' + ${order.id} + '\',this)'">승인</button>
                             </td>
                         </tr>
                     </table>

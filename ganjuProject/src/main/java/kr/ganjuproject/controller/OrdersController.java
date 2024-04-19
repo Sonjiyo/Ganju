@@ -73,7 +73,7 @@ public class OrdersController {
             LocalDateTime startTime = LocalDateTime.of(currentTime.toLocalDate(), LocalTime.MIN); // 오늘 날짜의 시작
             LocalDateTime endTime = LocalDateTime.of(currentTime.toLocalDate(), LocalTime.MAX); // 오늘 날짜의 끝
 
-            List<Orders> list = ordersService.getRestaurantOrdersWithinTimeWithoutCall(user.getRestaurant(), startTime, endTime);
+            List<OrderResponseDTO> list = ordersService.getRestaurantOrdersWithinTimeWithoutCall(user.getRestaurant(), startTime, endTime);
             Map<String, Object> total = ordersService.getRestaurantOrderData(list);
             
             model.addAttribute("list", list);
@@ -106,7 +106,7 @@ public class OrdersController {
             LocalDateTime startTime = LocalDateTime.of(date.getStart().toLocalDate(), LocalTime.MIN); // 시작 날짜
             LocalDateTime endTime = LocalDateTime.of(date.getEnd().toLocalDate(), LocalTime.MAX); // 끝 날짜
 
-            List<Orders> list = ordersService.getRestaurantOrdersWithinTimeWithoutCall(user.getRestaurant(), startTime, endTime);
+            List<OrderResponseDTO> list = ordersService.getRestaurantOrdersWithinTimeWithoutCall(user.getRestaurant(), startTime, endTime);
             Map<String, Object> total = ordersService.getRestaurantOrderData(list);
 
             // 응답에 필요한 데이터를 status와 함께 묶어서 전달
@@ -189,7 +189,7 @@ public class OrdersController {
     @PostMapping("/removeValidOrder")
     public ResponseEntity<?> removeValidOrder(HttpSession session, @RequestParam Long menuId) {
         List<OrderDTO> orders = (List<OrderDTO>) session.getAttribute("orders");
-        if (orders == null) {
+        if (orders == null || orders.isEmpty()) {
             return ResponseEntity.badRequest().body("장바구니가 비어 있습니다.");
         }
 
@@ -199,13 +199,21 @@ public class OrdersController {
             return ResponseEntity.badRequest().body("해당 메뉴 ID를 가진 주문이 장바구니에 없습니다.");
         }
 
-        // 업데이트된 주문 목록을 세션에 저장
-        session.setAttribute("orders", orders);
+        // 삭제 후 주문 목록이 비어 있으면 세션에서 orders 속성 삭제
+        if (orders.isEmpty()) {
+            session.removeAttribute("orders");
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "장바구니가 비워졌습니다.");
+            return ResponseEntity.ok(response);
+        } else {
+            // 아니면 업데이트된 주문 목록을 세션에 저장
+            session.setAttribute("orders", orders);
 
-        // 정상적인 처리 응답을 JSON 형태로 반환
-        Map<String, Object> response = new HashMap<>();
-        response.put("message", "주문이 삭제되었습니다.");
-        response.put("orders", orders);
-        return ResponseEntity.ok(response);
+            // 정상적인 처리 응답을 JSON 형태로 반환
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "주문이 삭제되었습니다.");
+            response.put("orders", orders);
+            return ResponseEntity.ok(response);
+        }
     }
 }

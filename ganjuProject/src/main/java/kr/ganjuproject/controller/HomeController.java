@@ -20,15 +20,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class HomeController {
 
     private final ManagerService managerService;
-    private Boolean passwordCheck = true;
     @GetMapping("/")
     public String home(HttpSession session, Authentication authentication, Model model){
         //임의로 넣어놓은 어드민
-        if(passwordCheck){
+        if(!managerService.getOneUser(1L).getPassword().contains("$")){
             for(Long i = 1L; i<=3; i++){
                 managerService.insertUser(managerService.getOneUser(i));
             }
-            passwordCheck = false;
         }
 
         if(authentication == null) return "home/home";

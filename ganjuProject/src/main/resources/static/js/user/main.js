@@ -104,28 +104,37 @@ function ensureCategoryVisible(category) {
 }
 
 // 카테고리 클릭 리스너를 위한 분리된 함수
+let categoryBtn = true;
 function categoryClickListener(e) {
-    const targetId = e.currentTarget.getAttribute('data-target');
-    const targetElement = document.getElementById(targetId);
 
-    if (targetElement) {
-        // category-content의 높이를 가져옵니다.
-        const categoryContentHeight = document.querySelector('.category-content').offsetHeight;
+    if(categoryBtn) {
+        const targetId = e.currentTarget.getAttribute('data-target');
+        const targetElement = document.getElementById(targetId);
 
-        // targetElement까지의 절대 위치를 계산합니다.
-        const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+        if (targetElement) {
+            // category-content의 높이를 가져옵니다.
+            const categoryContentHeight = document.querySelector('.category-content').offsetHeight;
 
-        // category-content의 높이만큼 위치를 조정합니다.
-        const offsetPosition = elementPosition - categoryContentHeight;
+            // targetElement까지의 절대 위치를 계산합니다.
+            const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
 
-        // 계산된 위치로 스크롤합니다.
-        window.scrollTo({
-            top: offsetPosition,
-            behavior: "smooth"
-        });
+            // category-content의 높이만큼 위치를 조정합니다.
+            const offsetPosition = elementPosition - categoryContentHeight;
+
+            // 계산된 위치로 스크롤합니다.
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+            });
+        }
+        // 현재 클릭된 카테고리가 화면에 완전히 보이도록 스크롤 조정
+        ensureCategoryVisible(e.currentTarget); // 여기서 this는 현재 클릭된 카테고리 요소입니다.
+
+        categoryBtn = false;
+        setTimeout( ()=>{
+            categoryBtn = true;
+        }, 1000);
     }
-    // 현재 클릭된 카테고리가 화면에 완전히 보이도록 스크롤 조정
-    ensureCategoryVisible(e.currentTarget); // 여기서 this는 현재 클릭된 카테고리 요소입니다.
 }
 
 // 카테고리 클릭 이벤트

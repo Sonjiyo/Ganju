@@ -95,3 +95,14 @@ td:last-child, th:last-child{text-align: end;}
 th{padding-bottom: 10px;color: var(--gray);font-weight: normal;}
 .info .last{border-top:1px solid var(--light-gray);padding-top:10px;}
 tr:last-child td{border-top:1px solid var(--light-gray);}
+
+.sales-list ol li{
+    border-bottom: none;
+    font-size: var(--font-small);
+    margin-top:5px;
+    color: var(--gray);
+}
+.sales-list ol li::before {
+    content: "+";
+    margin-right: 5px;
+}

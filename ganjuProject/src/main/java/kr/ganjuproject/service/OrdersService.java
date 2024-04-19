@@ -21,11 +21,11 @@ public class OrdersService {
     private final MenuOptionService menuOptionService;
     private final MenuOptionValueService menuOptionValueService;
 
-    public Map<String, Object> getRestaurantOrderData(List<Orders> list){
+    public Map<String, Object> getRestaurantOrderData(List<OrderResponseDTO> list){
         Map<String, Object> values = new HashMap<>();
 
         Long total = 0L;
-        for(Orders order : list){
+        for(OrderResponseDTO order : list){
             total += order.getPrice();
         }
 
@@ -40,14 +40,14 @@ public class OrdersService {
         return list;
     }
 
-    public List<Orders> getRestaurantOrdersWithinTimeWithoutCall(Restaurant restaurant, LocalDateTime startTime, LocalDateTime endTime) {
+    public List<OrderResponseDTO> getRestaurantOrdersWithinTimeWithoutCall(Restaurant restaurant, LocalDateTime startTime, LocalDateTime endTime) {
         List<Orders> list = ordersRepository.findByRestaurantAndDivisionNotAndRegDateBetween(restaurant, RoleOrders.CALL, startTime, endTime);
         Collections.reverse(list);
+        List<OrderResponseDTO> dtoList = new ArrayList<>();
         for(Orders order : list) {
-            order.setReview(null);
-            order.setRestaurant(null);
+            dtoList.add(convertToOrderResponseDTO(order));
         }
-        return list;
+        return dtoList;
     }
 
     public List<Orders> getRestaurantOrdersWithinTime(Restaurant restaurant, LocalDateTime startTime, LocalDateTime endTime) {

@@ -1,4 +1,4 @@
-// 숫자 증감
+        // 숫자 증감
 
 const minus = document.querySelectorAll('.minus');
 const plus = document.querySelectorAll('.plus');
@@ -68,13 +68,19 @@ function updateQuantityAndPrice(menuId, textElement, change) {
         plusButton.classList.remove('disabled-button');
     }
 }
-
-// 휴지통 아이콘 클릭 이벤트
+// 휴지통 버튼 클릭 이벤트
+let faTrash = true;
 document.querySelectorAll('.fas.fa-trash').forEach(icon => {
     icon.addEventListener('click', function() {
-        const ordersDiv = icon.closest('.orders');
-        const menuId = ordersDiv.dataset.menuId;
-        removeOrder(menuId, ordersDiv); // 주문 목록에서 해당 메뉴 제거 함수 호출
+        if(faTrash) {
+            const ordersDiv = icon.closest('.orders');
+            const menuId = ordersDiv.dataset.menuId;
+            removeOrder(menuId, ordersDiv); // 주문 목록에서 해당 메뉴 제거 함수 호출
+            faTrash = false;
+            setTimeout( ()=>{
+                faTrash = true;
+            }, 1000);
+        }
     });
 });
 
@@ -88,6 +94,9 @@ function removeOrder(menuId, ordersDiv) {
             console.log(data);
             ordersDiv.remove(); // 페이지에서 해당 주문 항목 삭제
             updateTotalOrderPrice(); // 전체 주문 가격 업데이트
+            // 버튼을 비활성화
+            document.querySelector('.submit.button').disabled = true;
+            document.querySelector('.submit.button').classList.add('disabled-button');
         })
         .catch((error) => {
             console.error('주문 항목 삭제 실패:', error);

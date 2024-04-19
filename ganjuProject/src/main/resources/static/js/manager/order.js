@@ -48,28 +48,31 @@ function filterList(type, button) {
 }
 
 //주문 승인 및 거부(삭제)
-function deleteOrder(id, btn){
+function deleteOrder(id){
     let list = document.querySelectorAll(".order-list li:has(.wait)");
 
-    fetch(`/order/${id}`, {
-        method: 'DELETE',
-    }).then(response=>{
-        return response.text();
-    }).then(data => {
-        if(data === 'ok'){
-            console.log('삭제 성공');
-            let btns = [...document.querySelectorAll('.delete')];
-            let btnIndex = btns.indexOf(btn);
-            list[btnIndex].remove();
-            let waitCount = document.querySelector('.order-state-summary li.wait .state-content span');
-            waitCount.textContent = parseInt(waitCount.textContent)-1;
-        }else{
-            console.log('삭제 실패');
-        }
-    }).catch(error => {
-        console.error('확인 실패', error);
-    });
-
+    fetch('/validRefund', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            orderId: id, // 서버 사이드에서 전달받은 주문 ID
+        }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.success);
+            if (data.success) {
+                alert('거부 처리가 완료되었습니다.');
+            } else {
+                alert('거부 처리에 실패했습니다.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('서버와의 통신 중 문제가 발생했습니다.');
+        });
 }
 
 function recognizeOrder(id, btn){
@@ -116,6 +119,10 @@ if (window.handleReceivedCall) {
 
         // order.js에서 추가 로직 구현
         console.log("order.js:", callInfo);
+        if(typeof callInfo !== 'object'){
+            const element = document.querySelector('input[id="' + callInfo + '"]');
+            element.closest('li').remove();
+        }
 
         // 이전 주문 정보를 백업
         let innerData = document.querySelector('.order-list').innerHTML;
@@ -151,7 +158,7 @@ if (window.handleReceivedCall) {
 
                 // 주문 옵션에 대한 HTML을 생성
                 e.orderOptions.forEach(en => {
-                    orderOptionsHTML += '<li>' + en.price + '원</li>\n';
+                    orderOptionsHTML += '<li>'+en.optionName + '('+en.price+')'+'원</li>\n';
                 });
 
                 // 주문 메뉴에 대한 HTML을 생성
@@ -160,7 +167,7 @@ if (window.handleReceivedCall) {
                     '                  <td>\n' +
                     '                       <p>' + e.menuName + '</p>\n' +
                     '                       <ol>\n' +
-                    '                            <li>' + e.price + '원</li>\n' +
+                    '                            <li>가격 : ' + e.price + '원</li>\n' +
                     orderOptionsHTML +
                     '                       </ol>\n' +
                     '                  </td>\n' +
@@ -176,7 +183,10 @@ if (window.handleReceivedCall) {
         // 주문 정보 테이블의 HTML을 생성
         let infoTable = callInfo.division !== "CALL" ? '<table class="info">\n' +
             '              <tr>\n' +
-            '                   <th>상품이름</th>\n' +
+            '                   <th>' +
+            '상품이름' +
+            '<input type="hidden" value="'+callInfo.id+'" class="id">'+
+            '</th>\n' +
             '                   <th>수량</th>\n' +
             '                   <th>금액</th>\n' +
             '              </tr>\n' +

@@ -1,4 +1,8 @@
 const loadMoreReviews = document.getElementById('loadMoreReviews');
+
+let menuTapBtn = true;
+let noticeTapBtn = true;
+let reviewTapBtn = true;
 // 탭 버튼 클릭 이벤트 핸들러
 function handleTabClick(e) {
     let reviewPlus = document.querySelector(".review-plus");
@@ -15,7 +19,7 @@ function handleTabClick(e) {
 
     // 클릭된 버튼과 관련된 컨텐츠 활성화
     const selectedContentId = e.target.getAttribute('data-target');
-    const selectedContent = document.querySelector(`.${selectedContentId}`);
+    const selectedContent = document.querySelector(`.` + selectedContentId);
 
     // 더보기 버튼을 리뷰 에서만 보이기
     if(selectedContentId !== 'menu-content'){
@@ -253,15 +257,6 @@ buttons.forEach(button => {
         handleTabClick(e);
         fetchTap(e);
     });
-});
-
-// 비동기로 새로 생성된 요소에 대해 이벤트 위임 사용
-categoryContent.addEventListener('click', e => {
-    if(e.target && e.target.matches('.category')){
-        // fetchTap에 전달할 올바른 매개변수를 결정합니다.
-        // 이 경우 e.target이 적절할 수 있습니다.
-        fetchTap(e); // e 대신 e.target을 전달
-    }
 });
 
 // 더보기 이벤트
