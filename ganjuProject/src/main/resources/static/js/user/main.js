@@ -3,6 +3,30 @@ const contents = document.querySelectorAll(".tab-content");
 const menusContainer = document.querySelector('.menus-container');
 const categoryContent = document.querySelector('.category-content');
 
+// 메인페이지 메뉴 슬릭 슬라이더
+$(document).ready(function(){
+    var $slider = $('.restaurant-image-slider').slick({
+        infinite: true,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 2000,
+        arrows: false, // 화살표 버튼 숨김
+        dots: false, // 도트(하단 네비게이션) 숨김
+    });
+
+    // 슬라이드 카운터 업데이트
+    $slider.on('init reInit afterChange', function (event, slick, currentSlide) {
+        var i = (currentSlide ? currentSlide : 0) + 1;
+        $('.slider-counter .current').text(i);
+        $('.slider-counter .total').text(slick.slideCount);
+    });
+
+    // 초기 슬라이드 카운터 업데이트
+    $slider.slick('setPosition');
+});
+
+
 // 화면 맨 위로 올라가는 버튼 관련
 const scrollTopBtn = document.querySelector('.scroll-to-top');
 

@@ -62,6 +62,7 @@ public class BoardController {
         Board report = new Board();
         report.setName("신고");
         report.setContent(content);
+        report.setTitle("");
         report.setRegDate(LocalDateTime.now());
         report.setBoardCategory(RoleCategory.REPORT);
         report.setRestaurant(restaurantService.findById((Long) session.getAttribute("restaurantId")).get());
