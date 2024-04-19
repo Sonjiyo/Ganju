@@ -47,6 +47,8 @@ public class MenuController {
         int restaurantTableNo = 1;
         Restaurant restaurant = restaurantService.findById(restaurantId).get();
 
+        List<CategoryDTO> images =  categoryService.findCategoriesByRestaurantId(restaurantId);
+        model.addAttribute("images", images);
         List<CategoryDTO> categories = categoryService.findCategoriesByRestaurantId(restaurantId);
         model.addAttribute("categories", categories);
         List<MenuDTO> menus = menuService.findMenusByRestaurantId(restaurantId);
@@ -55,6 +57,7 @@ public class MenuController {
         model.addAttribute("headerArgs", someMethod(true, "", true));
 //      리뷰 평균 점수
         model.addAttribute("staAve", reviewService.getAverageRating(restaurantId));
+
         session.setAttribute("restaurantId", restaurantId);
         session.setAttribute("restaurantName", restaurant.getName());
         session.setAttribute("restaurantTableNo", restaurantTableNo);
