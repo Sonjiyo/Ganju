@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="fragments/header :: header('식당 정보')"></div>
+    <link rel="stylesheet" href="/css/manager/common.css">
+    <link rel="stylesheet" href="/css/manager/restaurantInfo.css">
+    <script src="/js/manager/join.js" defer type="text/javascript"></script>
+    <script src="/js/manager/restaurantInfo.js" defer type="text/javascript"></script>
+</head>
+<body>
+<div class="innerBox">
+    <header>
+        <div>
+            <a href="/"><i class="fas fa-home"></i></a>
+        </div>
+        <p>식당 정보</p>
+        <div></div>
+    </header>
+    <div class="container">
+        <form action="/manager/restaurantInfo" method="post" encType="multipart/form-data">
+            <div class="res-logo">
+                <p>로고 등록<span class="shift8">*</span></p>
+                <label for="logo" class="logo-img">
+                    <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="logo-img" id="logoImg">
+                </label>
+                <input type="file" name="logo" id="logo" onchange="readURL(this)">
+            </div>
+            <div class="res-name">
+                <label for="name">식당 이름<span class="shift8">*</span></label>
+                <input type="text" name="name" id="name" class="line">
+            </div>
+            <div class="res-tel">
+                <label for="phone">전화번호<span class="shift8">*</span></label>
+                <input type="text" name="phone" id="phone" class="line">
+            </div>
+            <div class="res-address">
+                <label for="addressFirst">식당 주소<span class="shift8">*</span>
+                    <input type="button" value="주소 찾기" id="find" onclick="getAddress()">
+                </label>
+                <input type="text" name="addressFirst" id="addressFirst" readonly>
+                <input type="text" name="addressElse" id="addressElse" placeholder="상세 주소 입력">
+            </div>
+            <input type="button" class="button button-edit" value="수정하기" onclick="restaurantInfo(form)">
+        </form>
+    </div>
+    <footer th:replace="fragments/footer :: footer(myPage)"></footer>
+</div>
+</body>
+
+</html>

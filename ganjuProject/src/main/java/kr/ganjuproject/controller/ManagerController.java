@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import kr.ganjuproject.auth.PrincipalDetails;
 import kr.ganjuproject.dto.OrderResponseDTO;
+import kr.ganjuproject.dto.RestaurantDTO;
 import kr.ganjuproject.entity.*;
 import kr.ganjuproject.dto.UserDTO;
 import kr.ganjuproject.service.*;
@@ -22,7 +23,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
@@ -123,6 +126,35 @@ public class ManagerController {
             model.addAttribute("user", user);
         }
         return "manager/myPageEdit";
+    }
+
+    @GetMapping("/restaurantInfo")
+    public String restaurantInfo(Model model, Authentication authentication) {
+        if (authentication == null) return "redirect:/";
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof PrincipalDetails) {
+            PrincipalDetails principalDetails = (PrincipalDetails) principal;
+            Users user = principalDetails.getUser();
+            if (user.getLoginId().equals("admin")) return "redirect:/";
+            model.addAttribute("user", user);
+        }
+        return "manager/restaurantInfo";
+    }
+
+    @PostMapping("/restaurantInfo")
+    public String updateRestaurantInfo(@RequestParam MultipartFile logo, RestaurantDTO restaurantDTO, Authentication authentication, Model model) throws IOException {
+        if(authentication == null) return "redirect:/";
+        Object principal = authentication.getPrincipal();
+        Users user = ((PrincipalDetails) principal).getUser();
+        Restaurant restaurant = new Restaurant();
+        restaurant.setName(restaurantDTO.getName());
+        restaurant.setPhone(restaurantDTO.getPhone());
+        restaurant.setAddress(restaurantDTO.getAddressFirst() + " " + restaurantDTO.getAddressElse());
+        restaurant.setUser(user);
+        user.setRestaurant(restaurant);
+        restaurantService.updateRestaurant(logo, restaurant);
+        model.addAttribute("user", user);
+        return "manager/restaurantInfo";
     }
 
     @PostMapping("/update")

@@ -1,0 +1,48 @@
+.res-logo {
+    width: 100%;
+}
+
+.logo-img {
+    width: 100px;
+    height: 100px;
+}
+
+.shift8 {
+    color: var(--orange);
+}
+
+.res-name {
+    width: 100%;
+}
+
+.res-tel {
+    width: 100%;
+}
+
+.res-address {
+    width: 100%;
+}
+
+.address {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.line {
+    border: 1px solid lightgray;
+}
+
+.search {
+    border: var(--orange);
+}
+
+.edit {
+    width: 100%;
+    padding: 0 var(--padding);
+}
+
+.button-edit {
+    width: 100%;
+    border: var(--orange);
+}
