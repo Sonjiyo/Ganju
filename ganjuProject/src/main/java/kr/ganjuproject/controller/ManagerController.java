@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import kr.ganjuproject.auth.PrincipalDetails;
+import kr.ganjuproject.dto.OrderResponseDTO;
 import kr.ganjuproject.entity.*;
 import kr.ganjuproject.dto.UserDTO;
 import kr.ganjuproject.service.*;
@@ -59,7 +60,7 @@ public class ManagerController {
             LocalDateTime startTime = LocalDateTime.of(currentTime.toLocalDate(), LocalTime.MIN); // 오늘 날짜의 시작
             LocalDateTime endTime = LocalDateTime.of(currentTime.toLocalDate(), LocalTime.MAX); // 오늘 날짜의 끝
 
-            List<Orders> list = ordersService.getRestaurantOrdersWithinTimeWithoutCall(user.getRestaurant(), startTime, endTime);
+            List<OrderResponseDTO> list = ordersService.getRestaurantOrdersWithinTimeWithoutCall(user.getRestaurant(), startTime, endTime);
 
             Map<String, Object> total = ordersService.getRestaurantOrderData(list);
             model.addAttribute("user", user);

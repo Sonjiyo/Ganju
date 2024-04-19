@@ -73,7 +73,7 @@ public class OrdersController {
             LocalDateTime startTime = LocalDateTime.of(currentTime.toLocalDate(), LocalTime.MIN); // 오늘 날짜의 시작
             LocalDateTime endTime = LocalDateTime.of(currentTime.toLocalDate(), LocalTime.MAX); // 오늘 날짜의 끝
 
-            List<Orders> list = ordersService.getRestaurantOrdersWithinTimeWithoutCall(user.getRestaurant(), startTime, endTime);
+            List<OrderResponseDTO> list = ordersService.getRestaurantOrdersWithinTimeWithoutCall(user.getRestaurant(), startTime, endTime);
             Map<String, Object> total = ordersService.getRestaurantOrderData(list);
             
             model.addAttribute("list", list);
@@ -106,7 +106,7 @@ public class OrdersController {
             LocalDateTime startTime = LocalDateTime.of(date.getStart().toLocalDate(), LocalTime.MIN); // 시작 날짜
             LocalDateTime endTime = LocalDateTime.of(date.getEnd().toLocalDate(), LocalTime.MAX); // 끝 날짜
 
-            List<Orders> list = ordersService.getRestaurantOrdersWithinTimeWithoutCall(user.getRestaurant(), startTime, endTime);
+            List<OrderResponseDTO> list = ordersService.getRestaurantOrdersWithinTimeWithoutCall(user.getRestaurant(), startTime, endTime);
             Map<String, Object> total = ordersService.getRestaurantOrderData(list);
 
             // 응답에 필요한 데이터를 status와 함께 묶어서 전달
