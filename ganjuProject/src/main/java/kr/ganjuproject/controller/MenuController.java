@@ -216,7 +216,7 @@ public class MenuController {
         return "manager/editMenu";
     }
 
-    @PostMapping("/add")
+    @PostMapping("/addMenu")
     public String addMenu(@RequestParam MultipartFile image, MenuDTO menuDTO, Model model) throws IOException {
         Menu menu = new Menu();
         menu.setName(menuDTO.getName());
@@ -224,6 +224,8 @@ public class MenuController {
         menu.setInfo(menuDTO.getInfo());
         Category category = (categoryService.findById(menuDTO.getCategoryId()).orElse(null));
         menu.setCategory(category);
+        String storedFileName = menuService.uploadImage(image);
+        menu.setMenuImage(storedFileName);
         menuService.addMenu(image, menu);
         model.addAttribute("menu", menu);
         System.out.println("category = " + category);
@@ -265,7 +267,6 @@ public class MenuController {
         menu.setInfo(newInfo);
         menuService.updateMenu(menu);
         return "redirect:/category/main";
-
     }
 
     @DeleteMapping("/{id}")

@@ -2,13 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css">
+    <div th:replace="fragments/header :: header('메뉴 수정')"></div>
     <link rel="stylesheet" href="/css/manager/addMenu.css">
     <link rel="stylesheet" href="/css/manager/common.css">
     <script defer src="/js/manager/menuEdit.js"></script>
-    <script defer src="/js/fragments/footer.js"></script>
     <title>Document</title>
 </head>
 <body>

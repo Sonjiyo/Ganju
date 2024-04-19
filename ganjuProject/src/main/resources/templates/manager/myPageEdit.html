@@ -2,25 +2,20 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css">
+    <div th:replace="fragments/header :: header('마이페이지 수정')"></div>
     <link rel="stylesheet" href="/css/manager/common.css">
     <link rel="stylesheet" href="/css/manager/myPage.css">
     <script defer src="/js/manager/myPageEdit.js"></script>
-    <script defer src="/js/fragments/footer.js"></script>
     <title>Document</title>
 </head>
 <body>
 <div class="innerBox">
     <header>
         <div>
-            <a href=""><i class="fas fa-home"></i></a>
+            <a href="/"><i class="fas fa-home"></i></a>
         </div>
-        <p>마이 페이지</p>
-        <div>
-            <a href="#"></a>
-        </div>
+        <p>마이페이지 수정</p>
+        <div></div>
     </header>
     <div class="container" th:each="users:${user}">
         <div class="icon">
