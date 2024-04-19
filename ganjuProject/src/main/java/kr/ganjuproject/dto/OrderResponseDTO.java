@@ -1,5 +1,6 @@
 package kr.ganjuproject.dto;
 
+import kr.ganjuproject.entity.OrderMenu;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,4 +20,12 @@ public class OrderResponseDTO {
     private LocalDateTime regDate;
     private String division;
     private String uid;
+
+    public int getTotalQuantity() {
+        int totalQuantity = 0;
+        for (OrderMenuDTO orderMenu : orderMenus) {
+            totalQuantity += orderMenu.getQuantity();
+        }
+        return totalQuantity;
+    }
 }

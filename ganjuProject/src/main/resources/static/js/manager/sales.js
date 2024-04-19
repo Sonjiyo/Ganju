@@ -207,6 +207,7 @@ function changeOrderData(startDate, endDate){
             document.querySelector('.total-count span').textContent = data.totalCount +"건";
             document.querySelector('.total-price span').textContent = parseInt(data.totalPrice).toLocaleString() +"원";
             document.querySelector('.sales-list').innerHTML='';
+            console.log(data.list);
             data.list.forEach(e => {
                 let totalQuantity = 0;
                 e.orderMenus.forEach(en=>{
@@ -221,7 +222,7 @@ function changeOrderData(startDate, endDate){
                     let totalPrice = (en.price+optionPrice)*en.quantity;
                     let orderOptionsHTML = '';
                     en.orderOptions.forEach(ent => {
-                        orderOptionsHTML += '<li>' + ent.price + '원</li>\n';
+                        orderOptionsHTML += '<li>'+ent.optionName + '('+ent.price+')'+'원</li>\n';
                     });
 
                     orderMenusHTML +=
@@ -229,7 +230,7 @@ function changeOrderData(startDate, endDate){
                         '                  <td>\n' +
                         '                       <p>' + en.menuName + '</p>\n' +
                         '                       <ol>\n' +
-                        '                            <li>' + en.price + '원</li>\n' +
+                        '                            <li>가격 : ' + en.price + '원</li>\n' +
                         orderOptionsHTML +
                         '                       </ol>\n' +
                         '                  </td>\n' +
