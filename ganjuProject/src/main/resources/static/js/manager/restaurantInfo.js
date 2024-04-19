@@ -56,12 +56,12 @@ function readURL(input) {
     if (input.files && input.files[0]) {
         let reader = new FileReader();
         reader.onload = function (e) {
-            document.querySelector('#logoImage').src = e.target.result;
-            document.querySelector('.logo-img-upload').style.background = 'inherit';
+            document.querySelector('#logoImg').src = e.target.result;
+            document.querySelector('.logo-img').style.background = 'inherit';
         };
         reader.readAsDataURL(input.files[0]);
     } else {
-        document.querySelector('#logoImage').src = '';
-        document.querySelector('.logo-img-upload').style.background = '#c2c2c2';
+        document.querySelector('#logoImg').src = '';
+        document.querySelector('.logo-img').style.background = '#c2c2c2';
     }
 }

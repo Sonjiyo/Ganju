@@ -58,6 +58,13 @@ let menuBtnCheck = false;
 function menuCheck(form) {
     msg.textContent = '';
     if (menuBtnCheck) return false;
+    // 메뉴 카테고리 체크
+    if (!form.category.value.trim()) {
+        msg.textContent = "메뉴 카테고리를 선택해주세요";
+        document.querySelector('.option').appendChild(msg);
+        return false;
+    }
+
     // 메뉴 이미지 체크
     if (!form.img.value.trim()) {
         msg.textContent = "메뉴 이미지를 넣어주세요";
