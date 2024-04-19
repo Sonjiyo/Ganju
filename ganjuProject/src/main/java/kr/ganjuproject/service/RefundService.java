@@ -103,7 +103,7 @@ public class RefundService {
                 // 응답 본문을 JSON 객체로 파싱하고 필요한 정보를 추출/가공하여 반환
                 OrderResponseDTO dto = ordersService.convertToOrderResponseDTO(order);
 
-                messagingTemplate.convertAndSend("/topic/calls", order.getUid());
+                messagingTemplate.convertAndSend("/topic/calls", order.getId());
                 return Map.of("success", true);
             } else {
                 System.out.println("POST request not worked");
