@@ -21,14 +21,15 @@ public class RestaurantService {
 
     private final S3Uploader s3Uploader;
 
-    public List<Restaurant> getRestaurantList(){
+    public List<Restaurant> getRestaurantList() {
         List<Restaurant> restaurantList = restaurantRepository.findAll();
         Collections.reverse(restaurantList);
         return restaurantList;
     }
+
     @Transactional
     public Restaurant insertRestaurant(MultipartFile image, Restaurant restaurant) throws IOException {
-        if(!image.isEmpty()){
+        if (!image.isEmpty()) {
             String storedFileName = s3Uploader.upload(image);
             restaurant.setLogo(storedFileName);
         }
@@ -38,14 +39,23 @@ public class RestaurantService {
     public Optional<Restaurant> findById(Long id) {
         return restaurantRepository.findById(id);
     }
+
     @Transactional
-    public Restaurant save(Restaurant restaurant){
+    public Restaurant save(Restaurant restaurant) {
         return restaurantRepository.save(restaurant);
     }
 
     @Transactional
-    public void delete(Restaurant restaurant){
+    public void delete(Restaurant restaurant) {
         restaurantRepository.delete(restaurant);
     }
 
+    @Transactional
+    public Restaurant updateRestaurant(MultipartFile image, Restaurant restaurant) throws IOException {
+        if (!image.isEmpty()) {
+            String storedFileName = s3Uploader.upload(image);
+            restaurant.setLogo(storedFileName);
+        }
+        return save(restaurant);
+    }
 }
