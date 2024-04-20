@@ -73,7 +73,9 @@ public class PaymentService {
         JsonNode responseObject = objectMapper.readTree(response.getBody());
         JsonNode responsePayment = responseObject.path("response");
         int paidAmount = responsePayment.path("amount").asInt();
+        String status = responsePayment.path("status").asText();
 
-        return paidAmount == totalPrice;
+        // 결제 상태가 "paid"이고, 금액이 일치하는 경우에만 true 반환
+        return "paid".equals(status) && paidAmount == totalPrice;
     }
 }

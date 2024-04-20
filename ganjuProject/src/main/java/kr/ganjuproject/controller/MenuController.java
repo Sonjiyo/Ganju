@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -50,9 +51,10 @@ public class MenuController {
         List<CategoryDTO> images =  categoryService.findCategoriesByRestaurantId(restaurantId);
         model.addAttribute("images", images);
         List<CategoryDTO> categories = categoryService.findCategoriesByRestaurantId(restaurantId);
-        model.addAttribute("categories", categories);
         List<MenuDTO> menus = menuService.findMenusByRestaurantId(restaurantId);
         model.addAttribute("menus", menus);
+        categories = filterCategoriesWithMenus(categories,menus );
+        model.addAttribute("categories", categories);
         // 헤더 부분
         model.addAttribute("headerArgs", someMethod(true, "", true));
 //      리뷰 평균 점수
@@ -73,10 +75,18 @@ public class MenuController {
         List<CategoryDTO> categories = categoryService.findCategoriesByRestaurantId(1L);
         List<MenuDTO> menus = menuService.findMenusByRestaurantId(1L);
 
+        categories = filterCategoriesWithMenus(categories,menus );
         response.put("categories", categories);
         response.put("menus", menus);
 
         return ResponseEntity.ok(response);
+    }
+
+    // 카테고리 리스트와 메뉴 리스트를 받아, 메뉴가 있는 카테고리만을 반환하는 메서드
+    private List<CategoryDTO> filterCategoriesWithMenus(List<CategoryDTO> categories, List<MenuDTO> menus) {
+        return categories.stream()
+                .filter(category -> menus.stream().anyMatch(menu -> menu.getCategoryId().equals(category.getId())))
+                .collect(Collectors.toList());
     }
 
     // 메뉴를 선택 했을 때 보여주는 창

@@ -97,6 +97,7 @@ public class PaymentController {
         // 결제 검증 로직 수행
         boolean isPaymentValid = paymentService.verifyPayment(impUid, totalPrice);
 
+        log.info("isPaymentValid = " + isPaymentValid);
         if (isPaymentValid) {        // 주문 생성 메서드 호출
 
             // 결제 검증 성공 시, 주문 생성 로직 수행
@@ -105,8 +106,10 @@ public class PaymentController {
 
             OrderResponseDTO orderResponse = createOrders(validationRequest, session);
             messagingTemplate.convertAndSend("/topic/calls", orderResponse);
+            log.info("orderResponse = " + orderResponse);
             return "redirect:/menu/order/" +orderResponse.getId();
         } else {
+            log.info("검증실패");
             // 결제 검증 실패 시, 결제 실패 페이지로 리디렉션
             return "redirect:/menu/main";
         }
