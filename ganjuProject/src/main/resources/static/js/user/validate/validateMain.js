@@ -245,10 +245,7 @@ function menuList(data){
         menusContainer.appendChild(menuCategoryDiv);
     });
 
-    const newCategories = document.querySelectorAll('.category');
-    newCategories.forEach(category => {
-        category.addEventListener('click', categoryClickListener); // 새 리스너 추가
-    });
+    setActiveCategory();
 }
 
 // 각 버튼에 이벤트 리스너 추가

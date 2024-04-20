@@ -90,12 +90,12 @@ slider.addEventListener('mousemove', (e) => {
     slider.scrollLeft = scrollLeft - walk;
 });
 
-// 현재 활성화된 카테고리를 갱신하고 배경과 글씨 색 변경
-const categories = document.querySelectorAll('.category');
-const menuContainers = document.querySelectorAll('.menu-category');
 
 // 카테고리 버튼 색상 변경 이벤트
 function setActiveCategory() {
+    const categories = document.querySelectorAll('.category');
+    const menuContainers = document.querySelectorAll('.menu-category');
+
     let currentActiveIndex = 0;
     menuContainers.forEach((container, index) => {
         const containerTop = container.getBoundingClientRect().top;
@@ -110,6 +110,10 @@ function setActiveCategory() {
         } else {
             category.classList.remove('active');
         }
+    });
+    // 카테고리 클릭 이벤트
+    categories.forEach(category => {
+        category.addEventListener('click', categoryClickListener);
     });
 }
 
@@ -160,11 +164,6 @@ function categoryClickListener(e) {
         }, 1000);
     }
 }
-
-// 카테고리 클릭 이벤트
-categories.forEach(category => {
-    category.addEventListener('click', categoryClickListener);
-});
 
 // 페이지 로드 시 .category-content의 원래 위치를 계산하여 저장
 const stickyElement = document.querySelector('.category-content');
