@@ -88,12 +88,31 @@ public class S3Uploader {
     }
 
     public void deleteImageFromS3(String imageAddress){
+        System.out.println("imageAddress = " + imageAddress);
         String key = getKeyFromImageAddress(imageAddress);
+        System.out.println("key = " + key);
         try{
             amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, key));
         }catch (Exception e){
-            throw new IllegalArgumentException("파일 삭제 실패");
+            throw new IllegalArgumentException("파일 삭제 실패", e);
         }
+    }
+
+    public void deleteFolder(String folderKey) {
+        ListObjectsV2Request request = new ListObjectsV2Request()
+                .withBucketName(bucket)
+                .withPrefix(folderKey + "/"); // Add '/' to specify folder prefix
+
+        ListObjectsV2Result result;
+        do {
+            result = amazonS3Client.listObjectsV2(request);
+
+            for (S3ObjectSummary summary : result.getObjectSummaries()) {
+                amazonS3Client.deleteObject(bucket, summary.getKey());
+            }
+
+            request.setContinuationToken(result.getNextContinuationToken());
+        } while (result.isTruncated());
     }
 
     private String getKeyFromImageAddress(String imageAddress){

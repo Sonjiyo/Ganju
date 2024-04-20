@@ -24,7 +24,7 @@ public class HomeController {
     public String home(HttpSession session, Authentication authentication, Model model){
         //임의로 넣어놓은 어드민
         if(!managerService.getOneUser(1L).getPassword().contains("$")){
-            for(Long i = 1L; i<=3; i++){
+            for(Long i = 1L; i<=4; i++){
                 managerService.insertUser(managerService.getOneUser(i));
             }
         }
