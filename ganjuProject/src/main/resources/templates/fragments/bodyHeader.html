@@ -19,6 +19,14 @@
             <span class="cart-badge" th:if="${session.orders != null and #lists.size(session.orders) > 0}" th:text="${#lists.size(session.orders)}"></span>
         </a>
     </div>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var restaurantId = [[${session.restaurantId}]];
+        if (restaurantId == null) {
+            window.location.href = '/menu/main'; // 세션 값이 없으면 자동으로 리다이렉션
+        }
+        /*]]>*/
+    </script>
 </header>
 </body>
 </html>
