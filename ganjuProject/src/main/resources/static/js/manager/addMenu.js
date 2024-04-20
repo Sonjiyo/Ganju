@@ -78,7 +78,7 @@ function menuCheck(form) {
         return false;
     }
     // 메뉴 가격 체크
-    if (!form.menuPrice.value.trim()) {
+    if (!form.price.value.trim()) {
         msg.textContent = "메뉴 가격을 입력해주세요";
         document.querySelector('.price').appendChild(msg);
         return false;

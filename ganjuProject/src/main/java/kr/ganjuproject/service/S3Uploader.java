@@ -28,17 +28,17 @@ public class S3Uploader {
     private String bucket;
 
     // MultipartFile을 전달받아 File로 전환한 후 S3에 업로드
-    public String upload(MultipartFile image) {
+    public String upload(MultipartFile image, String dirName) {
         if(image.isEmpty() || Objects.isNull(image.getOriginalFilename())){
             throw new IllegalArgumentException("이미지가 없습니다");
         }
-        return this.uploadImage(image);
+        return this.uploadImage(image, dirName);
     }
 
-    private String uploadImage(MultipartFile image) {
+    private String uploadImage(MultipartFile image, String dirName) {
         this.validateImageFileExtention(image.getOriginalFilename());
         try {
-            return this.uploadImageToS3(image);
+            return this.uploadImageToS3(image , dirName);
         } catch (IOException e) {
             throw new IllegalArgumentException("이미지 업로드 실패");
         }
@@ -58,11 +58,11 @@ public class S3Uploader {
         }
     }
 
-    private String uploadImageToS3(MultipartFile image) throws IOException {
+    private String uploadImageToS3(MultipartFile image,String dirName) throws IOException {
         String originalFilename = image.getOriginalFilename(); //원본 파일 명
         String extention = originalFilename.substring(originalFilename.lastIndexOf(".")); //확장자 명
 
-        String s3FileName = UUID.randomUUID().toString().substring(0, 10) + originalFilename; //변경된 파일 명
+        String s3FileName = dirName + "/" +UUID.randomUUID().toString().substring(0, 10) + originalFilename; //변경된 파일 명
 
         InputStream is = image.getInputStream();
         byte[] bytes = IOUtils.toByteArray(is);
@@ -99,6 +99,7 @@ public class S3Uploader {
     }
 
     public void deleteFolder(String folderKey) {
+        log.info(folderKey);
         ListObjectsV2Request request = new ListObjectsV2Request()
                 .withBucketName(bucket)
                 .withPrefix(folderKey + "/"); // Add '/' to specify folder prefix
@@ -108,6 +109,8 @@ public class S3Uploader {
             result = amazonS3Client.listObjectsV2(request);
 
             for (S3ObjectSummary summary : result.getObjectSummaries()) {
+                log.info(summary.toString());
+                log.info(summary.getKey());
                 amazonS3Client.deleteObject(bucket, summary.getKey());
             }
 

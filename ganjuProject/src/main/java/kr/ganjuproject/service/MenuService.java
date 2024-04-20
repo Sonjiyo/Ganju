@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,6 +42,7 @@ public class MenuService {
     public List<Menu> findByRestaurantId(Long restaurantId) {
         // 리포지토리에서 메뉴 엔티티 리스트 조회
         List<Menu> menus = menuRepository.findByRestaurantId(restaurantId);
+        Collections.reverse(menus);
         // Menu 엔티티 리스트를 MenuDTO 리스트로 변환
         return menus;
     }
@@ -57,7 +59,7 @@ public class MenuService {
     @Transactional
     public Menu addMenu(MultipartFile image, Menu menu) throws IOException {
         if (!image.isEmpty()) {
-            String storedFileName = s3Uploader.upload(image);
+            String storedFileName = s3Uploader.upload(image, menu.getRestaurant().getUser().getId()+"");
             menu.setMenuImage(storedFileName);
         }
         return save(menu);
@@ -77,11 +79,14 @@ public class MenuService {
         menuRepository.save(menu);
     }
 
-    public String uploadImage(MultipartFile image) throws IOException {
-        if (!image.isEmpty()) {
-            return s3Uploader.upload(image);
-        } else {
-            throw new IllegalArgumentException("이미지 파일이 비어 있습니다");
+    @Transactional
+    public Menu deleteImage(Long id){
+        Menu menu = getOneMenu(id);
+        if(menu!= null){
+            s3Uploader.deleteImageFromS3(menu.getMenuImage());
+            menu.setMenuImage(null);
+            return save(menu);
         }
+        return null;
     }
 }

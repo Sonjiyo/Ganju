@@ -15,27 +15,25 @@
             <a href="/"><i class="fas fa-home"></i></a>
         </div>
         <p>메뉴 수정</p>
-        <div>
-            <a href="#"></a>
-        </div>
+        <div></div>
     </header>
     <div class="container">
         <div class="option">
             <label for="category">카테고리 선택</label>
             <select name="category" id="category">
-                <option value="" selected disabled>선택 안함</option>
                 <option th:each="category:${categories}"
                         th:value="${category.id}"
-                        th:text="${category.name}">
+                        th:text="${category.name}"
+                        th:selected="${menus.category eq category}">
                 </option>
             </select>
         </div>
         <div class="imgbox">
-            <P class="flex">이미지
-                <img src="#" class="img">
-            </P>
+            <label for="uploadImage" class="flex">이미지
+                <img th:src="${menus.menuImage}" class="img">
+            </label>
             <input type="file" id="uploadImage" accept="image/*" style="display: none;">
-            <button id="deleteImageButton" class="black-btn">이미지 삭제</button>
+            <button id="deleteImageButton" class="black-btn" th:onclick="'deleteImage(\'' + ${menus.id} + '\')'">이미지 삭제</button>
         </div>
         <div class="menu-name">
             <p>메뉴명</p>

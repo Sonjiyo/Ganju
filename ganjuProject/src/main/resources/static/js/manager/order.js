@@ -119,8 +119,15 @@ if (window.handleReceivedCall) {
         // order.js에서 추가 로직 구현
         console.log("order.js:", callInfo);
         if(typeof callInfo !== 'object'){
-            const element = document.querySelector('input[id="' + callInfo + '"]');
-            element.closest('li').remove();
+            const element = [...document.querySelectorAll('input.id')];
+            let idInput = null;
+            element.forEach(e=>{
+                if(e.value == callInfo){
+                    idInput = e;
+                }
+            })
+            console.log(idInput);
+            idInput.closest('li').remove();
         }
 
         // 이전 주문 정보를 백업
