@@ -41,8 +41,7 @@ public class OrdersService {
     }
 
     public List<OrderResponseDTO> getRestaurantOrdersWithinTimeWithoutCall(Restaurant restaurant, LocalDateTime startTime, LocalDateTime endTime) {
-        List<Orders> list = ordersRepository.findByRestaurantAndDivisionNotAndRegDateBetween(restaurant, RoleOrders.CALL, startTime, endTime);
-        Collections.reverse(list);
+        List<Orders> list = ordersRepository.findByRestaurantAndDivisionNotAndRegDateBetweenOrderByRegDateAsc(restaurant, RoleOrders.CALL, startTime, endTime);
         List<OrderResponseDTO> dtoList = new ArrayList<>();
         for(Orders order : list) {
             dtoList.add(convertToOrderResponseDTO(order));
@@ -51,17 +50,13 @@ public class OrdersService {
     }
 
     public List<Orders> getRestaurantOrdersWithinTime(Restaurant restaurant, LocalDateTime startTime, LocalDateTime endTime) {
-        List<Orders> list = ordersRepository.findByRestaurantAndRegDateBetween(restaurant, startTime, endTime);
-        Collections.reverse(list);
-        return list;
+        return ordersRepository.findByRestaurantAndRegDateBetweenOrderByRegDateAsc(restaurant, startTime, endTime);
     }
 
     public List<Orders> getRestaurantOrdersDivision(Restaurant restaurant, RoleOrders role){
         LocalDateTime currentTime = LocalDateTime.now();
         LocalDateTime startTime = currentTime.minusHours(24); // 현재시간으로부터 24시간 전까지
-        List<Orders> list = ordersRepository.findByRestaurantAndDivisionAndRegDateBetween(restaurant, role, startTime, currentTime);
-        Collections.reverse(list);
-        return list;
+        return ordersRepository.findByRestaurantAndDivisionAndRegDateBetweenOrderByRegDateAsc(restaurant, role, startTime, currentTime);
     }
 
     // 주문 리스트를 OrderDetails의 객체로 받아오는

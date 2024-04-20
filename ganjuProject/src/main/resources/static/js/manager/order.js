@@ -48,30 +48,32 @@ function filterList(type, button) {
 
 //주문 승인 및 거부(삭제)
 function deleteOrder(id){
-    let list = document.querySelectorAll(".order-list li:has(.wait)");
+    if(confirm("정말 삭제하시겠습니까?")) {
+        let list = document.querySelectorAll(".order-list li:has(.wait)");
 
-    fetch('/validRefund', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            orderId: id, // 서버 사이드에서 전달받은 주문 ID
-        }),
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data.success);
-            if (data.success) {
-                alert('거부 처리가 완료되었습니다.');
-            } else {
-                alert('거부 처리에 실패했습니다.');
-            }
+        fetch('/validRefund', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                orderId: id + "", // 서버 사이드에서 전달받은 주문 ID
+            }),
         })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('서버와의 통신 중 문제가 발생했습니다.');
-        });
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.success);
+                if (data.success) {
+                    alert('거부 처리가 완료되었습니다.');
+                } else {
+                    alert('거부 처리에 실패했습니다.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('서버와의 통신 중 문제가 발생했습니다.');
+            });
+    }
 }
 
 function recognizeOrder(id, btn){

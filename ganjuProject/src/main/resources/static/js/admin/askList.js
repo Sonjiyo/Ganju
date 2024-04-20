@@ -65,23 +65,25 @@ function answerBtn(id, btn){
 }
 
 function deleteAsk(id, btn){
-    fetch(`/board/${id}`, {
-        method: 'DELETE',
-    }).then(response=>{
-        return response.text();
-    }).then(data => {
-        if(data === 'ok'){
-            console.log('삭제 성공');
-            let deleteBtns = [...document.querySelectorAll('.button.delete')];
-            let btnIndex = deleteBtns.indexOf(btn);
-            let askList = document.querySelectorAll('.ask-list li');
-            askList[btnIndex].remove();
-        }else{
-            console.log('삭제 실패');
-        }
-    }).catch(error => {
-        console.error('확인 실패', error);
-    });
+    if(confirm("정말 삭제하시겠습니까?")) {
+        fetch(`/board/${id}`, {
+            method: 'DELETE',
+        }).then(response => {
+            return response.text();
+        }).then(data => {
+            if (data === 'ok') {
+                console.log('삭제 성공');
+                let deleteBtns = [...document.querySelectorAll('.button.delete')];
+                let btnIndex = deleteBtns.indexOf(btn);
+                let askList = document.querySelectorAll('.ask-list li');
+                askList[btnIndex].remove();
+            } else {
+                console.log('삭제 실패');
+            }
+        }).catch(error => {
+            console.error('확인 실패', error);
+        });
+    }
 }
 
 function deleteAnswer(id, btn) {
