@@ -42,6 +42,7 @@ public class HomeController {
         } else if(user.getRestaurant().getRecognize() == 1){
             return "redirect:/manager";
         }
+        log.info(user.getRestaurant().getRecognize()+"");
         model.addAttribute("user",user);
         return "manager/joinSuccess";
     }

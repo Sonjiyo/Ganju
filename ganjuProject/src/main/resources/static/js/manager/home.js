@@ -44,7 +44,7 @@ if (window.handleReceivedCall) {
         let waitCount = document.querySelector('.order-list li:nth-child(2) span');
         let todayCount = document.querySelector('.today-sales p:first-child span');
         let todaySales = document.querySelector('.today-sales p:last-child span').textContent;
-        let salseValue = todaySales.substring(todaySales.length-1).replaceAll(',','');
+        let salseValue = todaySales.substring(0,todaySales.length-1).replace(/,/g, '');
         console.log(salseValue);
         if(callInfo.division === "CALL"){
             callCount.textContent = parseInt(callCount.textContent) +1;

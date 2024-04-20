@@ -55,21 +55,23 @@ function recognizeRestaurant(keyId, btn){
 }
 
 function deleteUser(keyId, btn){
-    fetch(`/manager/${keyId}`, {
-        method: 'DELETE',
-    }).then(response=>{
-        return response.text();
-    }).then(data => {
-        if(data === 'ok'){
-            console.log('삭제 성공');
-            let btns = [...document.querySelectorAll('.refuse')];
-            let btnIndex = btns.indexOf(btn);
-            let restaurantList = document.querySelectorAll(".resturant-list li");
-            restaurantList[btnIndex].remove();
-        }else{
-            console.log('삭제 실패');
-        }
-    }).catch(error => {
-        console.error('확인 실패', error);
-    });
+    if(confirm("정말 삭제하시겠습니까?")){
+        fetch(`/manager/${keyId}`, {
+            method: 'DELETE',
+        }).then(response=>{
+            return response.text();
+        }).then(data => {
+            if(data === 'ok'){
+                console.log('삭제 성공');
+                let btns = [...document.querySelectorAll('.refuse')];
+                let btnIndex = btns.indexOf(btn);
+                let restaurantList = document.querySelectorAll(".resturant-list li");
+                restaurantList[btnIndex].remove();
+            }else{
+                console.log('삭제 실패');
+            }
+        }).catch(error => {
+            console.error('확인 실패', error);
+        });
+    }
 }
