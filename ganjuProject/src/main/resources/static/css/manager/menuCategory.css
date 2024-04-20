@@ -35,6 +35,14 @@
     width: 100%;
 }
 
+.up-arrow {
+    margin-right: 5px;
+}
+
+.down-arrow {
+    margin-right: 5px;
+}
+
 .content-center {
     display: flex;
     background-color: var(--white);
