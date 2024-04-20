@@ -72,12 +72,12 @@
                 <div class="menu_list-edit" th:each="menu:${menus}">
                     <div class="flex">
                         <div>
-                            <img th:src="@{/images/sample.png}" alt="메뉴 이미지" class="img">
+                            <img th:src="${menu.menuImage}" alt="메뉴 이미지" class="img">
                         </div>
                         <div class="menu_center">
                             <span class="extrasmall" th:text="${menu.category.name}"></span>
                             <p th:text="${menu.name}"></p>
-                            <span class="extrasmall" th:text="${menu.price}"></span>
+                            <span class="extrasmall" th:text="${#numbers.formatInteger(menu.price, 0, 'COMMA') + '원'}"></span>
                         </div>
                     </div>
                     <div class="navbar">

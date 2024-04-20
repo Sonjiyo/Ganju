@@ -20,7 +20,7 @@
         <form action="/menu/addMenu" method="post" enctype="multipart/form-data">
             <div class="option">
                 <label for="category">카테고리 선택</label>
-                <select name="category" id="category">
+                <select name="categoryId" id="category">
                     <option value="" selected disabled>선택 안함</option>
                     <option th:each="category:${categories}"
                             th:value="${category.id}"
@@ -36,16 +36,16 @@
             </div>
             <div class="menu-name">
                 <label for="menuName">메뉴명</label>
-                <input type="text" name="menuName" id="menuName" class="textarea">
+                <input type="text" name="name" id="menuName" class="textarea">
             </div>
             <div class="price">
-                <label for="menuPrice">가격</label>
-                <input name="menuPrice" id="menuPrice" class="visible">
+                <label for="price">가격</label>
+                <input name="price" id="price" class="visible">
                 <div class="placeholder" id="placeholder1">원</div>
             </div>
             <div class="menu-info">
                 <label for="menuInfo">정보</label>
-                <input name="menuInfo" id="menuInfo" class="bigArea">
+                <input name="info" id="menuInfo" class="bigArea">
             </div>
             <p>필수 옵션</p>
             <div class="option-l">

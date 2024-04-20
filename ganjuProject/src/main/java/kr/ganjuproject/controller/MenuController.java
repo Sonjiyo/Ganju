@@ -1,6 +1,8 @@
 package kr.ganjuproject.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import kr.ganjuproject.auth.PrincipalDetails;
 import kr.ganjuproject.dto.*;
 import kr.ganjuproject.entity.*;
 import kr.ganjuproject.service.*;
@@ -8,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -230,20 +233,24 @@ public class MenuController {
     }
 
     @PostMapping("/addMenu")
-    public String addMenu(@RequestParam MultipartFile image, MenuDTO menuDTO, Model model) throws IOException {
-        Menu menu = new Menu();
-        menu.setName(menuDTO.getName());
-        menu.setPrice(menuDTO.getPrice());
-        menu.setInfo(menuDTO.getInfo());
-        Category category = (categoryService.findById(menuDTO.getCategoryId()).orElse(null));
-        menu.setCategory(category);
-        String storedFileName = menuService.uploadImage(image);
-        menu.setMenuImage(storedFileName);
-        menuService.addMenu(image, menu);
-        model.addAttribute("menu", menu);
-        System.out.println("category = " + category);
-        System.out.println("menu = " + menu);
-        return "manager/menuCategory";
+    public String addMenu(HttpServletRequest request, @RequestParam MultipartFile img,
+                          MenuDTO menuDTO, Model model, Authentication authentication) throws IOException {
+        if(authentication != null) {
+            Object principal = authentication.getPrincipal();
+
+            Users user = ((PrincipalDetails) principal).getUser();
+            Menu menu = new Menu();
+            menu.setName(menuDTO.getName());
+            menu.setPrice(menuDTO.getPrice());
+            menu.setInfo(menuDTO.getInfo());
+            Category category = categoryService.findById(menuDTO.getCategoryId()).orElse(null);
+            menu.setCategory(category);
+            menu.setRestaurant(user.getRestaurant());
+            //String storedFileName = menuService.uploadImage(image);
+            //menu.setMenuImage(storedFileName);
+            menuService.addMenu(img, menu);
+        }
+        return "redirect:/category/main";
 
 //        try {
 //            ObjectMapper mapper = new ObjectMapper();
@@ -292,5 +299,10 @@ public class MenuController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("메뉴 삭제 중 오류가 발생했습니다 : " + e.getMessage());
         }
+    }
+
+    @DeleteMapping("/image/{id}")
+    public @ResponseBody String deleteImage(@PathVariable Long id){
+        return menuService.deleteImage(id) == null ? "no" : "ok";
     }
 }

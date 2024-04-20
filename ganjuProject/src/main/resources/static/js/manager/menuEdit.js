@@ -21,10 +21,19 @@ const menuUpdate = (id) => {
     }).catch(error => console.error('Error : ', error));
 }
 
-document.getElementById('deleteImageButton').addEventListener('click', function () {
-    const imgBox = document.querySelector('.imgbox');
-    const img = imgBox.querySelector('img');
-    if (img) {
-        imgBox.removeChild(img);
-    }
-})
+function deleteImage(id){
+    fetch(`/menu/image/${id}`, {
+        method: 'DELETE',
+    }).then(response=>{
+        return response.text();
+    }).then(data => {
+        if(data === 'ok'){
+            document.querySelector('.flex img').src='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
+            document.querySelector('#deleteImageButton').style.display='none';
+        }else{
+            console.log('삭제 실패');
+        }
+    }).catch(error => {
+        console.error('확인 실패', error);
+    });
+}

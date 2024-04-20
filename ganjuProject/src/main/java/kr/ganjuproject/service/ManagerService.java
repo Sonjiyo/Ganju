@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
 import static kr.ganjuproject.entity.RoleUsers.ROLE_MANAGER;
@@ -20,7 +21,9 @@ public class ManagerService {
     private final S3Uploader s3Uploader;
 
     public List<Users> getManagerList() {
-        return managerRepository.findByRole(ROLE_MANAGER);
+        List<Users> list = managerRepository.findByRole(ROLE_MANAGER);
+        Collections.reverse(list);
+        return list;
     }
 
     public boolean isVaildLoginId(String loginId) {
@@ -42,7 +45,8 @@ public class ManagerService {
         Users user = getOneUser(id);
         if(user == null) return;
         if(user.getRestaurant() != null){
-            s3Uploader.deleteImageFromS3(user.getRestaurant().getLogo());
+            System.out.println("id = " + id);
+            s3Uploader.deleteFolder(id+"");
         }
         managerRepository.deleteById(id);
     }

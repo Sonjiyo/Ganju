@@ -1,6 +1,8 @@
 package kr.ganjuproject.service;
 
 import kr.ganjuproject.entity.Restaurant;
+import kr.ganjuproject.entity.Users;
+import kr.ganjuproject.repository.ManagerRepository;
 import kr.ganjuproject.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import java.util.Optional;
 public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
+    private final ManagerRepository managerRepository;
 
     private final S3Uploader s3Uploader;
 
@@ -30,7 +33,7 @@ public class RestaurantService {
     @Transactional
     public Restaurant insertRestaurant(MultipartFile image, Restaurant restaurant) throws IOException {
         if (!image.isEmpty()) {
-            String storedFileName = s3Uploader.upload(image);
+            String storedFileName = s3Uploader.upload(image, restaurant.getUser().getId()+"");
             restaurant.setLogo(storedFileName);
         }
         return save(restaurant);
@@ -53,7 +56,7 @@ public class RestaurantService {
     @Transactional
     public Restaurant updateRestaurant(MultipartFile image, Restaurant restaurant) throws IOException {
         if (!image.isEmpty()) {
-            String storedFileName = s3Uploader.upload(image);
+            String storedFileName = s3Uploader.upload(image, restaurant.getId()+"");
             restaurant.setLogo(storedFileName);
         }
         return save(restaurant);
