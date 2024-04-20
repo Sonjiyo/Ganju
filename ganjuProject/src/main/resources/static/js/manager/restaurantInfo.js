@@ -16,7 +16,6 @@ function restaurantInfo(form) {
         document.querySelector('.res-logo').appendChild(msg);
         return false;
     }
-
     //식당 이름 체크
     if (!form.name.value.trim()) {
         msg.textContent = "식당 이름을 입력해주세요";
@@ -28,7 +27,6 @@ function restaurantInfo(form) {
         document.querySelector('.res-name').appendChild(msg);
         return false;
     }
-
     //전화번호 체크
     if (!form.phone.value.trim()) {
         msg.textContent = '식당 전화번호를 입력해주세요';
@@ -46,8 +44,12 @@ function restaurantInfo(form) {
         document.querySelector('.res-address').appendChild(msg);
         return false;
     }
-
-    resturantBtnCheck = true;
+    if (!form.addressElse.value.trim()) {
+        msg.textContent = "상세 주소를 입력해주세요";
+        document.querySelector('.res-address').appendChild(msg);
+        return false;
+    }
+    restaurantBtnCheck = true;
     form.submit();
 }
 
