@@ -17,6 +17,7 @@ import static kr.ganjuproject.entity.RoleUsers.ROLE_MANAGER;
 public class ManagerService {
     private final ManagerRepository managerRepository;
     private final PasswordEncoder passwordEncoder;
+    private final S3Uploader s3Uploader;
 
     public List<Users> getManagerList() {
         return managerRepository.findByRole(ROLE_MANAGER);
@@ -38,6 +39,11 @@ public class ManagerService {
 
     @Transactional
     public void deleteUser(Long id) {
+        Users user = getOneUser(id);
+        if(user == null) return;
+        if(user.getRestaurant() != null){
+            s3Uploader.deleteImageFromS3(user.getRestaurant().getLogo());
+        }
         managerRepository.deleteById(id);
     }
 
