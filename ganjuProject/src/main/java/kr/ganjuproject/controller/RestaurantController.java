@@ -43,7 +43,7 @@ public class RestaurantController {
         Restaurant restaurant = new Restaurant();
         restaurant.setName(restaurantDTO.getName());
         restaurant.setPhone(restaurantDTO.getPhone());
-        restaurant.setAddress(restaurantDTO.getAddressFirst() +" "+ restaurantDTO.getAddressElse());
+        restaurant.setAddress(restaurantDTO.getAddressFirst() +"/"+ restaurantDTO.getAddressElse());
         restaurant.setRestaurantTable(restaurantDTO.getRestaurantTable());
 
         restaurant.setUser(user);
@@ -69,7 +69,7 @@ public class RestaurantController {
     }
 
     @DeleteMapping("/{keyId}")
-    public @ResponseBody String DeleteRestaurant(@PathVariable Long keyId){
+    public @ResponseBody String deleteRestaurant(@PathVariable Long keyId){
         Optional<Restaurant> optionalRestaurant = restaurantService.findById(keyId);
         if (optionalRestaurant.isPresent()) {
             Restaurant restaurant = optionalRestaurant.get();
@@ -77,5 +77,23 @@ public class RestaurantController {
             return "ok";
         }
         return "no";
+    }
+
+    @PostMapping("update")
+    public String updateRestaurant(HttpServletRequest request, @RequestParam MultipartFile logo,
+                                   RestaurantDTO restaurantDTO, Authentication authentication, Model model)throws IOException{
+        Object principal = authentication.getPrincipal();
+
+        Users user = ((PrincipalDetails) principal).getUser();
+
+        Restaurant restaurant = user.getRestaurant();
+        restaurant.setName(restaurantDTO.getName());
+        restaurant.setPhone(restaurantDTO.getPhone());
+        restaurant.setAddress(restaurantDTO.getAddressFirst() +"/"+ restaurantDTO.getAddressElse());
+        restaurant.setRestaurantTable(restaurantDTO.getRestaurantTable());
+
+        restaurantService.deleteLogo(restaurant.getLogo());
+        restaurantService.insertRestaurant(logo, restaurant);
+        return "redirect:/manager/myPage";
     }
 }
