@@ -51,7 +51,9 @@ public class MenuController {
         int restaurantTableNo = 1;
         Restaurant restaurant = restaurantService.findById(restaurantId).get();
 
-        List<CategoryDTO> images =  categoryService.findCategoriesByRestaurantId(restaurantId);
+        List<MenuDTO> images = menuService.getMainMenus();
+        if(images.size()==0) images.add(menuService.getOneMenuDTO(1L));
+
         model.addAttribute("images", images);
         List<CategoryDTO> categories = categoryService.findCategoriesByRestaurantId(restaurantId);
         List<MenuDTO> menus = menuService.findMenusByRestaurantId(restaurantId);
@@ -383,5 +385,11 @@ public class MenuController {
     @DeleteMapping("/image/{id}")
     public @ResponseBody String deleteImage(@PathVariable Long id){
         return menuService.deleteImage(id) == null ? "no" : "ok";
+    }
+
+    @PutMapping("/mainMenu")
+    public ResponseEntity<String> setMainMenu(@RequestBody List<Long> data){
+        menuService.setMainMenu(data);
+        return ResponseEntity.ok("변경 성공");
     }
 }

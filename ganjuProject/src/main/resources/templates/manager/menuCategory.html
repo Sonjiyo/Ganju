@@ -101,28 +101,33 @@
                 <div class="content">
                     <p>대표 메뉴의 이미지는 가게 메인에 보여집니다.<br>대표 메뉴는 총 5개까지 가능합니다.</p>
                 </div>
-                <p class="content-center">대표 메뉴</p>
+                <div class="content-center">
+                    <button class="button border" onclick="selectMainMenu()">등록 하기</button>
+                    <p>대표 메뉴</p>
+                </div>
                 <div class="underline"></div>
                 <div class="menu_list-edit" th:each="menu:${menus}">
-                    <input type="checkbox" name="checkbox" th:id="'checkbox' + ${menu.id}" class="checkbox">
+                    <input type="checkbox" name="mainMenu" th:id="'checkbox' + ${menu.id}"
+                           th:value="${menu.id}" class="checkbox" th:checked="${menu.mainMenu eq 1}">
                     <label class="img-info" th:for="'checkbox' + ${menu.id}">
                         <div class="flex">
-                            <div>
-                                <img th:src="@{/images/sample.png}" alt="메뉴 이미지" class="img">
+                            <div th:if="${menu.menuImage ne null}">
+                                <img th:src="${menu.menuImage}" alt="메뉴 이미지" class="img">
                             </div>
                             <div class="menu_center">
                                 <span class="extrasmall" th:text="${menu.category.name}"></span>
                                 <p th:text="${menu.name}"></p>
-                                <span class="extrasmall" th:text="${menu.price}"></span>
+                                <span class="extrasmall" th:text="${#numbers.formatInteger(menu.price, 0, 'COMMA') + '원'}"></span>
                             </div>
                         </div>
                     </label>
                 </div>
-                <div class="content-center">
-                    <button class="button border">등록 하기</button>
-                </div>
             </div>
         </div>
+        <!-- Scroll to Top Button -->
+        <button class="scroll-to-top" aria-label="Scroll to top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
     </div>
     <footer th:replace="fragments/footer :: footer(menu)"></footer>
 </div>

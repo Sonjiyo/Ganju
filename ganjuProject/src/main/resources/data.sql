@@ -30,42 +30,42 @@ SET @categoryId4 = LAST_INSERT_ID() - 1;
 SET @categoryId5 = LAST_INSERT_ID();
 
 -- '밥류' 카테고리에 메뉴 추가
-INSERT INTO menu (name, price, category_id, menu_image, info, restaurant_id) VALUES
-('쌀밥', 20, @categoryId1, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/ssalbap.png', '찰진 흰밥', @restaurantId1),
-('콩밥', 30, @categoryId1, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/kongbap.png', '영양 가득 콩밥', @restaurantId1),
-('보리밥', 50, @categoryId1, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/boribap.png', '영양 가득 보리밥', @restaurantId1),
-('흑미밥', 60, @categoryId1, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/heukmibap.png', '구수한 흑미밥', @restaurantId1);
+INSERT INTO menu (name, price, category_id, menu_image, info, restaurant_id, main_menu) VALUES
+('쌀밥', 20, @categoryId1, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/ssalbap.png', '찰진 흰밥', @restaurantId1, 0),
+('콩밥', 30, @categoryId1, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/kongbap.png', '영양 가득 콩밥', @restaurantId1, 0),
+('보리밥', 50, @categoryId1, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/boribap.png', '영양 가득 보리밥', @restaurantId1, 0),
+('흑미밥', 60, @categoryId1, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/heukmibap.png', '구수한 흑미밥', @restaurantId1, 0);
 
 -- '국류' 카테고리에 메뉴 추가
-INSERT INTO menu (name, price, category_id, menu_image, info, restaurant_id) VALUES
-('김치찌개', 70, @categoryId2, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/kimchijjigae.png', '매콤하고 깊은 맛의 김치찌개', @restaurantId1),
-('된장찌개', 80, @categoryId2, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/doenjangjjigae.png', '구수한 된장의 풍미가 가득한 된장찌개', @restaurantId1),
-('콩나물국', 90, @categoryId2, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/kongnamulguk.png', '시원하고 깔끔한 맛의 콩나물국', @restaurantId1),
-('육개장', 90, @categoryId2, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/yukgaejang.png', '얼큰하고 진한 맛의 육개장', @restaurantId1),
-('미역국', 80, @categoryId2, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/miyeokguk.png', '영양 가득 미역국', @restaurantId1);
+INSERT INTO menu (name, price, category_id, menu_image, info, restaurant_id, main_menu) VALUES
+('김치찌개', 70, @categoryId2, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/kimchijjigae.png', '매콤하고 깊은 맛의 김치찌개', @restaurantId1, 0),
+('된장찌개', 80, @categoryId2, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/doenjangjjigae.png', '구수한 된장의 풍미가 가득한 된장찌개', @restaurantId1, 0),
+('콩나물국', 90, @categoryId2, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/kongnamulguk.png', '시원하고 깔끔한 맛의 콩나물국', @restaurantId1, 0),
+('육개장', 90, @categoryId2, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/yukgaejang.png', '얼큰하고 진한 맛의 육개장', @restaurantId1, 0),
+('미역국', 80, @categoryId2, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/miyeokguk.png', '영양 가득 미역국', @restaurantId1, 0);
 
 -- '주류' 카테고리에 메뉴 추가
-INSERT INTO menu (name, price, category_id, menu_image, info, restaurant_id) VALUES
-('콜라', 20, @categoryId3, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/cola.png', '시원하게 제공되는 콜라', @restaurantId1),
-('사이다', 20, @categoryId3, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/cider.png', '청량한 사이다', @restaurantId1),
-('환타', 20, @categoryId3, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/fanta.png', '달콤한 오렌지맛 환타', @restaurantId1),
-('소주', 40, @categoryId3, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/soju.png', '깔끔하고 시원한 소주', @restaurantId1),
-('맥주', 50, @categoryId3, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/beer.png', '상쾌한 맥주', @restaurantId1);
+INSERT INTO menu (name, price, category_id, menu_image, info, restaurant_id, main_menu) VALUES
+('콜라', 20, @categoryId3, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/cola.png', '시원하게 제공되는 콜라', @restaurantId1, 0),
+('사이다', 20, @categoryId3, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/cider.png', '청량한 사이다', @restaurantId1, 0),
+('환타', 20, @categoryId3, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/fanta.png', '달콤한 오렌지맛 환타', @restaurantId1, 0),
+('소주', 40, @categoryId3, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/soju.png', '깔끔하고 시원한 소주', @restaurantId1, 0),
+('맥주', 50, @categoryId3, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/beer.png', '상쾌한 맥주', @restaurantId1, 0);
 
 -- '반찬' 카테고리에 메뉴 추가
-INSERT INTO menu (name, price, category_id, menu_image, info, restaurant_id) VALUES
-('메밀전병', 20, @categoryId4, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/memiljeonbyeong.png', '고소한 메밀전병', @restaurantId1),
-('계란말이', 20, @categoryId4, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/eggroll.png', '부드러운 계란말이', @restaurantId1),
-('강된장', 20, @categoryId4, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/strongdoenjang.png', '집에서 만든 강된장', @restaurantId1),
-('장조림', 30, @categoryId4, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/jangjorim.png', '달콤 짭짤한 장조림', @restaurantId1);
+INSERT INTO menu (name, price, category_id, menu_image, info, restaurant_id, main_menu) VALUES
+('메밀전병', 20, @categoryId4, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/memiljeonbyeong.png', '고소한 메밀전병', @restaurantId1, 0),
+('계란말이', 20, @categoryId4, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/eggroll.png', '부드러운 계란말이', @restaurantId1, 0),
+('강된장', 20, @categoryId4, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/strongdoenjang.png', '집에서 만든 강된장', @restaurantId1, 0),
+('장조림', 30, @categoryId4, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/jangjorim.png', '달콤 짭짤한 장조림', @restaurantId1, 0);
 
 -- '요리류' 카테고리에 메뉴 추가
-INSERT INTO menu (name, price, category_id, menu_image, info, restaurant_id) VALUES
-('불고기', 90, @categoryId5, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/bulgogi.png', '달콤하고 육즙 가득한 불고기', @restaurantId1),
-('제육볶음', 100, @categoryId5, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/jeyukbokkeum.png', '매콤 달콤한 제육볶음', @restaurantId1),
-('신선로', 300, @categoryId5, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/shinseonro.png', '다양한 재료가 가득한 신선로', @restaurantId1),
-('고등어조림', 150, @categoryId5, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/mackereljorim.png', '양념이 잘 배인 고등어조림', @restaurantId1),
-('삼겹살', 120, @categoryId5, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/samgyeopsal.png', '쫄깃한 삼겹살', @restaurantId1);
+INSERT INTO menu (name, price, category_id, menu_image, info, restaurant_id, main_menu) VALUES
+('불고기', 90, @categoryId5, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/bulgogi.png', '달콤하고 육즙 가득한 불고기', @restaurantId1, 0),
+('제육볶음', 100, @categoryId5, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/jeyukbokkeum.png', '매콤 달콤한 제육볶음', @restaurantId1, 0),
+('신선로', 300, @categoryId5, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/shinseonro.png', '다양한 재료가 가득한 신선로', @restaurantId1, 0),
+('고등어조림', 150, @categoryId5, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/mackereljorim.png', '양념이 잘 배인 고등어조림', @restaurantId1, 0),
+('삼겹살', 120, @categoryId5, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/samgyeopsal.png', '쫄깃한 삼겹살', @restaurantId1, 0);
 
 -- 메뉴 옵션 추가 예시 (김치찌개에 대한 옵션)
 INSERT INTO menu_option (content, menu_id, menu_option_id) VALUES
