@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/css/manager/addMenu.css">
     <link rel="stylesheet" href="/css/manager/common.css">
     <script defer src="/js/manager/addMenu.js"></script>
+    <script defer src="/js/manager/menuModal.js"></script>
 </head>
 <body>
 <div class="innerBox">
@@ -40,55 +41,40 @@
             </div>
             <div class="price">
                 <label for="price">가격</label>
-                <input name="price" id="price" class="visible">
+                <input type="number" name="price" id="price" class="visible">
                 <div class="placeholder" id="placeholder1">원</div>
             </div>
             <div class="menu-info">
                 <label for="menuInfo">정보</label>
-                <input name="info" id="menuInfo" class="bigArea">
+                <input type="text" name="info" id="menuInfo" class="bigArea">
             </div>
-            <p>필수 옵션</p>
-            <div class="option-l">
-                <div class="title">
-                    <p class="small">매운맛</p>
-                </div>
-                <div class="contents">
-                    <label class="select">
-                        <input type="radio" name="spiciness" class="check" value="less_spicy">
-                        <span class="spicy">안맵게 해주세요</span>
-                        <span>-3000원</span>
-                    </label>
-                    <label class="select">
-                        <input type="radio" name="spiciness" class="check" value="more_spicy">
-                        <span class="spicy">맵게 해주세요</span>
-                        <span>+3000원</span>
-                    </label>
-                </div>
-                <p class="add-option-sub"><i class="fas fa-plus"></i>세부 옵션 추가</p>
-                <div class="underline-dark"></div>
-                <p class="add-option"><i class="fas fa-plus"></i>옵션 추가</p>
+            <p>옵션</p>
+            <div class="option-l" id="menuForm">
             </div>
-            <div class="modal">
+            <p class="add-option"><i class="fas fa-plus"></i>옵션 추가</p>
+            <div class="modal" style="display: none;">
                 <div class="modal-content">
-                    <div class="option-subname">
-                        <p>선택 옵션
-                            <span class="close">&times;</span>
-                        </p>
+                    <span class="close">&times;</span>
+                    <h3>옵션 추가</h3>
+                    <div>
+                        <label for="option_type">옵션 타입:</label>
+
+
+                        <select id="option_type">
+                            <option value="REQUIRED">필수</option>
+                            <option value="OPTIONAL">선택</option>
+                        </select>
                     </div>
-                    <div class="choice-option">
-                        <input name="option_name" id="option_name" placeholder="옵션 이름">
-                        <button class="button border">옵션 추가</button>
+                    <div>
+                        <label for="option_name">옵션 이름:</label>
+                        <input type="text" id="option_name">
                     </div>
-                    <input name="option-subname" id="option-subname" placeholder="세부 옵션 이름"
-                              class="option-subname">
-                    <div class="modal-price">
-                        <label for="price2">가격</label>
-                        <input name="price2" id="price2" class="visible">
-                        <div class="placeholder" id="placeholder2">원</div>
+                    <h4>세부 옵션</h4>
+                    <div id="option_values_container">
+                        <!-- 세부 옵션 입력 필드가 동적으로 추가됩니다 -->
                     </div>
-                    <div class="div-add-option-sub">
-                        <button class="button border">세부 옵션 추가</button>
-                    </div>
+                    <button type="button" id="add_option_value">세부 옵션 추가</button>
+                    <button type="button" id="submit_option">옵션 추가 완료</button>
                 </div>
             </div>
             <input type="button" class="button border select-option" value="메뉴 등록" onclick="menuCheck(form)">
