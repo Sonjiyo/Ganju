@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -74,6 +75,13 @@ public class MenuService {
         return menuRepository.findById(id).orElse(null);
     }
 
+    public MenuDTO getOneMenuDTO(Long id) {
+        Menu menu = menuRepository.findById(id).orElse(null);
+        MenuDTO menuDTO = new MenuDTO();
+        menuDTO.setMenuImage(menu.getMenuImage());
+        return menuDTO;
+    }
+
     @Transactional
     public void updateMenu(Menu menu) {
         menuRepository.save(menu);
@@ -118,5 +126,31 @@ public class MenuService {
         dto.setOptions(optionDTOs);
 
         return dto;
+    }
+
+    @Transactional
+    public void setMainMenu(List<Long> ids){
+        List<Menu> menus = menuRepository.findByMainMenu(1);
+        for(Menu m : menus){
+            m.setMainMenu(0);
+            save(m);
+        }
+        for(Long id : ids){
+            Menu menu = getOneMenu(id);
+            if(menu == null) return;
+            menu.setMainMenu(1);
+            save(menu);
+        }
+    }
+
+    public List<MenuDTO> getMainMenus(){
+        List<Menu> menus = menuRepository.findByMainMenu(1);
+        List<MenuDTO> menuList = new ArrayList<>();
+        for(Menu m : menus){
+            MenuDTO menu = new MenuDTO();
+            menu.setMenuImage(m.getMenuImage());
+            menuList.add(menu);
+        }
+        return menuList;
     }
 }

@@ -32,4 +32,5 @@ public class Menu {
     @OneToMany(mappedBy = "menu", orphanRemoval = true, cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<MenuOption> options = new ArrayList<>();
+    private int mainMenu = 0;
 }

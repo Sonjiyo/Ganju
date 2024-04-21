@@ -61,4 +61,8 @@ public class RestaurantService {
         }
         return save(restaurant);
     }
+
+    public void deleteLogo(String imageUrl){
+        s3Uploader.deleteImageFromS3(imageUrl);
+    }
 }
