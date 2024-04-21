@@ -89,4 +89,34 @@ public class MenuService {
         }
         return null;
     }
+
+    // 메뉴 엔티티를 MenuDTO로 변환하는 메소드
+    public MenuDTO convertToMenuDTO(Menu menu) {
+        MenuDTO dto = new MenuDTO();
+        dto.setId(menu.getId());
+        dto.setName(menu.getName());
+        dto.setInfo(menu.getInfo());
+        dto.setPrice(menu.getPrice());
+        dto.setMenuImage(menu.getMenuImage());
+        dto.setCategoryId(menu.getCategory().getId());
+
+        // 메뉴 옵션을 DTO 형태로 변환하여 추가
+        List<MenuDTO.OptionDTO> optionDTOs = menu.getOptions().stream().map(option -> {
+            MenuDTO.OptionDTO optionDTO = new MenuDTO.OptionDTO();
+            optionDTO.setType(option.getMenuOptionId().toString());
+            optionDTO.setName(option.getContent());
+            List<MenuDTO.OptionDTO.DetailDTO> detailDTOs = option.getValues().stream().map(value -> {
+                MenuDTO.OptionDTO.DetailDTO detailDTO = new MenuDTO.OptionDTO.DetailDTO();
+                detailDTO.setName(value.getContent());
+                detailDTO.setPrice(value.getPrice());
+                return detailDTO;
+            }).collect(Collectors.toList());
+            optionDTO.setDetails(detailDTOs);
+            return optionDTO;
+        }).collect(Collectors.toList());
+
+        dto.setOptions(optionDTOs);
+
+        return dto;
+    }
 }
