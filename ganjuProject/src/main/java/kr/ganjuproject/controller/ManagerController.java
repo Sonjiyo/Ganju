@@ -190,6 +190,7 @@ public class ManagerController {
     @GetMapping("/manager/notice")
     public String noticeMain(Model model, RoleCategory roleCategory) {
         List<Board> boards = boardService.findByRoleCategory(roleCategory);
+        Collections.reverse(boards);
         model.addAttribute("boards", boards);
         return "manager/notice";
     }
