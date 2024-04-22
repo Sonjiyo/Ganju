@@ -64,4 +64,8 @@ public class CategoryService {
         categoryRepository.save(category1);
         categoryRepository.save(category2);
     }
+
+    public boolean isCategoryNameUnique(String categoryName) {
+        return categoryRepository.existsByName(categoryName);
+    }
 }

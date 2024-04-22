@@ -142,6 +142,22 @@ document.getElementById("addCategoryBtn").addEventListener("click", async functi
         alert("카테고리 이름을 적어주세요");
         return;
     }
+    const duplicateCheckResponse = await fetch("/category/checkDuplicate", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({name: categoryName})
+    });
+    if (!duplicateCheckResponse.ok) {
+        alert("중복 확인에 실패하였습니다");
+        return;
+    }
+    const duplicateCheckResult = await duplicateCheckResponse.json();
+    if (duplicateCheckResult.isDuplicate) {
+        alert("이미 같은 이름의 카테고리가 존재합니다");
+        return;
+    }
     const categoryData = {
         name: categoryName,
     }
@@ -179,7 +195,7 @@ scrollTopBtn.addEventListener('click', () => {
     });
 });
 
-function selectMainMenu(){
+function selectMainMenu() {
     // 대표메뉴 설정
     const checkboxes = document.querySelectorAll('input[type=checkbox][name="mainMenu"]:checked');
     const checkedValues = [];

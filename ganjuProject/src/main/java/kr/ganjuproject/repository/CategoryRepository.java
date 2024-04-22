@@ -11,4 +11,6 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     List<Category> findByRestaurantId(Long restaurantId);
 
     List<Category> findByRestaurantIdOrderByTurnAsc(Long restaurantId);
+
+    boolean existsByName(String name);
 }

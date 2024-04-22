@@ -75,7 +75,7 @@
                         </div>
                         <div class="menu_center">
                             <span class="extrasmall" th:text="${menu.category.name}"></span>
-                            <p th:text="${menu.name}"></p>
+                            <b th:text="${menu.name}"></b>
                             <span class="extrasmall" th:text="${#numbers.formatInteger(menu.price, 0, 'COMMA') + '원'}"></span>
                         </div>
                     </div>
@@ -115,7 +115,7 @@
                             </div>
                             <div class="menu_center">
                                 <span class="extrasmall" th:text="${menu.category.name}"></span>
-                                <p th:text="${menu.name}"></p>
+                                <b th:text="${menu.name}"></b>
                                 <span class="extrasmall" th:text="${#numbers.formatInteger(menu.price, 0, 'COMMA') + '원'}"></span>
                             </div>
                         </div>

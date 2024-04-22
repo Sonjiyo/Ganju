@@ -56,25 +56,23 @@
                 <div class="modal-content">
                     <span class="close">&times;</span>
                     <h3>옵션 추가</h3>
-                    <div>
+                    <div class="margin">
                         <label for="option_type">옵션 타입:</label>
-
-
                         <select id="option_type">
                             <option value="REQUIRED">필수</option>
                             <option value="OPTIONAL">선택</option>
                         </select>
                     </div>
-                    <div>
+                    <div class="margin">
                         <label for="option_name">옵션 이름:</label>
                         <input type="text" id="option_name">
                     </div>
-                    <h4>세부 옵션</h4>
+                    <h4 class="margin">세부 옵션</h4>
                     <div id="option_values_container">
                         <!-- 세부 옵션 입력 필드가 동적으로 추가됩니다 -->
                     </div>
-                    <button type="button" id="add_option_value">세부 옵션 추가</button>
-                    <button type="button" id="submit_option">옵션 추가 완료</button>
+                    <button type="button" id="add_option_value" class="button">세부 옵션 추가</button>
+                    <button type="button" id="submit_option" class="button">옵션 추가 완료</button>
                 </div>
             </div>
             <input type="button" class="button border select-option" value="메뉴 등록" onclick="menuCheck(form)">

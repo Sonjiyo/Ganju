@@ -35,6 +35,12 @@
     width: 100%;
 }
 
+.menu_center {
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px;
+}
+
 .up-arrow {
     margin-right: 5px;
 }

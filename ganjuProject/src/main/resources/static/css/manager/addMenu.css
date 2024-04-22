@@ -106,7 +106,29 @@ select {
 .add-option {
     display: flex;
     font-size: var(--font-small);
-    margin: var(--padding);
+    margin: var(--padding) 0;
+}
+
+.margin {
+    margin: 10px 0;
+}
+
+.option-value {
+    margin-bottom: 10px;
+}
+
+.option-header {
+    display: flex;
+    justify-content: space-around;
+}
+
+.detail {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.detail input {
+    width: 200px;
 }
 
 .choice-option {
