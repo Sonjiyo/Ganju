@@ -1,6 +1,6 @@
 function deleteUser(keyId){
     if(confirm("정말 탈퇴하시겠습니까?")){
-        fetch(`/manager/${keyId}`, {
+        fetch(`/user/${keyId}`, {
             method: 'DELETE',
         }).then(response=>{
             return response.text();
