@@ -105,4 +105,13 @@ public class CategoryController {
             return ResponseEntity.status(500).body(response);
         }
     }
+
+    @PostMapping("/checkDuplicate")
+    public ResponseEntity<Map<String, Boolean>> checkDuplicateCategory(@RequestBody Map<String, String> requestBody) {
+        String categoryName = requestBody.get("name");
+        boolean isDuplicate = categoryService.isCategoryNameUnique(categoryName);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("isDuplicate", isDuplicate);
+        return ResponseEntity.ok(response);
+    }
 }
