@@ -161,3 +161,49 @@ document.getElementById("addCategoryBtn").addEventListener("click", async functi
         }
     }).catch(error => console.log(error));
 });
+
+//맨 위로 올라가는 버튼
+const scrollTopBtn = document.querySelector('.scroll-to-top');
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 100) { // 사용자가 100px 이상 스크롤하면 버튼 표시
+        scrollTopBtn.style.display = 'flex';
+    } else {
+        scrollTopBtn.style.display = 'none';
+    }
+});
+
+scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
+
+function selectMainMenu(){
+    // 대표메뉴 설정
+    const checkboxes = document.querySelectorAll('input[type=checkbox][name="mainMenu"]:checked');
+    const checkedValues = [];
+    checkboxes.forEach((checkbox) => {
+        checkedValues.push(parseInt(checkbox.value)); // 문자열을 숫자로 변환
+    });
+
+    fetch('/menu/mainMenu', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(checkedValues)
+    })
+        .then(response => {
+            if (response.ok) {
+                alert('변경 되었습니다');
+            } else {
+                throw new Error('변경 실패');
+            }
+        })
+        .catch(error => {
+            // 오류 처리
+            console.error('There was a problem with your fetch operation:', error);
+        });
+
+}

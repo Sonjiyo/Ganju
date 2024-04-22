@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,6 +43,7 @@ public class MenuService {
     public List<Menu> findByRestaurantId(Long restaurantId) {
         // 리포지토리에서 메뉴 엔티티 리스트 조회
         List<Menu> menus = menuRepository.findByRestaurantId(restaurantId);
+        Collections.reverse(menus);
         // Menu 엔티티 리스트를 MenuDTO 리스트로 변환
         return menus;
     }
@@ -57,7 +60,7 @@ public class MenuService {
     @Transactional
     public Menu addMenu(MultipartFile image, Menu menu) throws IOException {
         if (!image.isEmpty()) {
-            String storedFileName = s3Uploader.upload(image);
+            String storedFileName = s3Uploader.upload(image, menu.getRestaurant().getUser().getId()+"");
             menu.setMenuImage(storedFileName);
         }
         return save(menu);
@@ -72,16 +75,82 @@ public class MenuService {
         return menuRepository.findById(id).orElse(null);
     }
 
+    public MenuDTO getOneMenuDTO(Long id) {
+        Menu menu = menuRepository.findById(id).orElse(null);
+        MenuDTO menuDTO = new MenuDTO();
+        menuDTO.setMenuImage(menu.getMenuImage());
+        return menuDTO;
+    }
+
     @Transactional
     public void updateMenu(Menu menu) {
         menuRepository.save(menu);
     }
 
-    public String uploadImage(MultipartFile image) throws IOException {
-        if (!image.isEmpty()) {
-            return s3Uploader.upload(image);
-        } else {
-            throw new IllegalArgumentException("이미지 파일이 비어 있습니다");
+    @Transactional
+    public Menu deleteImage(Long id){
+        Menu menu = getOneMenu(id);
+        if(menu!= null){
+            s3Uploader.deleteImageFromS3(menu.getMenuImage());
+            menu.setMenuImage(null);
+            return save(menu);
         }
+        return null;
+    }
+
+    // 메뉴 엔티티를 MenuDTO로 변환하는 메소드
+    public MenuDTO convertToMenuDTO(Menu menu) {
+        MenuDTO dto = new MenuDTO();
+        dto.setId(menu.getId());
+        dto.setName(menu.getName());
+        dto.setInfo(menu.getInfo());
+        dto.setPrice(menu.getPrice());
+        dto.setMenuImage(menu.getMenuImage());
+        dto.setCategoryId(menu.getCategory().getId());
+
+        // 메뉴 옵션을 DTO 형태로 변환하여 추가
+        List<MenuDTO.OptionDTO> optionDTOs = menu.getOptions().stream().map(option -> {
+            MenuDTO.OptionDTO optionDTO = new MenuDTO.OptionDTO();
+            optionDTO.setType(option.getMenuOptionId().toString());
+            optionDTO.setName(option.getContent());
+            List<MenuDTO.OptionDTO.DetailDTO> detailDTOs = option.getValues().stream().map(value -> {
+                MenuDTO.OptionDTO.DetailDTO detailDTO = new MenuDTO.OptionDTO.DetailDTO();
+                detailDTO.setName(value.getContent());
+                detailDTO.setPrice(value.getPrice());
+                return detailDTO;
+            }).collect(Collectors.toList());
+            optionDTO.setDetails(detailDTOs);
+            return optionDTO;
+        }).collect(Collectors.toList());
+
+        dto.setOptions(optionDTOs);
+
+        return dto;
+    }
+
+    @Transactional
+    public void setMainMenu(List<Long> ids){
+        List<Menu> menus = menuRepository.findByMainMenu(1);
+        for(Menu m : menus){
+            m.setMainMenu(0);
+            save(m);
+        }
+        for(Long id : ids){
+            Menu menu = getOneMenu(id);
+            if(menu == null) return;
+            menu.setMainMenu(1);
+            save(menu);
+        }
+    }
+
+    public List<MenuDTO> getMainMenus(){
+        List<Menu> menus = menuRepository.findByMainMenu(1);
+        List<MenuDTO> menuList = new ArrayList<>();
+        for(Menu m : menus){
+            MenuDTO menu = new MenuDTO();
+            menu.setMenuImage(m.getMenuImage());
+            menuList.add(menu);
+        }
+        return menuList;
     }
 }

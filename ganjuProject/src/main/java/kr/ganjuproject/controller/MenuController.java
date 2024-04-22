@@ -1,6 +1,8 @@
 package kr.ganjuproject.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import kr.ganjuproject.auth.PrincipalDetails;
 import kr.ganjuproject.dto.*;
 import kr.ganjuproject.entity.*;
 import kr.ganjuproject.service.*;
@@ -8,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -48,7 +51,9 @@ public class MenuController {
         int restaurantTableNo = 1;
         Restaurant restaurant = restaurantService.findById(restaurantId).get();
 
-        List<CategoryDTO> images =  categoryService.findCategoriesByRestaurantId(restaurantId);
+        List<MenuDTO> images = menuService.getMainMenus();
+        if(images.size()==0) images.add(menuService.getOneMenuDTO(1L));
+
         model.addAttribute("images", images);
         List<CategoryDTO> categories = categoryService.findCategoriesByRestaurantId(restaurantId);
         List<MenuDTO> menus = menuService.findMenusByRestaurantId(restaurantId);
@@ -225,27 +230,68 @@ public class MenuController {
         List<CategoryDTO> categories = categoryService.findCategoriesByRestaurantId(1L);
         model.addAttribute("categories", categories);
         Menu menus = menuService.findById(id).orElse(null);
-        model.addAttribute("menus", menus);
+
+        MenuDTO menus2 = menuService.convertToMenuDTO(menus);
+        model.addAttribute("menus", menus2);
         return "manager/editMenu";
     }
 
     @PostMapping("/addMenu")
-    public String addMenu(@RequestParam MultipartFile image, MenuDTO menuDTO, Model model) throws IOException {
-        Menu menu = new Menu();
-        menu.setName(menuDTO.getName());
-        menu.setPrice(menuDTO.getPrice());
-        menu.setInfo(menuDTO.getInfo());
-        Category category = (categoryService.findById(menuDTO.getCategoryId()).orElse(null));
-        menu.setCategory(category);
-        String storedFileName = menuService.uploadImage(image);
-        menu.setMenuImage(storedFileName);
-        menuService.addMenu(image, menu);
-        model.addAttribute("menu", menu);
-        System.out.println("category = " + category);
-        System.out.println("menu = " + menu);
-        return "manager/menuCategory";
+    public String addMenu(HttpServletRequest request, @RequestParam MultipartFile img,
+                          MenuDTO menuDTO, Model model, Authentication authentication) throws IOException {
+        if(authentication != null) {
+            Object principal = authentication.getPrincipal();
 
-//        try {
+            Users user = ((PrincipalDetails) principal).getUser();
+            Menu menu = new Menu();
+            menu.setName(menuDTO.getName());
+            menu.setPrice(menuDTO.getPrice());
+            menu.setInfo(menuDTO.getInfo());
+            Category category = categoryService.findById(menuDTO.getCategoryId()).orElse(null);
+            menu.setCategory(category);
+            menu.setRestaurant(user.getRestaurant());
+
+            log.info("menuDTO ={}" + menuDTO);
+            log.info("menuDTO.getOptions()" + menuDTO.getOptions());
+            if (menuDTO.getOptions() != null) {
+                for (MenuDTO.OptionDTO optionDTO : menuDTO.getOptions()) {
+                    // 옵션의 타입과 이름이 유효한지 확인합니다.
+                    if (optionDTO.getType() != null && optionDTO.getName() != null) {
+                        MenuOption menuOption = new MenuOption();
+                        try {
+                            RoleMenuOption roleMenuOption = RoleMenuOption.valueOf(optionDTO.getType());
+                            menuOption.setMenuOptionId(roleMenuOption);
+                            menuOption.setContent(optionDTO.getName());
+                            menuOption.setMenu(menu); // 메뉴에 옵션 연결
+                        } catch (IllegalArgumentException e) {
+                            // RoleMenuOption.valueOf에서 예외가 발생하는 경우, 이 옵션을 무시합니다.
+                            continue;
+                        }
+
+                        // 세부 옵션 정보 처리
+                        for (MenuDTO.OptionDTO.DetailDTO detail : optionDTO.getDetails()) {
+                            if (detail.getName() != null) {
+                                MenuOptionValue menuOptionValue = new MenuOptionValue();
+                                menuOptionValue.setContent(detail.getName());
+                                menuOptionValue.setPrice(detail.getPrice());
+                                menuOptionValue.setMenuOption(menuOption); // 옵션에 세부 옵션 연결
+
+                                // 메뉴 옵션에 세부 옵션 추가
+                                menuOption.getValues().add(menuOptionValue);
+                            }
+                        }
+
+                        // 메뉴에 옵션 추가
+                        menu.getOptions().add(menuOption);
+                    }
+                }
+            }
+
+            menuService.addMenu(img, menu);
+        }
+        return "redirect:/category/main";
+    }
+    //        try {
 //            ObjectMapper mapper = new ObjectMapper();
 //            Map<String, String> input = mapper.readValue(menuData, new TypeReference<Map<String, String>>() {});
 //            // 받아온 레스토랑 ID를 사용하여 해당 레스토랑에 속한 카테고리를 데이터베이스에서 조회
@@ -267,18 +313,60 @@ public class MenuController {
 //        } catch (Exception e) {
 //            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("메뉴 등록에 실패하였습니다");
 //        }
-    }
+    @PostMapping("/updateMenu")
+    public String updateMenu(@RequestParam MultipartFile img,
+                          MenuDTO menuDTO, Authentication authentication) throws IOException {
+        if(authentication != null) {
+            Object principal = authentication.getPrincipal();
 
-    @PostMapping("/updateMenu/{id}")
-    public String updateMenu(@RequestBody Map<String, String> requestBody, @PathVariable Long id) {
-        String newName = requestBody.get("name");
-        String newPrice = requestBody.get("price");
-        String newInfo = requestBody.get("info");
-        Menu menu = menuService.getOneMenu(id);
-        menu.setName(newName);
-        menu.setPrice(Integer.parseInt(newPrice));
-        menu.setInfo(newInfo);
-        menuService.updateMenu(menu);
+            Users user = ((PrincipalDetails) principal).getUser();
+            Menu menu = new Menu();
+            menu.setId(menuDTO.getId());
+            menu.setName(menuDTO.getName());
+            menu.setPrice(menuDTO.getPrice());
+            menu.setInfo(menuDTO.getInfo());
+            Category category = categoryService.findById(menuDTO.getCategoryId()).orElse(null);
+            menu.setCategory(category);
+            menu.setRestaurant(user.getRestaurant());
+
+            log.info("menuDTO ={}" + menuDTO);
+            log.info("menuDTO.getOptions()" + menuDTO.getOptions());
+            if (menuDTO.getOptions() != null) {
+                for (MenuDTO.OptionDTO optionDTO : menuDTO.getOptions()) {
+                    // 옵션의 타입과 이름이 유효한지 확인합니다.
+                    if (optionDTO.getType() != null && optionDTO.getName() != null) {
+                        MenuOption menuOption = new MenuOption();
+                        try {
+                            RoleMenuOption roleMenuOption = RoleMenuOption.valueOf(optionDTO.getType());
+                            menuOption.setMenuOptionId(roleMenuOption);
+                            menuOption.setContent(optionDTO.getName());
+                            menuOption.setMenu(menu); // 메뉴에 옵션 연결
+                        } catch (IllegalArgumentException e) {
+                            // RoleMenuOption.valueOf에서 예외가 발생하는 경우, 이 옵션을 무시합니다.
+                            continue;
+                        }
+
+                        // 세부 옵션 정보 처리
+                        for (MenuDTO.OptionDTO.DetailDTO detail : optionDTO.getDetails()) {
+                            if (detail.getName() != null) {
+                                MenuOptionValue menuOptionValue = new MenuOptionValue();
+                                menuOptionValue.setContent(detail.getName());
+                                menuOptionValue.setPrice(detail.getPrice());
+                                menuOptionValue.setMenuOption(menuOption); // 옵션에 세부 옵션 연결
+
+                                // 메뉴 옵션에 세부 옵션 추가
+                                menuOption.getValues().add(menuOptionValue);
+                            }
+                        }
+
+                        // 메뉴에 옵션 추가
+                        menu.getOptions().add(menuOption);
+                    }
+                }
+            }
+
+            menuService.addMenu(img, menu);
+        }
         return "redirect:/category/main";
     }
 
@@ -292,5 +380,16 @@ public class MenuController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("메뉴 삭제 중 오류가 발생했습니다 : " + e.getMessage());
         }
+    }
+
+    @DeleteMapping("/image/{id}")
+    public @ResponseBody String deleteImage(@PathVariable Long id){
+        return menuService.deleteImage(id) == null ? "no" : "ok";
+    }
+
+    @PutMapping("/mainMenu")
+    public ResponseEntity<String> setMainMenu(@RequestBody List<Long> data){
+        menuService.setMainMenu(data);
+        return ResponseEntity.ok("변경 성공");
     }
 }

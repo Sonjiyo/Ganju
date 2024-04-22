@@ -1,13 +1,3 @@
-// 옵션 추가 버튼 클릭 시 모달 창 열기
-document.querySelector('.add-option').addEventListener('click', function () {
-    document.querySelector('.modal').style.display = 'block';
-});
-
-// 모달 창 닫기
-document.querySelector('.close').addEventListener('click', function () {
-    document.querySelector('.modal').style.display = 'none';
-});
-
 // 버튼 클릭 이벤트 핸들러 함수
 // document.getElementById("addMenuButton").addEventListener("click", async function () {
 //     // 새로운 메뉴 데이터 생성 (이 부분은 실제로 사용자로부터 데이터를 수집하는 방법에 따라 달라질 수 있습니다.)
@@ -78,7 +68,7 @@ function menuCheck(form) {
         return false;
     }
     // 메뉴 가격 체크
-    if (!form.menuPrice.value.trim()) {
+    if (!form.price.value.trim()) {
         msg.textContent = "메뉴 가격을 입력해주세요";
         document.querySelector('.price').appendChild(msg);
         return false;

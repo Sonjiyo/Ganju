@@ -136,7 +136,9 @@ public class ManagerController {
             PrincipalDetails principalDetails = (PrincipalDetails) principal;
             Users user = principalDetails.getUser();
             if (user.getLoginId().equals("admin")) return "redirect:/";
-            model.addAttribute("user", user);
+            model.addAttribute("restaurant", user.getRestaurant());
+            model.addAttribute("mainAddress", user.getRestaurant().getAddress().split("/")[0]);
+            model.addAttribute("subAddress", user.getRestaurant().getAddress().split("/")[1]);
         }
         return "manager/restaurantInfo";
     }
