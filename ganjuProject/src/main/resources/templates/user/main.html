@@ -54,7 +54,7 @@
                     <div class="menu-category" th:each="category : ${categories}" th:id="'menu-category-' + ${category.id}" th:data-category-id="${category.id}" >
                         <div class="category-name" th:text="${category.name}"></div>
                         <div class="menus" th:each="menu : ${menus}">
-                            <div th:if="${menu.categoryId} == ${category.id}" class="menu" th:onclick="'location.href=\'/menu/info?id=' + ${menu.id} + '\''">
+                            <div th:if="${menu.categoryId} == ${category.id}" class="menu" th:onclick="'location.href=\'/user/info?id=' + ${menu.id} + '\''">
                                 <div class="image" th:if="${menu.menuImage ne null}">
                                     <img th:src="${menu.menuImage}" alt="메뉴 이미지" class="restaurant-image">
                                 </div>

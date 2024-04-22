@@ -8,7 +8,7 @@ function updateValidSessionQuantity(menuId, newQuantity){
     console.log(menuId);
     console.log(newQuantity);
     // 서버에 수량 변경 요청 보내기
-    fetch('/updateValidQuantity',{
+    fetch('/user/updateValidQuantity',{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ document.querySelectorAll('.fas.fa-trash').forEach(icon => {
 
 function removeOrder(menuId, ordersDiv) {
     // 서버에 주문 항목 삭제 요청 보내기
-    fetch(`/removeValidOrder?menuId=${menuId}`, { // URL에 menuId를 쿼리 매개변수로 추가
+    fetch(`/user/removeValidOrder?menuId=${menuId}`, { // URL에 menuId를 쿼리 매개변수로 추가
         method: 'POST',
     })
         .then(response => response.json())
@@ -172,6 +172,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // 메뉴 추가 버튼 클릭 이벤트
     const menuPlus = document.querySelector(".menu-plus");
     menuPlus.addEventListener('click', () => {
-        location.href = '/menu/main';
+        location.href = '/user/main';
     });
 });

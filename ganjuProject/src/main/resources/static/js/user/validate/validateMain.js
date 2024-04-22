@@ -41,7 +41,7 @@ let currentPage = 0;
 function fetchTap(e){
     const target = e.target.getAttribute('data-target').split("-")[0];
     const capitalizedTarget = target.charAt(0).toUpperCase() + target.slice(1);
-    let url = `/${target}/validateMenu${capitalizedTarget}`;
+    let url = `/user/validateMenu${capitalizedTarget}`;
 
     // 리뷰 탭일 경우, 현재 페이지 번호를 URL에 포함
     if(target === 'review'){
@@ -208,7 +208,7 @@ function menuList(data){
             const menuDiv = document.createElement('div');
             menuDiv.className = 'menu';
             menuDiv.onclick = function() {
-                window.location.href = '/menu/info?id=' + menu.id;
+                window.location.href = '/user/info?id=' + menu.id;
             };
 
             const imageDiv = document.createElement('div');
@@ -267,7 +267,8 @@ document.getElementById('loadMoreReviews').addEventListener('click', e =>{
 // 리뷰 불러오기 함수 수정
 function fetchValidate(active) {
     const capitalizedTarget = active.charAt(0).toUpperCase() + active.slice(1);
-    fetch(`/${active}/validateMenu${capitalizedTarget}?page=${currentPage}`)
+    let url = `/user/validateMenu${capitalizedTarget}?page=${currentPage}`;
+    fetch(url)
         .then(response => response.json())
         .then(data => {
             if(active === 'board'){

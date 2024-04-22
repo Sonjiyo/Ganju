@@ -23,11 +23,11 @@ import java.util.NoSuchElementException;
 
 @Controller
 @Slf4j
-@RequestMapping("/review")
 @RequiredArgsConstructor
 public class ReviewController {
     private final ReviewService reviewService;
-    @GetMapping("main")
+
+    @GetMapping("/review/main")
     public String review(Model model, Authentication authentication) {
         if (authentication == null) return "redirect:/";
         Object principal = authentication.getPrincipal();
@@ -44,10 +44,11 @@ public class ReviewController {
             model.addAttribute("starAvg", starAvg);
             model.addAttribute("reviewCount", reviewCount);
         }
+
         return "manager/review";
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/review/{id}")
     public ResponseEntity<String> deleteReview(@PathVariable Long id) {
         try {
             reviewService.deleteReview(id);
@@ -59,8 +60,9 @@ public class ReviewController {
         }
     }
 
+    // 유저
     // 비동기로 데이터 보내기
-    @GetMapping("/validateMenuReview")
+    @GetMapping("/user/validateMenuReview")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> validateReview(@RequestParam(defaultValue = "0") int page) {
         System.out.println("비동기 리뷰");

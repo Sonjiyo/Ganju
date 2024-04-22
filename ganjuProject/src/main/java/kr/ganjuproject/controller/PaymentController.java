@@ -39,8 +39,9 @@ public class PaymentController {
     // controller 에서 그냥 불러와서 써지네?
     private final SimpMessagingTemplate messagingTemplate;
 
+    // 유저
     // 결재 하고 저장하는 부분
-    @PostMapping("/validImpUid")
+    @PostMapping("/user/validImpUid")
     public ResponseEntity<?> order(@RequestBody PaymentValidationRequest validationRequest, HttpSession session) {
         OrderResponseDTO dto = createOrders(validationRequest, session);
 
@@ -50,8 +51,9 @@ public class PaymentController {
         response.put("success", true);
         return ResponseEntity.ok(response);
     }
+    // 유저
     // 비동기 환불처리
-    @PostMapping("/validRefund")
+    @PostMapping("/user/validRefund")
     public ResponseEntity<?> refundOrder(@RequestBody Map<String, Object> payload) throws IOException {
         String reason = "테스트용"; // 환불 사유
         Long orderId = Long.valueOf((String) payload.get("orderId"));
@@ -68,14 +70,15 @@ public class PaymentController {
         // "success" 키의 값이 true인지 확인하여 성공 여부를 판단
         Boolean success = (Boolean) refundResult.get("success");
         if (Boolean.TRUE.equals(success)) { // 성공 여부 확인
-            return ResponseEntity.ok().body(Map.of("success", true, "message", "환불 처리가 완료되었습니다."));
+            return ResponseEntity.ok().body(Map.of("success", true, "message", (String)refundResult.get("message")));
         } else {
-            return ResponseEntity.badRequest().body(Map.of("success", false, "message", "환불 처리에 실패했습니다."));
+            return ResponseEntity.badRequest().body(Map.of("success", false, "message", (String)refundResult.get("message")));
         }
     }
 
+    // 유저
     // 모바일 결재 때문에 세션에 값 미리 넣어두려고 만든 비동기 어쩌구
-    @PostMapping("/addValidSession")
+    @PostMapping("/user/addValidSession")
     public ResponseEntity<?> verifyPayment(@RequestBody PaymentValidationRequest validationRequest, HttpSession session) {
 
         session.setAttribute("contents", validationRequest.getContents());
@@ -88,7 +91,8 @@ public class PaymentController {
         return ResponseEntity.ok(response); // HTTP 200 OK 상태 코드와 함께 응답 데이터 반환
     }
 
-    @GetMapping("/payment/verify")
+    // 유저
+    @GetMapping("/user/payment/verify")
     public String  verifyPayment(@RequestParam("imp_uid") String impUid, HttpSession session) throws IOException {
         // 세션에서 저장된 데이터 가져오기
         int totalPrice = (int) session.getAttribute("totalPrice");
@@ -107,13 +111,14 @@ public class PaymentController {
             OrderResponseDTO orderResponse = createOrders(validationRequest, session);
             messagingTemplate.convertAndSend("/topic/calls", orderResponse);
             log.info("orderResponse = " + orderResponse);
-            return "redirect:/menu/order/" +orderResponse.getId();
+            return "redirect:/user/order/" +orderResponse.getId();
         } else {
             log.info("검증실패");
             // 결제 검증 실패 시, 결제 실패 페이지로 리디렉션
-            return "redirect:/menu/main";
+            return "redirect:/user/main";
         }
     }
+
 
     // 중복된 함수를 여러번 돌려기 위해 만든
     public OrderResponseDTO createOrders(PaymentValidationRequest validationRequest, HttpSession session){

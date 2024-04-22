@@ -45,14 +45,14 @@ function requestPay() {
             // buyer_tel: "010-1234-5678", // 구매자 전화번호
             // buyer_addr: "서울특별시 강남구 삼성동",
             // buyer_postcode: "123-456", // 구매자 우편번호
-            m_redirect_url: "http://ganju.pe.kr:8081/payment/verify" // 모바일 결제 후 리디렉션될 URL
-            // m_redirect_url: "http://localhost:8081/payment/verify" // 모바일 결제 후 리디렉션될 URL
+            // m_redirect_url: "http://ganju.pe.kr:8081/user/payment/verify" // 모바일 결제 후 리디렉션될 URL
+            m_redirect_url: "http://localhost:8081/user/payment/verify" // 모바일 결제 후 리디렉션될 URL
         }, function (rsp) {
             if (rsp.success) {
                 // 결재 금액과 실제 금액이 같다면
                 if (rsp.paid_amount == totalPayMoney) {
                     // 결제 성공 시 로직
-                    fetch("/validImpUid", {
+                    fetch("/user/validImpUid", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -82,31 +82,31 @@ function requestPay() {
                                     stompClient.send("/app/calls", {}, JSON.stringify(orderInfo));
                                 }
                                 // 서버에서 결제 검증 성공 후 리디렉션할 페이지로 이동
-                                location.href = "/menu/order/" + data.order.id;
+                                location.href = "/user/order/" + data.order.id;
                             } else {
                                 // 실패 로직 처리, 예: 사용자에게 알림
                                 alert("결제 검증에 실패했습니다: " + data.message);
                                 // 필요한 경우 환불 처리 로직 추가
                                 validRefund(orderId);
-                                location.href = "/menu/main";
+                                location.href = "/user/main";
                             }
                         })
                         .catch(error => {
                             // 오류 처리 로직
                             alert("결제 검증에 실패했습니다. 다시 시도해주세요.");
                             validRefund(orderId);
-                            location.href = "/menu/main";
+                            location.href = "/user/main";
                         });
                 } else {
                     alert("결제 검증에 실패했습니다. 금액이 맞지 않습니다");
                     validRefund(orderId);
-                    location.href = "/menu/main";
+                    location.href = "/user/main";
                 }
             } else {
                 // 결제 실패 시 로직,
                 alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
                 validRefund(orderId);
-                location.href = "/menu/main";
+                location.href = "/user/main";
             }
         });
 
@@ -119,7 +119,7 @@ function requestPay() {
 // 환불 처리 함수
 
 function validRefund(orderId){
-    fetch('/validRefund', {
+    fetch('/user/validRefund', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -131,26 +131,26 @@ function validRefund(orderId){
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert('환불 처리가 완료되었습니다.');
-                location.href = "/menu/main";
+                alert(data.message);
+                location.href = "/user/main";
                 // 환불 처리 후 페이지 리디렉션 또는 UI 업데이트
             } else {
-                alert('환불 처리에 실패했습니다.');
-                location.href = "/menu/main";
+                alert(data.message);
+                location.href = "/user/main";
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('서버와의 통신 중 문제가 발생했습니다.');
-            location.href = "/menu/main";
+            alert(error.message);
+            location.href = "/user/main";
         });
 
-    location.href = "/menu/main";
+    location.href = "/user/main";
 }
 
 // 모바일 결재 때문에 session에 가격하고 요구사항 저장하는 비동기 로직 추가
 function addValidSession(contents){
-    fetch('/addValidSession', {
+    fetch('/user/addValidSession', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -168,12 +168,12 @@ function addValidSession(contents){
             } else {
                 console.log('session 저장 실패.');
                 alert('session 저장 실패.');
-                location.href = "/menu/main";
+                location.href = "/user/main";
             }
         })
         .catch(error => {
             console.error('Error:', error);
             alert('서버와의 통신 중 문제가 발생했습니다.');
-            location.href = "/menu/main";
+            location.href = "/user/main";
         });
 }

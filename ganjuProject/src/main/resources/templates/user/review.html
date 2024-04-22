@@ -10,7 +10,7 @@
 <div class="innerBox">
     <header th:replace="~{fragments/bodyHeader :: bodyHeader(${headerArgs})}"></header>
     <div class="container">
-        <form id="reviewForm" action="/menu/review" method="post">
+        <form id="reviewForm" action="/user/review" method="post">
             <input type="hidden" name="orderId" class="orderId" th:value="${orderId}">
             <div class="restaurant-name" th:text="${session.restaurantName}"></div>
             <div class="stars">
