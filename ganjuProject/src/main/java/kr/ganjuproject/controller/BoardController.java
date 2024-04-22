@@ -72,7 +72,7 @@ public class BoardController {
     }
 
     //문의내역 페이지
-    @GetMapping("/board/askList")
+    @GetMapping("/manager/askList")
     public String askListPage(Authentication authentication, Model model){
         if (authentication == null) return "redirect:/";
         Object principal = authentication.getPrincipal();
@@ -89,7 +89,7 @@ public class BoardController {
     }
 
     //문의하기 페이지
-    @GetMapping("/board/ask")
+    @GetMapping("/manager/ask")
     public String addAskPage(Model model){
         model.addAttribute("date", LocalDateTime.now());
         return "manager/addAsk";
@@ -107,7 +107,7 @@ public class BoardController {
 
             boardService.addQuestion(user.getRestaurant(), title, content);
         }
-        return "redirect:/board/askList";
+        return "redirect:/manager/askList";
     }
 
     //문의 답변

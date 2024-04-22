@@ -36,7 +36,7 @@
                 <p>오늘의 매출<span th:text="${#numbers.formatInteger(orderPrice, 0, 'COMMA') + '원'}">121,121,122원</span></p>
             </div>
             <div class="order">
-                <p onclick="location.href='/orders'">주문 현황 <span>(24시 기준 내역만 확인 가능)</span></p>
+                <p onclick="location.href='/manager/orders'">주문 현황 <span>(24시 기준 내역만 확인 가능)</span></p>
                 <ul class="order-list">
                     <li>
                         <p>호출</p>
@@ -53,12 +53,12 @@
                 </ul>
             </div>
             <div class="direct-url">
-                <a href="/category/main">메뉴 관리</a>
-                <a href="/review/main">리뷰 관리</a>
+                <a href="/manager/menu">메뉴 관리</a>
+                <a href="/manager/review/main">리뷰 관리</a>
                 <a href="/manager/notice">공지 관리</a>
             </div>
             <div class="qna">
-                <button onclick="location.href='/board/askList'">1 대 1 문의 남기기</button>
+                <button onclick="location.href='/manager/askList'">1 대 1 문의 남기기</button>
             </div>
             <div class="warning">
                 <p>경고 횟수</p>

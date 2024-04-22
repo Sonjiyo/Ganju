@@ -31,7 +31,7 @@ public class OrdersController {
     private final OrdersService ordersService;
     private final RestaurantService restaurantService;
 
-    @GetMapping("/orders")
+    @GetMapping("/manager/orders")
     public String orderPage(Authentication authentication, Model model){
         if(authentication == null) return "redirect:/";
         Object principal = authentication.getPrincipal();
@@ -59,7 +59,7 @@ public class OrdersController {
         return "redirect:/";
     }
 
-    @GetMapping("/sales")
+    @GetMapping("/manager/sales")
     public String sales(Authentication authentication, Model model){
         if(authentication == null) return "redirect:/";
         Object principal = authentication.getPrincipal();

@@ -171,7 +171,7 @@ document.getElementById("addCategoryBtn").addEventListener("click", async functi
         if (response.ok) {
             alert("카테고리 등록 성공");
             console.log("1 : " + categoryName);
-            window.location.href = "/category/main";
+            window.location.href = "/manager/menu";
         } else {
             alert("카테고리 등록 실패");
         }
