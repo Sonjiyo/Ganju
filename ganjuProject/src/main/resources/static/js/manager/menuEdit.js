@@ -6,7 +6,7 @@ function deleteImage(id){
         return response.text();
     }).then(data => {
         if(data === 'ok'){
-            document.querySelector('.flex img').src='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
+            document.querySelector('.flex img').src='https://ganju-test.s3.ap-northeast-2.amazonaws.com/noImage.png';
             document.querySelector('#deleteImageButton').style.display='none';
         }else{
             console.log('삭제 실패');
