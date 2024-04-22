@@ -37,6 +37,14 @@
     margin: 10px;
 }
 
+.review-delete {
+    display: flex;
+    top: -1.5em;
+    right: 0.5rem;
+    position: relative;
+    flex-direction: row-reverse;
+}
+
 .star {
     display: flex;
 }
