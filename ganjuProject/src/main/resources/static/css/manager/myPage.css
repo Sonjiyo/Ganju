@@ -81,3 +81,10 @@
 .upbtn>button, .downbtn>button{flex:1;font-size: var(--font-content);}
 .button-info{margin-left: var(--padding);}
 .downbtn>button:first-child{margin-right: var(--padding);}
+
+input{width: 100%;}
+input:read-only{background:var(--light-gray);}
+input:read-only:focus{outline: none;}
+input[type="button"]{
+    background: var(--orange);
+}

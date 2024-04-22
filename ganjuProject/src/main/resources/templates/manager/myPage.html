@@ -44,7 +44,7 @@
         </div>
         <div class="downbtn">
             <button class="button-etc buttons" onclick="location.href='/logout'">로그아웃</button>
-            <button class="button-etc buttons">회원탈퇴</button>
+            <button class="button-etc buttons" th:onclick="'deleteUser(\'' + ${user.id} + '\')'">회원탈퇴</button>
         </div>
     </div>
     <footer th:replace="fragments/footer :: footer(myPage)"></footer>

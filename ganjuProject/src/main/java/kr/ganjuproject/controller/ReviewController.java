@@ -1,14 +1,17 @@
 package kr.ganjuproject.controller;
 
+import kr.ganjuproject.auth.PrincipalDetails;
 import kr.ganjuproject.dto.ReviewDTO;
 import kr.ganjuproject.entity.Board;
 import kr.ganjuproject.entity.Review;
+import kr.ganjuproject.entity.Users;
 import kr.ganjuproject.service.BoardService;
 import kr.ganjuproject.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,14 +26,25 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class ReviewController {
     private final ReviewService reviewService;
+
     @GetMapping("/review/main")
-    public String review(Model model) {
-        List<Review> reviews = reviewService.findAll();
-        double starAvg = reviewService.getAverageRating(1L);
-        long reviewCount = reviewService.countReviews();
-        model.addAttribute("reviews", reviews);
-        model.addAttribute("starAvg", starAvg);
-        model.addAttribute("reviewCount", reviewCount);
+    public String review(Model model, Authentication authentication) {
+        if (authentication == null) return "redirect:/";
+        Object principal = authentication.getPrincipal();
+
+        if (principal instanceof PrincipalDetails) {
+            PrincipalDetails principalDetails = (PrincipalDetails) principal;
+            Users user = principalDetails.getUser();
+            if (user.getLoginId().equals("admin")) return "redirect:/";
+
+            List<Review> reviews = reviewService.findAll();
+            double starAvg = reviewService.getAverageRating(user.getRestaurant().getId());
+            long reviewCount = reviewService.countReviews();
+            model.addAttribute("reviews", reviews);
+            model.addAttribute("starAvg", starAvg);
+            model.addAttribute("reviewCount", reviewCount);
+        }
+
         return "manager/review";
     }
 
