@@ -2,50 +2,38 @@
     margin-top: 20px;
     margin-bottom: 100px;
 }
-
-.icon {
-    display: flex;
-    width: 100px;
-    height: 100px;
-    justify-content: center;
-    flex-direction: column;
+.container>div{
+    width: 100%;
+    text-align: left;
+    padding: var(--padding);
+}
+.container>div.icon {
+    width: 120px;
+    height: 120px;
     margin-bottom: 10px;
 }
+.container>div.icon img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
-.line {
+.container>div.line {
+    width: auto;
+    display: inline-block;
     border: 1px solid lightgray;
-    width: 139px;
-    height: 41px;
     text-align: center;
     align-content: center;
+    padding:10px;
+    border-radius: var(--radius);
 }
 
-.id {
-    display: flex;
-    width: 100%;
-    text-align: left;
-    padding: var(--padding);
-    flex-direction: column;
-}
-
-.etc {
-    display: flex;
-    width: 100%;
-    text-align: left;
-    padding: var(--padding);
-    flex-direction: column;
-}
-
-.id_line {
-    height: 47px;
-    border: 1px solid lightgray;
-    background-color: lightgray;
-}
-
-.etc_line {
-    height: 47px;
+.container>div>div{
+    border-radius: var(--radius);
+    padding:10px;
     border: 1px solid lightgray;
 }
+.container>div>p{margin-bottom: 10px;}
 
 .button {
     border: var(--orange);
@@ -79,21 +67,17 @@
     border-radius: var(--radius);
     color: var(--light-gray);
     cursor: pointer;
+    border: 1px solid var(--light-gray);
 }
+.button-etc:hover{background: var(--light-gray);color: var(--white);}
 
-.buttons {
-    width: 160px;
-    height: 45px;
-}
-
-.upbtn {
+.container>div.upbtn, .container>div.downbtn {
     width: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+    align-items: center;
+    padding:10px 20px;
 }
-
-.downbtn {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-}
+.upbtn>button, .downbtn>button{flex:1;font-size: var(--font-content);}
+.button-info{margin-left: var(--padding);}
+.downbtn>button:first-child{margin-right: var(--padding);}
