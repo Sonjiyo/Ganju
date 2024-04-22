@@ -214,7 +214,7 @@ function menuList(data){
             const imageDiv = document.createElement('div');
             imageDiv.className = 'image';
             const img = document.createElement('img');
-            img.src = '/images/sample.png'; // 여기는 실제 메뉴 이미지 URL을 사용해야 함
+            img.src = menu.menuImage; // 여기는 실제 메뉴 이미지 URL을 사용해야 함
             img.alt = '메뉴 이미지';
             img.classList.add("restaurant-image"); // 이 부분을 추가합니다.
             imageDiv.appendChild(img);
