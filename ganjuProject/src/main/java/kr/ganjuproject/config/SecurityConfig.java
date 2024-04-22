@@ -44,13 +44,9 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(
                 authz -> authz
-                        .requestMatchers("/css/**", "/js/**", "/images/**", "/error").permitAll()
-                        .requestMatchers("/user/**", "/app/calls", "/topic/calls","/","/manager/join","/manager/join/",
-                                "manager/join","/manager/join/{loginId}","/email/{mail}").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/restaurant/{keyId}").hasAnyRole("ADMIN", "MANAGER")
-                        .requestMatchers(HttpMethod.DELETE, "/board/{keyId}").hasAnyRole("ADMIN", "MANAGER")
                         .requestMatchers("/admin/**").hasAnyRole("ADMIN")
-                        .anyRequest().hasAnyRole("MANAGER")
+                        .requestMatchers("/manager/**").hasAnyRole("MANAGER")
+                        .anyRequest().permitAll()
 
         ).formLogin(
                 form->{

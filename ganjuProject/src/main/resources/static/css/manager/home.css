@@ -30,6 +30,7 @@
     display: block;
     font-size: var(--font-big);
     font-weight: bold;
+    color: var(--black);
 }
 
 /* order */

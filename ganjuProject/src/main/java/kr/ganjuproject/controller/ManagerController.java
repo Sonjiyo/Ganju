@@ -33,7 +33,6 @@ import java.util.regex.Pattern;
 
 @Controller
 @Slf4j
-@RequestMapping("/manager")
 @RequiredArgsConstructor
 public class ManagerController {
     @Autowired
@@ -47,7 +46,7 @@ public class ManagerController {
     private static final String PHONE_REGEX = "^\\d{3}-\\d{4}-\\d{4}$";
     private static final Pattern PHONE_PATTERN = Pattern.compile(PHONE_REGEX);
 
-    @GetMapping("")
+    @GetMapping("/manager")
     public String main(Authentication authentication, Model model) {
         if (authentication == null) return "redirect:/";
         Object principal = authentication.getPrincipal();
@@ -79,12 +78,12 @@ public class ManagerController {
         return "manager/home";
     }
 
-    @GetMapping("/join")
+    @GetMapping("/user/join")
     public String join() {
         return "manager/join";
     }
 
-    @PostMapping("/join")
+    @PostMapping("/user/join")
     public @ResponseBody String insertUser(@RequestBody UserDTO userDTO) {
         Users user = new Users();
         user.setLoginId(userDTO.getLoginId());
@@ -97,12 +96,12 @@ public class ManagerController {
         return "";
     }
 
-    @GetMapping("join/{loginId}")
+    @GetMapping("/user/join/{loginId}")
     public @ResponseBody String validUsernameCheck(@PathVariable(value = "loginId") String loginId) {
         return managerService.isVaildLoginId(loginId) ? "ok" : "no";
     }
 
-    @GetMapping("myPage")
+    @GetMapping("/manager/myPage")
     public String myPage(Model model, Authentication authentication) {
         if (authentication == null) return "redirect:/";
         Object principal = authentication.getPrincipal();
@@ -115,7 +114,7 @@ public class ManagerController {
         return "manager/myPage";
     }
 
-    @GetMapping("myPageEdit")
+    @GetMapping("/manager/myPageEdit")
     public String myPageEdit(Model model, Authentication authentication) {
         if (authentication == null) return "redirect:/";
         Object principal = authentication.getPrincipal();
@@ -128,7 +127,7 @@ public class ManagerController {
         return "manager/myPageEdit";
     }
 
-    @GetMapping("/restaurantInfo")
+    @GetMapping("/manager/restaurantInfo")
     public String restaurantInfo(Model model, Authentication authentication) {
         if (authentication == null) return "redirect:/";
         Object principal = authentication.getPrincipal();
@@ -143,7 +142,7 @@ public class ManagerController {
         return "manager/restaurantInfo";
     }
 
-    @PostMapping("/restaurantInfo")
+    @PostMapping("/manager/restaurantInfo")
     public String updateRestaurantInfo(@RequestParam MultipartFile logo, RestaurantDTO restaurantDTO, Authentication authentication, Model model) throws IOException {
         if(authentication == null) return "redirect:/";
         Object principal = authentication.getPrincipal();
@@ -159,7 +158,7 @@ public class ManagerController {
         return "manager/restaurantInfo";
     }
 
-    @PostMapping("/update")
+    @PostMapping("/manager/update")
     public String update(@RequestBody Map<String, String> requestBody, Authentication authentication) {
         String inputPassword = requestBody.get("password");
         String inputPhone = requestBody.get("phone");
@@ -182,34 +181,35 @@ public class ManagerController {
         }
     }
 
-    @DeleteMapping("/{keyId}")
+    @DeleteMapping("user/{keyId}")
     public @ResponseBody String DeleteManager(@PathVariable Long keyId) {
         managerService.deleteUser(keyId);
         return "ok";
     }
 
-    @GetMapping("/notice")
+    @GetMapping("/manager/notice")
     public String noticeMain(Model model, RoleCategory roleCategory) {
         List<Board> boards = boardService.findByRoleCategory(roleCategory);
+        Collections.reverse(boards);
         model.addAttribute("boards", boards);
         return "manager/notice";
     }
 
-    @GetMapping("/addNotice")
+    @GetMapping("/manager/addNotice")
     public String addNotice(Model model) {
         List<Board> boards = boardService.findAll();
         model.addAttribute("boards", boards);
         return "manager/addNotice";
     }
 
-    @GetMapping("/editNotice/{id}")
+    @GetMapping("/manager/editNotice/{id}")
     public String editNotice(Model model, @PathVariable Long id) {
         Board boards = boardService.findById(id).orElse(null);
         model.addAttribute("boards", boards);
         return "manager/editNotice";
     }
 
-    @PostMapping("/addNotice")
+    @PostMapping("/manager/addNotice")
     public ResponseEntity<String> addNotice(@RequestBody Map<String, String> noticeData, Authentication authentication) {
         try {
             String loggedInUsername = authentication.getName();
@@ -235,7 +235,7 @@ public class ManagerController {
         }
     }
 
-    @PostMapping("/updateNotice/{id}")
+    @PostMapping("/manager/updateNotice/{id}")
     public String updateNotice(@RequestBody Map<String, String> requestBody, @PathVariable Long id) {
         String newTitle = requestBody.get("title");
         String newContents = requestBody.get("contents");
@@ -246,7 +246,7 @@ public class ManagerController {
         return "redirect:/manager/notice";
     }
 
-    @DeleteMapping("/notice/{id}")
+    @DeleteMapping("/manager/notice/{id}")
     public ResponseEntity<String> deleteNotice(@PathVariable Long id) {
         try {
             boardService.deleteBoard(id);

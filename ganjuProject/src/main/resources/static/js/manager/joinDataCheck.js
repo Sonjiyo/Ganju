@@ -15,7 +15,7 @@ function validLoginId(form){
     }
 
     const loginId = form.querySelector('#loginId').value;
-    fetch(`/manager/join/${loginId}`, {
+    fetch(`/user/join/${loginId}`, {
         method: 'GET',
     }).then(response=>{
         return response.text();
@@ -235,7 +235,7 @@ function verificationCheck(form){
 
     emailValue = form.email.value;
 
-    fetch('/manager/join', {
+    fetch('/user/join', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

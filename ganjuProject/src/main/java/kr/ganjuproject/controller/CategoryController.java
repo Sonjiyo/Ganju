@@ -24,14 +24,13 @@ import java.util.*;
 
 @Controller
 @Slf4j
-@RequestMapping("/category")
 @RequiredArgsConstructor
 public class CategoryController {
     private final MenuService menuService;
     private final CategoryService categoryService;
     private final RestaurantService restaurantService;
 
-    @GetMapping("/main")
+    @GetMapping("/manager/menu")
     public String menuCategory(Model model, Authentication authentication) {
         if (authentication == null) return "redirect:/";
         Object principal = authentication.getPrincipal();
@@ -51,14 +50,7 @@ public class CategoryController {
         return "manager/menuCategory";
     }
 
-    @GetMapping("/add")
-    public String addCategory(Model model) {
-        List<Category> categories = categoryService.findByRestaurantId(1L);
-        model.addAttribute("categories", categories);
-        return "manager/menuCategory";
-    }
-
-    @PostMapping(value = "/add")
+    @PostMapping(value = "/category/add")
     public ResponseEntity<String> addCategory(@RequestBody Map<String, String> category, Authentication authentication) {
         try {
             Object principal = authentication.getPrincipal();
@@ -83,7 +75,7 @@ public class CategoryController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/category/{id}")
     public ResponseEntity<String> deleteCategory(@PathVariable Long id) {
         try {
             Optional<Category> categoryOptional = categoryService.findById(id);
@@ -98,7 +90,7 @@ public class CategoryController {
         }
     }
 
-    @PostMapping(value = "/swapTurn")
+    @PostMapping(value = "/category/swapTurn")
     public ResponseEntity<Map<String, String>> swapTurn(@RequestBody Map<String, Object> requestBody) {
         Long id1 = Long.parseLong(requestBody.get("id1").toString());
         Long id2 = Long.parseLong(requestBody.get("id2").toString());
@@ -123,7 +115,7 @@ public class CategoryController {
         }
     }
 
-    @PostMapping("/checkDuplicate")
+    @PostMapping("/category/checkDuplicate")
     public ResponseEntity<Map<String, Boolean>> checkDuplicateCategory(@RequestBody Map<String, String> requestBody) {
         String categoryName = requestBody.get("name");
         boolean isDuplicate = categoryService.isCategoryNameUnique(categoryName);

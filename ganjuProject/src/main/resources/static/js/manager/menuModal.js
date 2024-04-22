@@ -9,7 +9,7 @@ document.querySelector('.close').addEventListener('click', function () {
 });
 
 // 세부 옵션 추가 로직
-document.getElementById('add_option_value').addEventListener('click', function() {
+document.getElementById('add_option_value').addEventListener('click', function () {
     const container = document.getElementById('option_values_container');
     const newField = document.createElement('div');
     newField.classList.add('option-value'); // 이 클래스를 추가
@@ -21,14 +21,14 @@ document.getElementById('add_option_value').addEventListener('click', function()
 });
 
 // 세부 옵션 제거 기능
-document.addEventListener('click', function(e) {
+document.addEventListener('click', function (e) {
     if (e.target.classList.contains('remove_option_value')) {
         e.target.parentElement.remove();
     }
 });
 
 // '옵션 추가 완료' 버튼 클릭 이벤트 핸들러
-document.getElementById('submit_option').addEventListener('click', function() {
+document.getElementById('submit_option').addEventListener('click', function () {
     // 옵션 타입, 옵션 이름, 세부 옵션 데이터 수집
     const optionType = document.getElementById('option_type').value;
     const optionName = document.getElementById('option_name').value;
@@ -109,7 +109,9 @@ function addOptionToForm(optionType, optionName, details) {
     // 옵션 삭제 버튼 추가
     const removeButton = document.createElement('button');
     removeButton.textContent = '옵션 삭제';
-    removeButton.onclick = function() { form.removeChild(optionDiv); };
+    removeButton.onclick = function () {
+        form.removeChild(optionDiv);
+    };
     optionDiv.appendChild(removeButton);
 
     form.appendChild(optionDiv);
