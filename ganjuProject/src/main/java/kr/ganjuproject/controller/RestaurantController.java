@@ -20,18 +20,12 @@ import java.util.Optional;
 
 @Controller
 @Slf4j
-@RequestMapping("/restaurant")
 @RequiredArgsConstructor
 public class RestaurantController {
 
     private final RestaurantService restaurantService;
 
-    @GetMapping("join")
-    public String restaurantPage(){
-        return "manager/joinRestaurant";
-    }
-
-    @PostMapping("join")
+    @PostMapping("/restaurant/join")
     public String insertRestaurant(HttpServletRequest request, @RequestParam MultipartFile logo,
                                    RestaurantDTO restaurantDTO, Authentication authentication, Model model) throws IOException {
         if(authentication == null) return "home/home";
@@ -54,7 +48,7 @@ public class RestaurantController {
         return "manager/joinSuccess";
     }
 
-    @PutMapping("recognize/{keyId}")
+    @PutMapping("/restaurant/recognize/{keyId}")
     public @ResponseBody String recognizeRestaurant(@PathVariable Long keyId){
         Optional<Restaurant> optionalRestaurant = restaurantService.findById(keyId);
         if (optionalRestaurant.isPresent()) {
@@ -68,7 +62,7 @@ public class RestaurantController {
         return "ok";
     }
 
-    @DeleteMapping("/{keyId}")
+    @DeleteMapping("/restaurant/{keyId}")
     public @ResponseBody String deleteRestaurant(@PathVariable Long keyId){
         Optional<Restaurant> optionalRestaurant = restaurantService.findById(keyId);
         if (optionalRestaurant.isPresent()) {
@@ -79,7 +73,7 @@ public class RestaurantController {
         return "no";
     }
 
-    @PostMapping("update")
+    @PostMapping("/restaurant/update")
     public String updateRestaurant(HttpServletRequest request, @RequestParam MultipartFile logo,
                                    RestaurantDTO restaurantDTO, Authentication authentication, Model model)throws IOException{
         Object principal = authentication.getPrincipal();

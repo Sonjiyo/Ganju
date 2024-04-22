@@ -218,7 +218,7 @@ public class MenuController {
         return "redirect:/user/main";
     }
 
-    @GetMapping("/menu/add")
+    @GetMapping("/manager/menu/add")
     public String addMenuForm(Model model) {
         List<CategoryDTO> categories = categoryService.findCategoriesByRestaurantId(1L);
         model.addAttribute("categories", categories);
@@ -227,7 +227,7 @@ public class MenuController {
         return "manager/addMenu";
     }
 
-    @GetMapping("/menu/editMenu/{id}")
+    @GetMapping("/manager/menu/editMenu/{id}")
     public String editMenu(Model model, @PathVariable Long id) {
         List<CategoryDTO> categories = categoryService.findCategoriesByRestaurantId(1L);
         model.addAttribute("categories", categories);
@@ -291,7 +291,7 @@ public class MenuController {
 
             menuService.addMenu(img, menu);
         }
-        return "redirect:/category/main";
+        return "redirect:/manager/menu";
     }
     //        try {
 //            ObjectMapper mapper = new ObjectMapper();
@@ -369,7 +369,7 @@ public class MenuController {
 
             menuService.addMenu(img, menu);
         }
-        return "redirect:/category/main";
+        return "redirect:/manager/menu";
     }
 
     @DeleteMapping("/menu/{id}")

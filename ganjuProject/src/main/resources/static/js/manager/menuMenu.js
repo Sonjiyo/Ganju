@@ -78,7 +78,3 @@ checkboxes.forEach(function (checkbox) {
         }
     });
 });
-
-const addMenuReq = () => {
-    location.href = "/menu/add";
-}

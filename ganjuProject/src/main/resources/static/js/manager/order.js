@@ -51,7 +51,7 @@ function deleteOrder(id){
     if(confirm("정말 삭제하시겠습니까?")) {
         let list = document.querySelectorAll(".order-list li:has(.wait)");
 
-        fetch('/validRefund', {
+        fetch('/user/validRefund', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
