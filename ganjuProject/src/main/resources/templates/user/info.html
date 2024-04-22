@@ -9,7 +9,7 @@
 <div class="innerBox">
     <header th:replace="~{fragments/bodyHeader :: bodyHeader(${headerArgs})}"></header>
     <div class="container">
-        <form action="/menu/info" name="OrderDTO" method="post" class="info-form">
+        <form action="/user/info" name="OrderDTO" method="post" class="info-form">
             <input class="menuId" name="menuId" type="hidden" th:value="${menu.id}">
             <div class="menu-image">
                 <!-- th:src="@{'/images/' + ${menu.menuImage}}" -->

@@ -7,13 +7,13 @@
 <body>
 <header th:fragment="bodyHeader(args)">
     <div>
-        <a class="icon home-icon" th:if="${args.showIcon}" href='/menu/main'>
+        <a class="icon home-icon" th:if="${args.showIcon}" href='/user/main'>
             <i class="fas fa-home"></i>
         </a>
     </div>
     <p th:text="${args.name}" class="center-text"></p>
     <div>
-        <a class="icon cart-icon" th:if="${args.showBasket}" href='/menu/cart'>
+        <a class="icon cart-icon" th:if="${args.showBasket}" href='/user/cart'>
             <i class="fas fa-shopping-cart"></i>
             <!-- 주문 개수 뱃지 -->
             <span class="cart-badge" th:if="${session.orders != null and #lists.size(session.orders) > 0}" th:text="${#lists.size(session.orders)}"></span>
@@ -23,7 +23,7 @@
         /*<![CDATA[*/
         var restaurantId = [[${session.restaurantId}]];
         if (restaurantId == null) {
-            window.location.href = '/menu/main'; // 세션 값이 없으면 자동으로 리다이렉션
+            window.location.href = '/user/main'; // 세션 값이 없으면 자동으로 리다이렉션
         }
         /*]]>*/
     </script>

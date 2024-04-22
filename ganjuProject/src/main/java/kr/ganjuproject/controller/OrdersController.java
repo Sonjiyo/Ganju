@@ -134,8 +134,9 @@ public class OrdersController {
         return order ==null ? "no" : "ok";
     }
 
+    // 유저
     // 호출하기에서 값을 가져와서 orders에 저장하고 다시 orders로 내보냄
-    @PostMapping("/validUserCall")
+    @PostMapping("/user/validUserCall")
     public ResponseEntity<?> save(HttpSession session, @RequestBody String content){
         long restaurantId = (long) session.getAttribute("restaurantId");
         int restaurantTableNo = (int) session.getAttribute("restaurantTableNo");
@@ -156,8 +157,9 @@ public class OrdersController {
         return ResponseEntity.ok().body(Map.of("order", orderResponseDTO));
     }
 
+    // 유저
     // cart에서 수량 변경 시 비동기로 업데이트
-    @PostMapping("/updateValidQuantity")
+    @PostMapping("/user/updateValidQuantity")
     public ResponseEntity<?> updateMenuQuantity(HttpSession session, @RequestBody OrderDTO orderDTO){
 
         // 세션에서 주문 목록을 가져옴
@@ -186,7 +188,8 @@ public class OrdersController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/removeValidOrder")
+    // 유저
+    @PostMapping("/user/removeValidOrder")
     public ResponseEntity<?> removeValidOrder(HttpSession session, @RequestParam Long menuId) {
         List<OrderDTO> orders = (List<OrderDTO>) session.getAttribute("orders");
         if (orders == null || orders.isEmpty()) {
@@ -217,8 +220,9 @@ public class OrdersController {
         }
     }
 
+    // 유저
     // 리뷰를 쓰려고 할 때 식당 측에서 주문 거부나 환불을 시켰다면 리뷰 거부
-    @PostMapping("/validOrderCheck")
+    @PostMapping("/user/validOrderCheck")
     public ResponseEntity<?> validOrderCheck(HttpSession session, @RequestParam Long menuId) {
         List<OrderDTO> orders = (List<OrderDTO>) session.getAttribute("orders");
         if (orders == null || orders.isEmpty()) {
@@ -249,5 +253,4 @@ public class OrdersController {
         }
     }
 
-    // 비동기로 orders 에 값이 있는지 확인
 }

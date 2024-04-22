@@ -1,5 +1,6 @@
 package kr.ganjuproject.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.shaded.gson.Gson;
 import com.nimbusds.jose.shaded.gson.JsonObject;
 import kr.ganjuproject.config.IamportConfig;
@@ -71,6 +72,12 @@ public class RefundService {
     // 환불 처리
     public Map<String, Object> requestRefund(Orders order, String reason, String accessToken) {
         try {
+            // 먼저 결제 정보 조회
+            Map<String, Object> paymentInfo = getPaymentInfo(order.getUid(), accessToken);
+            if (!(Boolean) paymentInfo.getOrDefault("success", false)) {
+                // 결제 정보 조회에 실패한 경우
+                return Map.of("success", false, "message", "결제 정보 조회 실패");
+            }
             URL url = new URL("https://api.iamport.kr/payments/cancel");
             HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
 
@@ -104,15 +111,63 @@ public class RefundService {
                 OrderResponseDTO dto = ordersService.convertToOrderResponseDTO(order);
 
                 messagingTemplate.convertAndSend("/topic/calls", order.getId());
-                return Map.of("success", true);
+                return Map.of(
+                        "success", true,
+                        "message", "환불 처리가 완료되었습니다."
+                );
             } else {
                 System.out.println("POST request not worked");
-                // 오류 처리
-                return Map.of("success", false);
+                // 실패 메시지를 포함한 Map 반환
+                return Map.of(
+                        "success", false,
+                        "message", "환불 처리에 실패했습니다. 응답 코드: " + responseCode
+                );
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return Map.of("error", e.getMessage());
+            // 예외 발생 시 메시지를 포함한 Map 반환
+            return Map.of(
+                    "success", false,
+                    "message", "서버 내부 오류로 인한 실패: " + e.getMessage()
+            );
         }
+    }
+
+    // 결재 정보 조회
+    public Map<String, Object> getPaymentInfo(String impUid, String accessToken) throws IOException {
+        URL url = new URL("https://api.iamport.kr/payments/" + impUid);
+        HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Authorization", accessToken);
+
+        int responseCode = conn.getResponseCode();
+        BufferedReader br;
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        } else {
+            br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+        }
+
+        String line;
+        StringBuilder response = new StringBuilder();
+        while ((line = br.readLine()) != null) {
+            response.append(line);
+        }
+        br.close();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, Object> responseMap = objectMapper.readValue(response.toString(), Map.class);
+
+        log.info("responseMap = {}" + responseMap);
+        if (responseMap.containsKey("response")) {
+            Map<String, Object> responseDetails = (Map<String, Object>) responseMap.get("response");
+            // 여기서 responseDetails가 null이 아닌지와, status 키가 존재하는지 확인
+            if (responseDetails != null && responseDetails.containsKey("status") && "paid".equals(responseDetails.get("status"))){
+                // 결제가 성공적으로 완료된 경우
+                return Map.of("success", true, "message", "결제 정보 조회 성공", "data", responseDetails);
+            }
+        }
+        return Map.of("success", false, "message", "결제 정보 조회 실패");
     }
 }

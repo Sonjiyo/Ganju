@@ -24,7 +24,7 @@ document.getElementById('reportCall').addEventListener('click', () => {
             return false;
         } else {
             console.log(content);
-            fetch('/board/validUserReport', {
+            fetch('/user/validUserReport', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'text/plain',
@@ -74,7 +74,7 @@ document.getElementById('submitCall').addEventListener('click', () => {
         console.log('호출 옵션:', selectedOption);
 
         // WebSocket을 통해 서버로 선택된 옵션 정보 전송
-        fetch('/validUserCall', {
+        fetch('/user/validUserCall', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -21,13 +21,12 @@ import java.util.Map;
 
 @Controller
 @Slf4j
-@RequestMapping("/board")
 @RequiredArgsConstructor
 public class BoardController {
     private final RestaurantService restaurantService;
     private final BoardService boardService;
     // 비동기로 데이터 보내기
-    @GetMapping("/validateMenuBoard")
+    @GetMapping("/user/validateMenuBoard")
     @ResponseBody
     public ResponseEntity<Map<String, Object>>  validateBoard(@RequestParam(defaultValue = "0") int page) {
         System.out.println("비동기 공지");
@@ -40,21 +39,21 @@ public class BoardController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/{keyId}")
+    @DeleteMapping("/board/{keyId}")
     public @ResponseBody String deleteMemberAjax(@PathVariable Long keyId){
         log.trace("keyId={}" , keyId);
         boardService.deleteBoard(keyId);
         return "ok";
     }
 
-    @PutMapping("/report/{keyId}")
+    @PutMapping("/board/report/{keyId}")
     public @ResponseBody String acceptReport(@PathVariable Long keyId){
         log.trace("keyId={}" , keyId);
         boardService.acceptReport(boardService.getOneBoard(keyId));
         return "ok";
     }
 
-    @PostMapping("/validUserReport")
+    @PostMapping("/user/validUserReport")
     @ResponseBody
     public ResponseEntity<?> saveReport(@RequestBody String content, HttpSession session) {
         // content를 사용하여 DB에 저장하는 로직 구현
@@ -73,7 +72,7 @@ public class BoardController {
     }
 
     //문의내역 페이지
-    @GetMapping("/askList")
+    @GetMapping("/board/askList")
     public String askListPage(Authentication authentication, Model model){
         if (authentication == null) return "redirect:/";
         Object principal = authentication.getPrincipal();
@@ -90,13 +89,13 @@ public class BoardController {
     }
 
     //문의하기 페이지
-    @GetMapping("/ask")
+    @GetMapping("/board/ask")
     public String addAskPage(Model model){
         model.addAttribute("date", LocalDateTime.now());
         return "manager/addAsk";
     }
 
-    @PostMapping("/ask")
+    @PostMapping("/board/ask")
     public String addAsk(Authentication authentication,String title, String content){
         if (authentication == null) return "redirect:/";
         Object principal = authentication.getPrincipal();
@@ -112,7 +111,7 @@ public class BoardController {
     }
 
     //문의 답변
-    @PutMapping("/ask/{keyId}/{content}")
+    @PutMapping("/board/ask/{keyId}/{content}")
     public @ResponseBody String askAnswer(@PathVariable Long keyId,@PathVariable String content){
         log.trace("keyId={}" , keyId);
         boardService.askAnswer(boardService.getOneBoard(keyId), content);

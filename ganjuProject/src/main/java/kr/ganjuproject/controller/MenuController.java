@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
-@RequestMapping("/menu")
 @RequiredArgsConstructor
 public class MenuController {
     private final MenuService menuService;
@@ -44,8 +43,9 @@ public class MenuController {
         return headerArgs;
     }
 
+    // 유저
     // 메인 메뉴 첫 페이지
-    @GetMapping("/main")
+    @GetMapping("/user/main")
     public String main(Model model, HttpSession session,
                        @RequestParam(value = "restaurantId", required = false, defaultValue = "1") Long restaurantId,
                        @RequestParam(value = "restaurantTableNo", required = false, defaultValue = "1") int restaurantTableNo) {
@@ -71,8 +71,9 @@ public class MenuController {
         return "user/main";
     }
 
+    // 유저
     // 비동기 메인 메뉴 데이터
-    @GetMapping("/validateMenuMenu")
+    @GetMapping("/user/validateMenuMenu")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> validateMenu(Model model, HttpSession session) {
         System.out.println("비동기 메뉴");
@@ -95,8 +96,9 @@ public class MenuController {
                 .collect(Collectors.toList());
     }
 
+    // 유저
     // 메뉴를 선택 했을 때 보여주는 창
-    @GetMapping("/info")
+    @GetMapping("/user/info")
     public String info(@RequestParam Long id, Model model) {
         Optional<Menu> menu = menuService.findById(id);
         // 일단 메뉴 id 값으로 메뉴 옵션을 불러오고
@@ -125,8 +127,9 @@ public class MenuController {
         }
     }
 
+    // 유저
     // 메뉴 상세 정보 창
-    @PostMapping("/info")
+    @PostMapping("/user/info")
     public ResponseEntity<?> info(@RequestBody OrderDTO orderDTO, HttpSession session) {
 
         System.out.println(orderDTO);
@@ -148,7 +151,8 @@ public class MenuController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/cart")
+    // 유저
+    @GetMapping("/user/cart")
     public String cart(HttpSession session, Model model) {
         // 세션에서 orders를 가져올 때 null 체크를 하고, null일 경우 빈 리스트를 생성합니다.
         List<OrderDTO> orders = (List<OrderDTO>) session.getAttribute("orders");
@@ -169,14 +173,9 @@ public class MenuController {
         return "user/cart"; // 장바구니 페이지로 이동
     }
 
-    @PostMapping("/cart")
-    public String cart() {
-
-        return "user/order";
-    }
-
+    // 유저
     // 주문완료하고 시킨메뉴 보여주는 곳
-    @GetMapping("/order/{orderId}")
+    @GetMapping("/user/order/{orderId}")
     public String order(@PathVariable("orderId") Long orderId, Model model, HttpSession session) {
         Optional<Orders> order = ordersService.findById(orderId);
 
@@ -191,7 +190,8 @@ public class MenuController {
         return "user/order";
     }
 
-    @GetMapping("/review/{orderId}")
+    // 유저
+    @GetMapping("/user/review/{orderId}")
     public String review(@PathVariable("orderId") Long orderId, Model model) {
         // 헤더 부분
         model.addAttribute("headerArgs", someMethod(true, "리뷰작성", false));
@@ -199,7 +199,8 @@ public class MenuController {
         return "user/review";
     }
 
-    @PostMapping("/review")
+    // 유저
+    @PostMapping("/user/review")
     public String review(ReviewDTO reviewDTO, HttpSession session) {
         Review review = new Review();
 
@@ -214,10 +215,10 @@ public class MenuController {
         review.setSecret(0);
 
         reviewService.save(review);
-        return "redirect:/menu/main";
+        return "redirect:/user/main";
     }
 
-    @GetMapping("/add")
+    @GetMapping("/menu/add")
     public String addMenuForm(Model model) {
         List<CategoryDTO> categories = categoryService.findCategoriesByRestaurantId(1L);
         model.addAttribute("categories", categories);
@@ -226,7 +227,7 @@ public class MenuController {
         return "manager/addMenu";
     }
 
-    @GetMapping("/editMenu/{id}")
+    @GetMapping("/menu/editMenu/{id}")
     public String editMenu(Model model, @PathVariable Long id) {
         List<CategoryDTO> categories = categoryService.findCategoriesByRestaurantId(1L);
         model.addAttribute("categories", categories);
@@ -237,7 +238,7 @@ public class MenuController {
         return "manager/editMenu";
     }
 
-    @PostMapping("/addMenu")
+    @PostMapping("/user/addMenu")
     public String addMenu(HttpServletRequest request, @RequestParam MultipartFile img,
                           MenuDTO menuDTO, Model model, Authentication authentication) throws IOException {
         if(authentication != null) {
@@ -314,7 +315,7 @@ public class MenuController {
 //        } catch (Exception e) {
 //            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("메뉴 등록에 실패하였습니다");
 //        }
-    @PostMapping("/updateMenu")
+    @PostMapping("/user/updateMenu")
     public String updateMenu(@RequestParam MultipartFile img,
                           MenuDTO menuDTO, Authentication authentication) throws IOException {
         if(authentication != null) {
@@ -371,7 +372,7 @@ public class MenuController {
         return "redirect:/category/main";
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/menu/{id}")
     public ResponseEntity<String> deleteMenu(@PathVariable Long id) {
         try {
             menuService.delete(id);
@@ -383,12 +384,12 @@ public class MenuController {
         }
     }
 
-    @DeleteMapping("/image/{id}")
+    @DeleteMapping("/menu/image/{id}")
     public @ResponseBody String deleteImage(@PathVariable Long id){
         return menuService.deleteImage(id) == null ? "no" : "ok";
     }
 
-    @PutMapping("/mainMenu")
+    @PutMapping("/menu/mainMenu")
     public ResponseEntity<String> setMainMenu(@RequestBody List<Long> data){
         menuService.setMainMenu(data);
         return ResponseEntity.ok("변경 성공");
