@@ -10,7 +10,7 @@ function menuCheck(form) {
     msg.textContent = '';
     if (menuBtnCheck) return false;
     // 메뉴 카테고리 체크
-    if (!form.category.value.trim()) {
+    if (!form.categoryId.value.trim()) {
         msg.textContent = "메뉴 카테고리를 선택해주세요";
         document.querySelector('.option').appendChild(msg);
         return false;
@@ -35,7 +35,7 @@ function menuCheck(form) {
         return false;
     }
     // 메뉴 정보 체크
-    if (!form.menuInfo.value.trim()) {
+    if (!form.info.value.trim()) {
         msg.textContent = "메뉴 정보를 입력해주세요";
         document.querySelector('.menu-info').appendChild(msg);
         return false;
