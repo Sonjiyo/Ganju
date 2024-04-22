@@ -80,6 +80,10 @@ public class CategoryController {
         try {
             Optional<Category> categoryOptional = categoryService.findById(id);
             if (categoryOptional.isPresent()) {
+                List<Menu> menuList = categoryOptional.get().getMenus();
+                for(Menu m : menuList){
+                    menuService.deleteImage(m.getId());
+                }
                 categoryService.delete(id);
                 return ResponseEntity.ok().body("카테고리 삭제 성공");
             } else {

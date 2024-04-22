@@ -194,6 +194,8 @@ footer a:nth-child(5)::before{content: '\f007';}
     color: white;
     font-size: 12px;
 }
+input[type="file"]{display: none;}
+
 @media screen and (max-width: 480px) {
     .innerBox{width: 100%;}
     footer{width: 100%;}

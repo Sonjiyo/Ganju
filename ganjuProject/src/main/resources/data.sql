@@ -12,7 +12,7 @@ SET @manager2Id = LAST_INSERT_ID();
 
 -- 식당 정보 삽입
 INSERT INTO restaurant (name, address, phone, restaurant_table, logo, recognize, user_id) VALUES ('한식당', '서울시 강남구 역삼동/서브주소', '02-123-4567', 20, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/2/Group+16.png', 1, @manager1Id);
-INSERT INTO restaurant (name, address, phone, restaurant_table, logo, recognize, user_id) VALUES ('중식당', '서울시 서초구 반포동/서브주소', '02-765-4321', 15, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/3/484c569b-b2973c8ec-7profile.png', 0, @manager2Id);
+INSERT INTO restaurant (name, address, phone, restaurant_table, logo, recognize, user_id) VALUES ('중식당', '서울시 서초구 반포동/서브주소', '02-765-4321', 15, 'https://ganju-test.s3.ap-northeast-2.amazonaws.com/3/profile.png', 0, @manager2Id);
 SET @restaurantId1 = LAST_INSERT_ID() - 1; -- 이전 ID를 가져오기 위해
 SET @restaurantId2 = LAST_INSERT_ID();
 

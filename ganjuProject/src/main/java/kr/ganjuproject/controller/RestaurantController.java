@@ -25,6 +25,11 @@ public class RestaurantController {
 
     private final RestaurantService restaurantService;
 
+    @GetMapping("/restaurant/join")
+    public String restaurantPage(){
+        return "manager/joinRestaurant";
+    }
+
     @PostMapping("/restaurant/join")
     public String insertRestaurant(HttpServletRequest request, @RequestParam MultipartFile logo,
                                    RestaurantDTO restaurantDTO, Authentication authentication, Model model) throws IOException {
@@ -86,7 +91,9 @@ public class RestaurantController {
         restaurant.setAddress(restaurantDTO.getAddressFirst() +"/"+ restaurantDTO.getAddressElse());
         restaurant.setRestaurantTable(restaurantDTO.getRestaurantTable());
 
-        restaurantService.deleteLogo(restaurant.getLogo());
+        if(!logo.isEmpty()){
+            restaurantService.deleteLogo(restaurant.getLogo());
+        }
         restaurantService.insertRestaurant(logo, restaurant);
         return "redirect:/manager/myPage";
     }

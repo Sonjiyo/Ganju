@@ -38,7 +38,7 @@ public class HomeController {
         if(user.getLoginId().equals("admin")){
             return "redirect:/admin";
         } else if(user.getRestaurant() == null){
-            return "redirect:restaurant/join";
+            return "redirect:/restaurant/join";
         } else if(user.getRestaurant().getRecognize() == 1){
             return "redirect:/manager";
         }
