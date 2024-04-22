@@ -10,12 +10,7 @@ function restaurantInfo(form) {
     msg.textContent = '';
 
     if (restaurantBtnCheck) return false;
-    //이미지 체크
-    if (!form.logo.value.trim()) {
-        msg.textContent = "로고 이미지를 넣어주세요";
-        document.querySelector('.res-logo').appendChild(msg);
-        return false;
-    }
+
     //식당 이름 체크
     if (!form.name.value.trim()) {
         msg.textContent = "식당 이름을 입력해주세요";
