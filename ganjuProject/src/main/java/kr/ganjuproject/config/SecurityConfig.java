@@ -6,6 +6,7 @@ import kr.ganjuproject.auth.PrincipalOauth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -43,11 +44,17 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(
                 authz -> authz
-                        .anyRequest().permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers("/user/**", "/app/calls", "/topic/calls","/","/manager/join","/manager/join/",
+                                "manager/join","/manager/join/{loginId}","/email/{mail}").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/restaurant/{keyId}").hasAnyRole("ADMIN", "MANAGER")
+                        .requestMatchers(HttpMethod.DELETE, "/board/{keyId}").hasAnyRole("ADMIN", "MANAGER")
+                        .requestMatchers("/admin/**").hasAnyRole("ADMIN")
+                        .anyRequest().hasAnyRole("MANAGER")
 
         ).formLogin(
                 form->{
-                    form.loginPage("/home/home")   // 우리가 만든 로그인페이지로 자동 인터셉트됨
+                    form.loginPage("/")   // 우리가 만든 로그인페이지로 자동 인터셉트됨
                             .loginProcessingUrl("/login")
                             .failureHandler(customAuthFailureHandler())
                             .defaultSuccessUrl("/",true);  // 로그인 성공하면 돌아올 페이지

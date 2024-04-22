@@ -79,12 +79,12 @@ public class ManagerController {
         return "manager/home";
     }
 
-    @GetMapping("join")
+    @GetMapping("/join")
     public String join() {
         return "manager/join";
     }
 
-    @PostMapping("join")
+    @PostMapping("/join")
     public @ResponseBody String insertUser(@RequestBody UserDTO userDTO) {
         Users user = new Users();
         user.setLoginId(userDTO.getLoginId());
