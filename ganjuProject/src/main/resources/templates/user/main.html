@@ -14,7 +14,7 @@
         <div class="restaurant-image">
             <div class="restaurant-image-slider">
                 <div th:each="image : ${images}">
-                    <img th:src="${image.menuImage}" alt="식당 이미지" class="restaurant-img">
+                    <img th:src="${image.menuImage}" onerror="this.onerror=null; this.src='/images/logo.png';" alt="식당 이미지" class="restaurant-img">
                 </div>
             </div>
             <div class="slider-counter">
