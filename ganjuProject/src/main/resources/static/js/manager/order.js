@@ -168,7 +168,7 @@ if (window.handleReceivedCall) {
 
                 // 주문 옵션에 대한 HTML을 생성
                 e.orderOptions.forEach(en => {
-                    orderOptionsHTML += '<li>'+en.optionName + '('+en.price+')'+'원</li>\n';
+                    orderOptionsHTML += '<li>'+en.optionName + '('+en.price+'원)</li>\n';
                 });
 
                 // 주문 메뉴에 대한 HTML을 생성

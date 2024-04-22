@@ -64,7 +64,7 @@ public class MenuController {
         Restaurant restaurant = restaurantService.findById(restaurantId).get();
 
         List<MenuDTO> images = menuService.getMainMenus();
-        if(images.size()==0) images.add(menuService.getOneMenuDTO(restaurantId));
+        if(images.size()==0) images.add(menuService.getOneMenuDTO(menuService.findByRestaurantId(restaurantId).get(0).getId()));
 
         model.addAttribute("images", images);
         List<CategoryDTO> categories = categoryService.findCategoriesByRestaurantId(restaurantId);
@@ -378,7 +378,7 @@ public class MenuController {
                     }
                 }
             }
-
+            if(!img.isEmpty()) menuService.deleteImage(menuDTO.getId());
             menuService.addMenu(img, menu);
         }
         return "redirect:/manager/menu";
