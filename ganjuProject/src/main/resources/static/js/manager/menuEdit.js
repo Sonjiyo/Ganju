@@ -45,13 +45,7 @@ function menuUpdate(form) {
         document.querySelector('.option').appendChild(msg);
         return false;
     }
-
-    // 메뉴 이미지 체크
-    if (!form.img.value.trim()) {
-        msg.textContent = "메뉴 이미지를 넣어주세요";
-        document.querySelector('.flex').appendChild(msg);
-        return false;
-    }
+    
     // 메뉴 이름 체크
     if (!form.menuName.value.trim()) {
         msg.textContent = "메뉴 이름을 입력해주세요";
