@@ -56,7 +56,7 @@ function recognizeRestaurant(keyId, btn){
 
 function deleteUser(keyId, btn){
     if(confirm("정말 삭제하시겠습니까?")){
-        fetch(`/manager/${keyId}`, {
+        fetch(`/user/${keyId}`, {
             method: 'DELETE',
         }).then(response=>{
             return response.text();

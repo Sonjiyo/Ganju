@@ -27,7 +27,7 @@ import java.util.NoSuchElementException;
 public class ReviewController {
     private final ReviewService reviewService;
 
-    @GetMapping("/review/main")
+    @GetMapping("/manager/review/main")
     public String review(Model model, Authentication authentication) {
         if (authentication == null) return "redirect:/";
         Object principal = authentication.getPrincipal();
