@@ -51,12 +51,12 @@ public class CategoryController {
         return "manager/menuCategory";
     }
 
-    @GetMapping("/add")
-    public String addCategory(Model model) {
-        List<Category> categories = categoryService.findByRestaurantId(1L);
-        model.addAttribute("categories", categories);
-        return "manager/menuCategory";
-    }
+//    @GetMapping("/add")
+//    public String addCategory(Model model) {
+//        List<Category> categories = categoryService.findByRestaurantId(1L);
+//        model.addAttribute("categories", categories);
+//        return "manager/menuCategory";
+//    }
 
     @PostMapping(value = "/add")
     public ResponseEntity<String> addCategory(@RequestBody Map<String, String> category, Authentication authentication) {
