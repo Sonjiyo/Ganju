@@ -40,14 +40,13 @@ function menuUpdate(form) {
     msg.textContent = '';
     if (menuBtnCheck) return false;
     // 메뉴 카테고리 체크
-    if (!form.category.value.trim()) {
+    if (!form.categoryId.value.trim()) {
         msg.textContent = "메뉴 카테고리를 선택해주세요";
         document.querySelector('.option').appendChild(msg);
         return false;
     }
-
     // 메뉴 이름 체크
-    if (!form.menuName.value.trim()) {
+    if (!form.name.value.trim()) {
         msg.textContent = "메뉴 이름을 입력해주세요";
         document.querySelector('.menu-name').appendChild(msg);
         return false;
@@ -59,7 +58,7 @@ function menuUpdate(form) {
         return false;
     }
     // 메뉴 정보 체크
-    if (!form.menuInfo.value.trim()) {
+    if (!form.info.value.trim()) {
         msg.textContent = "메뉴 정보를 입력해주세요";
         document.querySelector('.menu-info').appendChild(msg);
         return false;
