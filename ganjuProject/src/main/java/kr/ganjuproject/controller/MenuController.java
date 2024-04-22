@@ -46,13 +46,13 @@ public class MenuController {
 
     // 메인 메뉴 첫 페이지
     @GetMapping("/main")
-    public String main(Model model, HttpSession session) {
-        Long restaurantId = 1L;
-        int restaurantTableNo = 1;
+    public String main(Model model, HttpSession session,
+                       @RequestParam(value = "restaurantId", required = false, defaultValue = "1") Long restaurantId,
+                       @RequestParam(value = "restaurantTableNo", required = false, defaultValue = "1") int restaurantTableNo) {
         Restaurant restaurant = restaurantService.findById(restaurantId).get();
 
         List<MenuDTO> images = menuService.getMainMenus();
-        if(images.size()==0) images.add(menuService.getOneMenuDTO(1L));
+        if(images.size()==0) images.add(menuService.getOneMenuDTO(restaurantId));
 
         model.addAttribute("images", images);
         List<CategoryDTO> categories = categoryService.findCategoriesByRestaurantId(restaurantId);
@@ -74,11 +74,12 @@ public class MenuController {
     // 비동기 메인 메뉴 데이터
     @GetMapping("/validateMenuMenu")
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> validateMenu(Model model) {
+    public ResponseEntity<Map<String, Object>> validateMenu(Model model, HttpSession session) {
         System.out.println("비동기 메뉴");
+        Long restaurantId = (Long)session.getAttribute("restaurantId");
         Map<String, Object> response = new HashMap<>();
-        List<CategoryDTO> categories = categoryService.findCategoriesByRestaurantId(1L);
-        List<MenuDTO> menus = menuService.findMenusByRestaurantId(1L);
+        List<CategoryDTO> categories = categoryService.findCategoriesByRestaurantId(restaurantId);
+        List<MenuDTO> menus = menuService.findMenusByRestaurantId(restaurantId);
 
         categories = filterCategoriesWithMenus(categories,menus );
         response.put("categories", categories);

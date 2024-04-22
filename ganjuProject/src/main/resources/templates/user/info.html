@@ -13,7 +13,7 @@
             <input class="menuId" name="menuId" type="hidden" th:value="${menu.id}">
             <div class="menu-image">
                 <!-- th:src="@{'/images/' + ${menu.menuImage}}" -->
-                <img th:value="" src="/images/sample.png" alt="음식 이미지" class="menu-img">
+                <img th:src="${menu.menuImage}" alt="음식 이미지" class="menu-img">
             </div>
             <div class="info">
                 <div class="title" th:text="${menu.name}"></div>
