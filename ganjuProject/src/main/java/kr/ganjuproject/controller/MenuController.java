@@ -47,8 +47,20 @@ public class MenuController {
     // 메인 메뉴 첫 페이지
     @GetMapping("/user/main")
     public String main(Model model, HttpSession session,
-                       @RequestParam(value = "restaurantId", required = false, defaultValue = "1") Long restaurantId,
-                       @RequestParam(value = "restaurantTableNo", required = false, defaultValue = "1") int restaurantTableNo) {
+                       @RequestParam(value = "restaurantId", required = false) Long reqRestaurantId,
+                       @RequestParam(value = "restaurantTableNo", required = false) Integer  reqRestaurantTableNo) {
+
+
+        Long restaurantId = reqRestaurantId != null ? reqRestaurantId : (Long) session.getAttribute("restaurantId");
+        Integer restaurantTableNo = reqRestaurantTableNo != null ? reqRestaurantTableNo : (Integer) session.getAttribute("restaurantTableNo");
+
+        // 세션과 요청 매개변수 모두에서 값이 없는 경우 기본값 사용
+        if (restaurantId == null) {
+            restaurantId = 1L; // 기본값
+        }
+        if (restaurantTableNo == null) {
+            restaurantTableNo = 1; // 기본값
+        }
         Restaurant restaurant = restaurantService.findById(restaurantId).get();
 
         List<MenuDTO> images = menuService.getMainMenus();
