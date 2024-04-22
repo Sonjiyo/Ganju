@@ -147,3 +147,12 @@ tr:last-child td button:first-child:hover{background: var(--black);}
 }
 .contents td .title{margin-bottom: 10px;}
 .contents td .content{font-size: var(--font-small);color:var(--gray);}
+
+.container>p{
+    width: 100%;
+    text-align: center;
+    font-size: var(--font-extra-small);
+    color:var(--red);
+    padding: var(--padding);
+    border: 1px solid var(--extra-light-gray);
+}

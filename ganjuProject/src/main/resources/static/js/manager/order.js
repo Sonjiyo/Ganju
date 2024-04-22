@@ -130,6 +130,8 @@ if (window.handleReceivedCall) {
             })
             console.log(idInput);
             idInput.closest('li').remove();
+            let waitCount = document.querySelector('.order-state-summary li.wait .state-content span');
+            waitCount.textContent = parseInt(waitCount.textContent)-1;
         }
 
         // 이전 주문 정보를 백업
@@ -180,7 +182,7 @@ if (window.handleReceivedCall) {
                     '                       </ol>\n' +
                     '                  </td>\n' +
                     '                  <td>' + e.quantity + '</td>\n' +
-                    '                  <td>' + totalPrice + '</td>\n' +
+                    '                  <td>' + totalPrice + '원</td>\n' +
                     '             </tr>\n';
             });
         }

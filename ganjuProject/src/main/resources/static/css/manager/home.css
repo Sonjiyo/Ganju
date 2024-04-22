@@ -122,3 +122,5 @@
 .warning>p{margin-bottom: 20px;}
 .warning h2{font-size: var(--font-big);color: var(--red);margin-bottom: 20px;}
 .warning span{font-size: var(--font-small);}
+
+p>span{color: var(--red);font-size: var(--font-extra-small);}

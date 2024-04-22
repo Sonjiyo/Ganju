@@ -36,7 +36,7 @@
                 <p>오늘의 매출<span th:text="${#numbers.formatInteger(orderPrice, 0, 'COMMA') + '원'}">121,121,122원</span></p>
             </div>
             <div class="order">
-                <p onclick="location.href='/orders'">주문 현황</p>
+                <p onclick="location.href='/orders'">주문 현황 <span>(24시 기준 내역만 확인 가능)</span></p>
                 <ul class="order-list">
                     <li>
                         <p>호출</p>

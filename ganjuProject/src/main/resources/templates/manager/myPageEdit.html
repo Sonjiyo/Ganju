@@ -25,15 +25,11 @@
         </div>
         <div class="id">
             <p>아이디</p>
-            <div class="id_line">
-                <p th:text="${user.loginId}"></p>
-            </div>
+            <input type="text" th:value="${user.loginId}" readonly>
         </div>
         <div class="etc">
             <p>이메일</p>
-            <div class="id_line">
-                <p th:text="${user.email}"></p>
-            </div>
+            <input type="text" th:value="${user.email}" readonly>
         </div>
         <div class="etc">
             <p>핸드폰 번호</p>
@@ -43,8 +39,8 @@
             <p>비밀 번호</p>
             <input type="password" name="password" id="password" placeholder="비밀 번호를 입력하세요"/>
         </div>
-        <div class="button">
-            <input class="button buttons" value="수정 완료" onclick="myPageUpdate()"/>
+        <div>
+            <input type="button" class="button" value="수정 완료" onclick="myPageUpdate()"/>
         </div>
     </div>
     <footer th:replace="fragments/footer :: footer(myPage)"></footer>
