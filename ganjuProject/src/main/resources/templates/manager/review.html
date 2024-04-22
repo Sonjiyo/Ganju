@@ -40,7 +40,7 @@
         <div class="review-content">
             <div class="line" th:each="review:${reviews}">
                 <p class="small left" th:text="${review.name}" th:data-id="${review.id}"></p>
-                <a>
+                <a class="review-delete">
                     <i class="fas fa-times review_deleteBtn" th:data-id="${review.id}"></i>
                 </a>
                 <div class="star margin">
