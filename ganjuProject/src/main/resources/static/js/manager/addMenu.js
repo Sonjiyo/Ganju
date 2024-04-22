@@ -23,20 +23,10 @@ function menuCheck(form) {
     //     return false;
     // }
     // 메뉴 이름 체크
-    if (!form.menuName.value.trim()) {
+    if (!form.name.value.trim()) {
         msg.textContent = "메뉴 이름을 입력해주세요";
         document.querySelector('.menu-name').appendChild(msg);
         return false;
-    }
-    // 같은 이름의 메뉴가 있는지 체크
-    let menuName = form.menuName.value.trim();
-    let menuNames = document.querySelectorAll('.menu-name input');
-    for (let i = 0; i < menuNames.length; i++) {
-        if (menuNames[i].value.trim() === menuName) {
-            msg.textContent = "같은 이름의 메뉴가 이미 존재합니다";
-            document.querySelector('.menu-name').appendChild(msg);
-            return false;
-        }
     }
     // 메뉴 가격 체크
     if (!form.price.value.trim()) {
