@@ -11,8 +11,8 @@ import java.util.Optional;
 
 public interface OrdersRepository extends JpaRepository<Orders, Long> {
     List<Orders> findByRestaurant(Restaurant restaurant);
-    List<Orders> findByRestaurantAndRegDateBetweenOrderByRegDateAsc(Restaurant restaurant, LocalDateTime startDate, LocalDateTime endDate);
-    List<Orders> findByRestaurantAndDivisionNotAndRegDateBetweenOrderByRegDateAsc(Restaurant restaurant, RoleOrders divisionToExclude, LocalDateTime startDate, LocalDateTime endDate);
-    List<Orders> findByRestaurantAndDivisionAndRegDateBetweenOrderByRegDateAsc(Restaurant restaurant, RoleOrders division, LocalDateTime startDate, LocalDateTime endDate);
+    List<Orders> findByRestaurantAndRegDateBetweenOrderByRegDateDesc(Restaurant restaurant, LocalDateTime startDate, LocalDateTime endDate);
+    List<Orders> findByRestaurantAndDivisionNotAndRegDateBetweenOrderByRegDateDesc(Restaurant restaurant, RoleOrders divisionToExclude, LocalDateTime startDate, LocalDateTime endDate);
+    List<Orders> findByRestaurantAndDivisionAndRegDateBetweenOrderByRegDateDesc(Restaurant restaurant, RoleOrders division, LocalDateTime startDate, LocalDateTime endDate);
 }
 
