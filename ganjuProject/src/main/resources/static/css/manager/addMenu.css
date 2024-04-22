@@ -1,7 +1,8 @@
 .container {
     margin-bottom: 80px;
 }
-
+form{padding:0;margin:0;width: 100%;}
+.container>form>div, .container>form>p{padding:0 var(--padding);}
 .option {
     width: 100%;
     display: flex;
@@ -68,14 +69,6 @@ select {
 .bigArea {
     height: 100px;
 }
-
-.placeholder {
-    position: absolute;
-    top: 50%;
-    right: 5px;
-    color: gray;
-}
-
 .underline-dark {
     border: 1px solid gray;
     width: 100%;
@@ -115,20 +108,6 @@ select {
 
 .option-value {
     margin-bottom: 10px;
-}
-
-.option-header {
-    display: flex;
-    justify-content: space-around;
-}
-
-.detail {
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.detail input {
-    width: 200px;
 }
 
 .choice-option {
@@ -214,4 +193,71 @@ select {
     padding: 10px;
     background-color: #f9f9f9;
     border-radius: 5px;
+}
+
+#category{
+    margin-top: 10px;
+    font-size: var(--font-content);
+    padding:0 10px;
+    border: 1px solid var(--light-gray);
+    border-radius: var(--radius);
+}
+
+.price{position: relative;}
+.price::after{
+    content:"원";
+    color:var(--gray);
+    position: absolute;
+    font-size: var(--font-content);
+    bottom: 20px;
+    right: 30px;
+}
+.option-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin:5px 0;
+    padding:0 var(--padding);
+}
+input{margin:10px 0;}
+.option-l{padding:0;width: 100%;}
+.option-header>input{
+    border: none;
+    background: inherit;
+    color: var(--gray);
+}
+.option-header>select{
+    border: none;
+    height: 30px;
+}
+.option-header>button{
+    padding:10px var(--padding);
+    border: none;
+    background: var(--gray);
+    color: var(--white);
+    border-radius: var(--radius);
+    cursor: pointer;
+}
+.option-header>button:hover{background: var(--light-gray);}
+.detail{
+    display: flex;
+    justify-content: space-between;
+    padding:0 var(--padding);
+    position: relative;
+}
+.detail>input{
+    border: none;
+    width: 48%;
+}
+.detail>input[type="number"]{
+    background: var(--light-gray);
+    color: var(--black-);
+}
+.detail::after{
+    content:"원";
+    color:var(--gray);
+    position: absolute;
+    font-size: var(--font-content);
+    bottom: 19px;
+    right: 50px;
 }
