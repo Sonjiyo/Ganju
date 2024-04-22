@@ -250,7 +250,7 @@ public class MenuController {
         return "manager/editMenu";
     }
 
-    @PostMapping("/user/addMenu")
+    @PostMapping("/manager/addMenu")
     public String addMenu(HttpServletRequest request, @RequestParam MultipartFile img,
                           MenuDTO menuDTO, Model model, Authentication authentication) throws IOException {
         if(authentication != null) {
@@ -327,7 +327,7 @@ public class MenuController {
 //        } catch (Exception e) {
 //            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("메뉴 등록에 실패하였습니다");
 //        }
-    @PostMapping("/user/updateMenu")
+    @PostMapping("/manager/updateMenu")
     public String updateMenu(@RequestParam MultipartFile img,
                           MenuDTO menuDTO, Authentication authentication) throws IOException {
         if(authentication != null) {

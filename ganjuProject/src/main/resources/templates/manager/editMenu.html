@@ -55,7 +55,7 @@
             <p>옵션</p>
             <div class="option-l" id="menuForm">
                 <div th:if="${not #lists.isEmpty(menus.options)}">
-                    <div th:each="option, optionStat : ${menus.options}" class="option">
+                    <div th:each="option, optionStat : ${menus.options}" class="option" th:id="'option-' + ${optionStat.index}">
                         <!-- 옵션 이름과 타입 -->
                         <div class="option-header">
                             <input type="text" th:name="|options[${optionStat.index}].name|" th:value="${option.name}" placeholder="옵션 이름"/>
