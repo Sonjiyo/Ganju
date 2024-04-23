@@ -339,6 +339,7 @@ public class MenuController {
             menu.setName(menuDTO.getName());
             menu.setPrice(menuDTO.getPrice());
             menu.setInfo(menuDTO.getInfo());
+            menu.setMenuImage(menuService.getOneMenu(menuDTO.getId()).getMenuImage());
             Category category = categoryService.findById(menuDTO.getCategoryId()).orElse(null);
             menu.setCategory(category);
             menu.setRestaurant(user.getRestaurant());
