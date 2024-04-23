@@ -13,7 +13,7 @@ function ratingStar() {
 
     // 평점에 따라 별 아이콘 적용
     for (let i = 0; i < stars.length; i++) {
-        if ((ratingValue - i) > 1) {
+        if ((ratingValue - i) >= 1) {
             stars[i].classList.remove('far', 'fa-star-half-alt');
             stars[i].classList.add('fas', 'fa-star');
             stars[i].style.color = 'var(--gold)'; // 채워진 별 색상
@@ -21,7 +21,11 @@ function ratingStar() {
             stars[i].classList.remove('far', 'fa-star');
             stars[i].classList.add('fas', 'fa-star-half-alt');
             stars[i].style.color = 'var(--gold)'; // 반 채워진 별 색상
-            break;
+        } else {
+            // 평점이 0.5 미만일 경우 (빈 별 처리)
+            stars[i].classList.remove('fas', 'fa-star', 'fa-star-half-alt');
+            stars[i].classList.add('far', 'fa-star');
+            stars[i].style.color = ''; // 색상 초기화
         }
     }
 }
