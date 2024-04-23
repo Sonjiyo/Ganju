@@ -90,7 +90,7 @@ public class MenuService {
     @Transactional
     public Menu deleteImage(Long id){
         Menu menu = getOneMenu(id);
-        if(menu!= null){
+        if(menu!= null && menu.getMenuImage() != null){
             s3Uploader.deleteImageFromS3(menu.getMenuImage());
             menu.setMenuImage(null);
             return save(menu);

@@ -379,7 +379,7 @@ public class MenuController {
                     }
                 }
             }
-            if(!img.isEmpty()) menuService.deleteImage(menuDTO.getId());
+            if(!img.isEmpty() && menuService.getOneMenu(menuDTO.getId()).getMenuImage() != null) menuService.deleteImage(menuDTO.getId());
             menuService.addMenu(img, menu);
         }
         return "redirect:/manager/menu";
